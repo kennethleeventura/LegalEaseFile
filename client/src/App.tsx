@@ -9,6 +9,7 @@ import FileDocument from "@/pages/file-document";
 import EmergencyFiling from "@/pages/emergency-filing";
 import ProBonoSearch from "@/pages/pro-bono-search";
 import CaseManagement from "@/pages/case-management";
+import NBCAssistant from "@/pages/nbc-assistant";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/emergency-filing" component={EmergencyFiling} />
       <Route path="/pro-bono-search" component={ProBonoSearch} />
       <Route path="/case-management" component={CaseManagement} />
+      <Route path="/nbc-assistant" component={NBCAssistant} />
       <Route component={NotFound} />
     </Switch>
   );

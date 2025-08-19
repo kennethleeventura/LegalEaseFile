@@ -12,6 +12,7 @@ export default function Navigation() {
     { path: "/emergency-filing", label: "Emergency Filing", testId: "nav-emergency" },
     { path: "/pro-bono-search", label: "Find Legal Help", testId: "nav-probono" },
     { path: "/case-management", label: "Case Management", testId: "nav-case-management" },
+    { path: "/nbc-assistant", label: "NBC AI Assistant", testId: "nav-nbc-assistant" },
   ];
 
   const NavLinks = ({ mobile = false }) => (

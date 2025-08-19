@@ -118,6 +118,7 @@ export class AirtableMPCService {
   // Search cases with encrypted data handling
   async searchCases(filters: {
     caseNumber?: string;
+    clientName?: string;
     documentType?: string;
     filingStatus?: string;
     emergencyType?: string;
@@ -128,6 +129,10 @@ export class AirtableMPCService {
       
       if (filters.caseNumber) {
         conditions.push(`{Case Number} = '${filters.caseNumber}'`);
+      }
+      if (filters.clientName) {
+        // Note: Client name search will be less efficient due to encryption
+        // For now, we'll search all and filter client-side
       }
       if (filters.documentType) {
         conditions.push(`{Document Type} = '${filters.documentType}'`);
@@ -150,7 +155,7 @@ export class AirtableMPCService {
         sort: [{ field: 'Date Created', direction: 'desc' }]
       }).all();
       
-      return records.map((record: any) => ({
+      let results = records.map((record: any) => ({
         id: record.id,
         caseNumber: record.fields['Case Number'],
         clientName: record.fields['Client Name (Encrypted)'] 
@@ -163,6 +168,15 @@ export class AirtableMPCService {
         dateCreated: record.fields['Date Created'],
         lastUpdated: record.fields['Last Updated']
       }));
+      
+      // Client-side filtering for encrypted client names
+      if (filters.clientName) {
+        results = results.filter(result => 
+          result.clientName.toLowerCase().includes(filters.clientName!.toLowerCase())
+        );
+      }
+      
+      return results;
     } catch (error) {
       console.error('Error searching cases:', error);
       throw new Error('Failed to search cases');

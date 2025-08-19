@@ -39,6 +39,7 @@ Preferred communication style: Simple, everyday language.
 - **Document Analysis**: OpenAI GPT-4o for document type classification, jurisdiction detection, and CM/ECF compliance validation
 - **Template Generation**: AI-powered document templates with jurisdiction-specific formatting
 - **Emergency Filing Detection**: Intelligent detection of time-sensitive legal matters requiring expedited processing
+- **NBC AI Assistant**: Intelligent legal assistant that pulls from existing case database to auto-populate forms, generate exhibit lists, provide case insights, and recommend optimal templates based on historical case patterns
 
 ## External System Integrations
 - **CM/ECF Integration**: Massachusetts Federal District Court NextGen CM/ECF system for electronic filing

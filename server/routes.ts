@@ -5,6 +5,7 @@ import { storage } from "./storage";
 import { upload, DocumentProcessor } from "./services/document-processor";
 import { documentAnalysisService } from "./services/openai";
 import { airtableMPC } from "./services/airtable-mpc";
+import { nbcAI } from "./services/nbc-ai";
 import {
   insertDocumentSchema,
   insertFilingHistorySchema,
@@ -473,6 +474,109 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       res.status(500).json({
         message: error instanceof Error ? error.message : "Failed to generate compliance report"
+      });
+    }
+  });
+
+  // ===== NBC AI ENDPOINTS =====
+  
+  // Generate exhibit list from existing case database
+  app.post("/api/nbc/exhibit-list/:caseId", async (req, res) => {
+    try {
+      const { caseId } = req.params;
+      
+      if (!caseId) {
+        return res.status(400).json({ message: "Case ID is required" });
+      }
+      
+      const exhibitList = await nbcAI.generateExhibitList(caseId);
+      
+      res.json({
+        success: true,
+        exhibitList,
+        generatedAt: new Date().toISOString()
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to generate exhibit list"
+      });
+    }
+  });
+  
+  // Auto-populate forms based on existing case database
+  app.post("/api/nbc/auto-populate", async (req, res) => {
+    try {
+      const { clientName, caseType, documentType, formType } = req.body;
+      
+      if (!formType) {
+        return res.status(400).json({ message: "Form type is required" });
+      }
+      
+      const populatedData = await nbcAI.autoPopulateForm({
+        clientName,
+        caseType,
+        documentType,
+        formType
+      });
+      
+      res.json({
+        success: true,
+        data: populatedData,
+        generatedAt: new Date().toISOString()
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to auto-populate form"
+      });
+    }
+  });
+  
+  // Generate case insights based on database patterns
+  app.get("/api/nbc/insights/:caseId", async (req, res) => {
+    try {
+      const { caseId } = req.params;
+      
+      if (!caseId) {
+        return res.status(400).json({ message: "Case ID is required" });
+      }
+      
+      const insights = await nbcAI.generateCaseInsights(caseId);
+      
+      res.json({
+        success: true,
+        insights,
+        generatedAt: new Date().toISOString()
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to generate case insights"
+      });
+    }
+  });
+  
+  // Smart template selection based on case database
+  app.post("/api/nbc/select-template", async (req, res) => {
+    try {
+      const { documentType, emergencyType, clientName } = req.body;
+      
+      if (!documentType || !clientName) {
+        return res.status(400).json({ message: "Document type and client name are required" });
+      }
+      
+      const template = await nbcAI.selectOptimalTemplate({
+        documentType,
+        emergencyType,
+        clientName
+      });
+      
+      res.json({
+        success: true,
+        template,
+        selectedAt: new Date().toISOString()
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to select optimal template"
       });
     }
   });
