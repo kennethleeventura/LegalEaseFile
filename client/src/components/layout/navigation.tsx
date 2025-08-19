@@ -11,6 +11,7 @@ export default function Navigation() {
     { path: "/file-document", label: "File Document", testId: "nav-file-document" },
     { path: "/emergency-filing", label: "Emergency Filing", testId: "nav-emergency" },
     { path: "/pro-bono-search", label: "Find Legal Help", testId: "nav-probono" },
+    { path: "/case-management", label: "Case Management", testId: "nav-case-management" },
   ];
 
   const NavLinks = ({ mobile = false }) => (

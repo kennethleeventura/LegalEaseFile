@@ -44,6 +44,7 @@ Preferred communication style: Simple, everyday language.
 - **CM/ECF Integration**: Massachusetts Federal District Court NextGen CM/ECF system for electronic filing
 - **Legal Aid Directory**: Searchable database of pro bono attorneys and legal organizations with practice area filtering
 - **Emergency Services**: Direct phone integration for urgent legal matters requiring immediate attention
+- **Airtable MPC Integration**: Multi-party computation service for secure case management with AES-256 encryption, automated document metadata tracking, and pro bono attorney assignment workflows
 
 ## File Processing Pipeline
 - **Upload Validation**: File type restrictions, size limits (10MB), and format verification
@@ -57,6 +58,7 @@ Preferred communication style: Simple, everyday language.
 - **OpenAI API**: GPT-4o model for document analysis and legal AI assistance
 - **Neon Database**: PostgreSQL serverless database hosting with connection pooling
 - **CM/ECF System**: Massachusetts Federal District Court electronic filing system integration
+- **Airtable Database**: External case management database with MPC encryption for client confidentiality
 
 ## Frontend Libraries
 - **Radix UI**: Accessible primitive components for complex UI patterns

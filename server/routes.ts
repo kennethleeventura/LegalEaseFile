@@ -4,6 +4,7 @@ import { z } from "zod";
 import { storage } from "./storage";
 import { upload, DocumentProcessor } from "./services/document-processor";
 import { documentAnalysisService } from "./services/openai";
+import { airtableMPC } from "./services/airtable-mpc";
 import {
   insertDocumentSchema,
   insertFilingHistorySchema,
@@ -292,6 +293,186 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       res.status(500).json({ 
         message: error instanceof Error ? error.message : "Failed to link PACER account" 
+      });
+    }
+  });
+
+  // Airtable MPC Integration Routes
+  
+  // Create case in Airtable with MPC security
+  app.post("/api/airtable/cases", async (req, res) => {
+    try {
+      const { caseNumber, clientName, documentType, filingStatus, emergencyType, attorneyAssigned } = req.body;
+      
+      if (!caseNumber || !clientName || !documentType) {
+        return res.status(400).json({ message: "Case number, client name, and document type are required" });
+      }
+      
+      const recordId = await airtableMPC.createCase({
+        caseNumber,
+        clientName,
+        documentType,
+        filingStatus: filingStatus || "Draft",
+        emergencyType,
+        attorneyAssigned,
+        dateCreated: new Date().toISOString()
+      });
+      
+      res.json({
+        success: true,
+        recordId,
+        message: "Case created successfully in secure Airtable database"
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to create case"
+      });
+    }
+  });
+  
+  // Get case from Airtable with decryption
+  app.get("/api/airtable/cases/:recordId", async (req, res) => {
+    try {
+      const { recordId } = req.params;
+      const caseData = await airtableMPC.getCase(recordId);
+      
+      res.json({
+        success: true,
+        case: caseData
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to retrieve case"
+      });
+    }
+  });
+  
+  // Update case status
+  app.patch("/api/airtable/cases/:recordId/status", async (req, res) => {
+    try {
+      const { recordId } = req.params;
+      const { status, notes } = req.body;
+      
+      if (!status) {
+        return res.status(400).json({ message: "Status is required" });
+      }
+      
+      await airtableMPC.updateCaseStatus(recordId, status, notes);
+      
+      res.json({
+        success: true,
+        message: "Case status updated successfully"
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to update case status"
+      });
+    }
+  });
+  
+  // Search cases with filters
+  app.get("/api/airtable/cases", async (req, res) => {
+    try {
+      const { caseNumber, documentType, filingStatus, emergencyType } = req.query;
+      
+      const cases = await airtableMPC.searchCases({
+        caseNumber: caseNumber as string,
+        documentType: documentType as string,
+        filingStatus: filingStatus as string,
+        emergencyType: emergencyType as string
+      });
+      
+      res.json({
+        success: true,
+        cases,
+        count: cases.length
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to search cases"
+      });
+    }
+  });
+  
+  // Store document metadata with encryption
+  app.post("/api/airtable/documents", async (req, res) => {
+    try {
+      const { caseId, fileName, fileType, fileSize, analysisResult, cmecfStatus } = req.body;
+      
+      if (!caseId || !fileName || !fileType || !fileSize) {
+        return res.status(400).json({ message: "Case ID, file name, type, and size are required" });
+      }
+      
+      const documentId = await airtableMPC.storeDocumentMetadata(caseId, {
+        fileName,
+        fileType,
+        fileSize,
+        analysisResult,
+        cmecfStatus
+      });
+      
+      res.json({
+        success: true,
+        documentId,
+        message: "Document metadata stored securely"
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to store document metadata"
+      });
+    }
+  });
+  
+  // Assign pro bono attorney
+  app.post("/api/airtable/assign-attorney", async (req, res) => {
+    try {
+      const { caseId, attorneyName, organizationName, contactPhone, practiceAreas, emergencyAvailable } = req.body;
+      
+      if (!caseId || !attorneyName || !organizationName) {
+        return res.status(400).json({ message: "Case ID, attorney name, and organization are required" });
+      }
+      
+      await airtableMPC.assignProBonoAttorney(caseId, {
+        attorneyName,
+        organizationName,
+        contactPhone: contactPhone || "",
+        practiceAreas: practiceAreas || [],
+        emergencyAvailable: emergencyAvailable || false
+      });
+      
+      res.json({
+        success: true,
+        message: "Attorney assigned successfully"
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to assign attorney"
+      });
+    }
+  });
+  
+  // Generate compliance report
+  app.get("/api/airtable/reports/compliance", async (req, res) => {
+    try {
+      const { startDate, endDate } = req.query;
+      
+      if (!startDate || !endDate) {
+        return res.status(400).json({ message: "Start date and end date are required" });
+      }
+      
+      const report = await airtableMPC.generateComplianceReport({
+        start: startDate as string,
+        end: endDate as string
+      });
+      
+      res.json({
+        success: true,
+        report,
+        generatedAt: new Date().toISOString()
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to generate compliance report"
       });
     }
   });
