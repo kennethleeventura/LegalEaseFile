@@ -11,6 +11,7 @@ import EmergencyFiling from "@/pages/emergency-filing";
 import ProBonoSearch from "@/pages/pro-bono-search";
 import CaseManagement from "@/pages/case-management";
 import MPCAssistant from "@/pages/mpc-assistant";
+import Subscribe from "@/pages/subscribe";
 import NotFound from "@/pages/not-found";
 import Landing from "./pages/landing";
 
@@ -37,6 +38,7 @@ function Router() {
           <Route path="/pro-bono-search" component={ProBonoSearch} />
           <Route path="/case-management" component={CaseManagement} />
           <Route path="/mpc-assistant" component={MPCAssistant} />
+          <Route path="/subscribe" component={Subscribe} />
         </>
       )}
       <Route component={NotFound} />
