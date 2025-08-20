@@ -1,15 +1,35 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, jsonb, timestamp, boolean, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, jsonb, timestamp, boolean, integer, real, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Session storage table for authentication
+export const sessions = pgTable(
+  "sessions",
+  {
+    sid: varchar("sid").primaryKey(),
+    sess: jsonb("sess").notNull(),
+    expire: timestamp("expire").notNull(),
+  },
+  (table) => [index("IDX_session_expire").on(table.expire)],
+);
+
+// User table with authentication and subscription fields
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
-  email: text("email").notNull(),
+  email: varchar("email").unique(),
+  firstName: varchar("first_name"),
+  lastName: varchar("last_name"),
+  profileImageUrl: varchar("profile_image_url"),
   pacerAccountLinked: boolean("pacer_account_linked").default(false),
+  stripeCustomerId: varchar("stripe_customer_id"),
+  stripeSubscriptionId: varchar("stripe_subscription_id"),
+  subscriptionStatus: text("subscription_status").default("inactive"), // inactive, active, canceled, past_due
+  subscriptionTier: text("subscription_tier").default("free"), // free, basic, pro, enterprise
+  subscriptionStartDate: timestamp("subscription_start_date"),
+  subscriptionEndDate: timestamp("subscription_end_date"),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const documents = pgTable("documents", {
@@ -66,10 +86,43 @@ export const filingHistory = pgTable("filing_history", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Subscription plans and pricing
+export const subscriptionPlans = pgTable("subscription_plans", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(), // Free, Basic, Pro, Enterprise
+  displayName: text("display_name").notNull(),
+  description: text("description").notNull(),
+  price: real("price").notNull(), // Monthly price in USD
+  yearlyPrice: real("yearly_price"), // Yearly price (with discount)
+  stripePriceId: varchar("stripe_price_id"),
+  stripeYearlyPriceId: varchar("stripe_yearly_price_id"),
+  features: jsonb("features").notNull(), // Array of features
+  limits: jsonb("limits").notNull(), // Usage limits
+  isActive: boolean("is_active").default(true),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// MPC case data cache (stores Airtable data locally for performance)
+export const mpcCaseData = pgTable("mpc_case_data", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  airtableRecordId: varchar("airtable_record_id").notNull().unique(),
+  caseNumber: text("case_number"),
+  caseType: text("case_type"),
+  jurisdiction: text("jurisdiction"),
+  exhibits: jsonb("exhibits"), // Array of exhibit objects
+  templates: jsonb("templates"), // Recommended templates
+  insights: jsonb("insights"), // Case insights and patterns
+  encryptedData: text("encrypted_data"), // AES-256 encrypted sensitive data
+  lastSyncedAt: timestamp("last_synced_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Insert schemas
-export const insertUserSchema = createInsertSchema(users).omit({
+export const upsertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
+  updatedAt: true,
 });
 
 export const insertDocumentSchema = createInsertSchema(documents).omit({
@@ -93,8 +146,19 @@ export const insertFilingHistorySchema = createInsertSchema(filingHistory).omit(
   createdAt: true,
 });
 
+export const insertSubscriptionPlanSchema = createInsertSchema(subscriptionPlans).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertMpcCaseDataSchema = createInsertSchema(mpcCaseData).omit({
+  id: true,
+  createdAt: true,
+  lastSyncedAt: true,
+});
+
 // Types
-export type InsertUser = z.infer<typeof insertUserSchema>;
+export type UpsertUser = z.infer<typeof upsertUserSchema>;
 export type User = typeof users.$inferSelect;
 
 export type InsertDocument = z.infer<typeof insertDocumentSchema>;
@@ -108,6 +172,12 @@ export type LegalAidOrganization = typeof legalAidOrganizations.$inferSelect;
 
 export type InsertFilingHistory = z.infer<typeof insertFilingHistorySchema>;
 export type FilingHistory = typeof filingHistory.$inferSelect;
+
+export type InsertSubscriptionPlan = z.infer<typeof insertSubscriptionPlanSchema>;
+export type SubscriptionPlan = typeof subscriptionPlans.$inferSelect;
+
+export type InsertMpcCaseData = z.infer<typeof insertMpcCaseDataSchema>;
+export type MpcCaseData = typeof mpcCaseData.$inferSelect;
 
 // Additional types for API responses
 export type DocumentAnalysisResult = {

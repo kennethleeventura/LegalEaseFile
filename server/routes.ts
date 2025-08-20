@@ -1,7 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
+import Stripe from "stripe";
 import { storage } from "./storage";
+import { setupAuth, isAuthenticated } from "./replitAuth";
 import { upload, DocumentProcessor } from "./services/document-processor";
 import { documentAnalysisService } from "./services/openai";
 import { airtableMPC } from "./services/airtable-mpc";
@@ -13,7 +15,100 @@ import {
   type EmergencyFilingRequest,
 } from "@shared/schema";
 
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup authentication
+  await setupAuth(app);
+
+  // Auth routes
+  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      res.json(user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Subscription management
+  app.post("/api/create-subscription", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Check if user already has an active subscription
+      if (user.stripeSubscriptionId) {
+        const subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
+        if (subscription.status === 'active') {
+          return res.json({
+            subscriptionId: subscription.id,
+            status: subscription.status
+          });
+        }
+      }
+
+      // Create Stripe customer if needed
+      let customerId = user.stripeCustomerId;
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          email: user.email || undefined,
+          name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+          metadata: { userId }
+        });
+        customerId = customer.id;
+        
+        await storage.upsertUser({
+          id: userId,
+          stripeCustomerId: customerId
+        });
+      }
+
+      // Create subscription - using a basic price for now
+      const subscription = await stripe.subscriptions.create({
+        customer: customerId,
+        items: [{ price: 'price_1QZixNJFx4DyG3C8MF9yzuGQ' }], // Basic plan price ID
+        payment_behavior: 'default_incomplete',
+        payment_settings: { save_default_payment_method: 'on_subscription' },
+        expand: ['latest_invoice.payment_intent'],
+      });
+
+      // Update user with subscription info
+      await storage.upsertUser({
+        id: userId,
+        stripeSubscriptionId: subscription.id,
+        subscriptionStatus: subscription.status
+      });
+
+      res.json({
+        subscriptionId: subscription.id,
+        status: subscription.status
+      });
+    } catch (error: any) {
+      console.error("Subscription creation error:", error);
+      res.status(500).json({ message: "Failed to create subscription", error: error.message });
+    }
+  });
+
+  // Get subscription plans
+  app.get("/api/subscription-plans", async (req, res) => {
+    try {
+      const plans = await storage.getSubscriptionPlans();
+      res.json(plans);
+    } catch (error) {
+      console.error("Error fetching subscription plans:", error);
+      res.status(500).json({ message: "Failed to fetch subscription plans" });
+    }
+  });
   
   // Document upload and analysis
   app.post("/api/documents/upload", upload.single('file'), async (req, res) => {
