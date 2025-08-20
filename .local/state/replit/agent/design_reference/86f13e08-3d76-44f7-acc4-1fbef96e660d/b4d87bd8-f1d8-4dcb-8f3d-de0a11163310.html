@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LegalFile AI - Massachusetts Federal District Court Filing System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        'navy': '#1565C0',
+                        'slate': '#455A64',
+                        'forest': '#2E7D32',
+                        'amber': '#F57C00',
+                        'deep-red': '#C62828',
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="font-sans bg-gray-50 text-gray-900">
+    <!-- @COMPONENT: Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-gavel text-navy text-2xl mr-3"></i>
+                        <h1 class="text-xl font-bold text-gray-900">LegalFile AI</h1>
+                    </div>
+                    <nav class="hidden md:ml-8 md:flex md:space-x-8">
+                        <a href="#" class="text-navy font-medium">Dashboard</a>
+                        <a href="#" class="text-gray-600 hover:text-gray-900">Documents</a>
+                        <a href="#" class="text-gray-600 hover:text-gray-900">Emergency Filing</a>
+                        <a href="#" class="text-gray-600 hover:text-gray-900">CM/ECF Status</a>
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600">Connected to MA District Court CM/ECF v1.8.3</span>
+                    <button class="bg-navy text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
+                        <i class="fas fa-user mr-2"></i>Account
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <!-- @COMPONENT: MainContent -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- @COMPONENT: QuickActions -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Quick Actions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-amber text-2xl mb-2">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">Emergency Filing</h3>
+                            <p class="text-sm text-gray-600 mt-1">TRO & Preliminary Injunctions</p>
+                        </div>
+                        <div class="bg-amber bg-opacity-10 rounded-full p-2">
+                            <i class="fas fa-bolt text-amber"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-navy text-2xl mb-2">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">Upload & Analyze</h3>
+                            <p class="text-sm text-gray-600 mt-1">AI Document Review</p>
+                        </div>
+                        <div class="bg-navy bg-opacity-10 rounded-full p-2">
+                            <i class="fas fa-robot text-navy"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-forest text-2xl mb-2">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">Generate Document</h3>
+                            <p class="text-sm text-gray-600 mt-1">AI-Powered Templates</p>
+                        </div>
+                        <div class="bg-forest bg-opacity-10 rounded-full p-2">
+                            <i class="fas fa-magic text-forest"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-slate text-2xl mb-2">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">CM/ECF Filing</h3>
+                            <p class="text-sm text-gray-600 mt-1">Electronic Submission</p>
+                        </div>
+                        <div class="bg-slate bg-opacity-10 rounded-full p-2">
+                            <i class="fas fa-courthouse text-slate"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: QuickActions -->
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- @COMPONENT: DocumentUploadSection -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold text-gray-900">Document Analysis</h3>
+                    <span class="bg-navy bg-opacity-10 text-navy text-xs font-medium px-2.5 py-0.5 rounded">AI-Powered</span>
+                </div>
+
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-navy hover:bg-gray-50 transition-all cursor-pointer" data-mock="true">
+                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                    <p class="text-lg font-medium text-gray-900 mb-2">Drop your legal documents here</p>
+                    <p class="text-sm text-gray-600 mb-4">or click to browse files</p>
+                    <p class="text-xs text-gray-500">Supports PDF, DOC, DOCX • Max 25MB per file</p>
+                    <button class="mt-4 bg-navy text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
+                        Select Files
+                    </button>
+                </div>
+
+                <div class="mt-6">
+                    <h4 class="text-sm font-medium text-gray-900 mb-3">AI Analysis Results</h4>
+                    <div class="space-y-3" data-mock="true">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                            <div class="flex items-center">
+                                <i class="fas fa-file-pdf text-deep-red mr-3"></i>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900" data-mock="true">Motion for Summary Judgment.pdf</p>
+                                    <p class="text-xs text-gray-600" data-mock="true">Confidence: 94% • Federal Rule 56</p>
+                                </div>
+                            </div>
+                            <span class="bg-forest text-white text-xs font-medium px-2 py-1 rounded">Analyzed</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                            <div class="flex items-center">
+                                <i class="fas fa-file-pdf text-deep-red mr-3"></i>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900" data-mock="true">Affidavit of Support.pdf</p>
+                                    <p class="text-xs text-gray-600" data-mock="true">Confidence: 89% • Requires notarization</p>
+                                </div>
+                            </div>
+                            <span class="bg-amber text-white text-xs font-medium px-2 py-1 rounded">Warning</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: DocumentUploadSection -->
+
+            <!-- @COMPONENT: EmergencyFilingWizard -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold text-gray-900">Emergency Filing Wizard</h3>
+                    <span class="bg-amber bg-opacity-10 text-amber text-xs font-medium px-2.5 py-0.5 rounded">URGENT</span>
+                </div>
+
+                <!-- Progress Stepper -->
+                <div class="mb-6">
+                    <div class="flex items-center">
+                        <div class="flex items-center text-navy">
+                            <div class="flex items-center justify-center w-8 h-8 bg-navy text-white rounded-full text-sm font-medium">
+                                1
+                            </div>
+                            <span class="ml-2 text-sm font-medium">Filing Type</span>
+                        </div>
+                        <div class="flex-1 h-px bg-gray-300 mx-4"></div>
+                        <div class="flex items-center text-gray-400">
+                            <div class="flex items-center justify-center w-8 h-8 bg-gray-300 text-gray-600 rounded-full text-sm font-medium">
+                                2
+                            </div>
+                            <span class="ml-2 text-sm">Documents</span>
+                        </div>
+                        <div class="flex-1 h-px bg-gray-300 mx-4"></div>
+                        <div class="flex items-center text-gray-400">
+                            <div class="flex items-center justify-center w-8 h-8 bg-gray-300 text-gray-600 rounded-full text-sm font-medium">
+                                3
+                            </div>
+                            <span class="ml-2 text-sm">Review</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-4 border border-gray-200 rounded-lg hover:border-navy cursor-pointer transition-colors" data-mock="true">
+                        <div class="flex items-center">
+                            <input type="radio" name="filing-type" class="text-navy focus:ring-navy">
+                            <div class="ml-3">
+                                <h4 class="text-sm font-medium text-gray-900">Temporary Restraining Order (TRO)</h4>
+                                <p class="text-xs text-gray-600">Ex parte relief • Up to 14 days duration</p>
+                                <div class="flex items-center mt-1">
+                                    <i class="fas fa-clock text-amber text-xs mr-1"></i>
+                                    <span class="text-xs text-amber">Immediate filing required</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border border-gray-200 rounded-lg hover:border-navy cursor-pointer transition-colors" data-mock="true">
+                        <div class="flex items-center">
+                            <input type="radio" name="filing-type" class="text-navy focus:ring-navy">
+                            <div class="ml-3">
+                                <h4 class="text-sm font-medium text-gray-900">Preliminary Injunction</h4>
+                                <p class="text-xs text-gray-600">Notice required • Four-factor test applies</p>
+                                <div class="flex items-center mt-1">
+                                    <i class="fas fa-calendar text-slate text-xs mr-1"></i>
+                                    <span class="text-xs text-slate">14 days notice to adverse party</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border border-gray-200 rounded-lg hover:border-navy cursor-pointer transition-colors" data-mock="true">
+                        <div class="flex items-center">
+                            <input type="radio" name="filing-type" class="text-navy focus:ring-navy">
+                            <div class="ml-3">
+                                <h4 class="text-sm font-medium text-gray-900">Emergency Motion</h4>
+                                <p class="text-xs text-gray-600">Urgent relief • MBD judge assignment</p>
+                                <div class="flex items-center mt-1">
+                                    <i class="fas fa-gavel text-slate text-xs mr-1"></i>
+                                    <span class="text-xs text-slate">Subject to court availability</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-between">
+                    <button class="text-gray-600 text-sm font-medium hover:text-gray-900">
+                        <i class="fas fa-question-circle mr-1"></i>Need Help?
+                    </button>
+                    <button class="bg-navy text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
+                        Continue
+                    </button>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: EmergencyFilingWizard -->
+        </div>
+
+        <!-- @COMPONENT: CMECFStatusSection -->
+        <div class="mt-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold text-gray-900">CM/ECF Filing Status</h3>
+                    <div class="flex items-center">
+                        <div class="flex items-center text-forest text-sm">
+                            <div class="w-2 h-2 bg-forest rounded-full mr-2"></div>
+                            Connected to ecf.mad.uscourts.gov
+                        </div>
+                        <button class="ml-4 text-navy text-sm font-medium hover:text-blue-700">
+                            <i class="fas fa-sync-alt mr-1"></i>Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-2xl font-bold text-gray-900" data-mock="true">3</p>
+                                <p class="text-sm text-gray-600">Pending Filings</p>
+                            </div>
+                            <i class="fas fa-clock text-amber text-xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-2xl font-bold text-forest" data-mock="true">12</p>
+                                <p class="text-sm text-gray-600">Successfully Filed</p>
+                            </div>
+                            <i class="fas fa-check-circle text-forest text-xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-2xl font-bold text-deep-red" data-mock="true">1</p>
+                                <p class="text-sm text-gray-600">Requires Attention</p>
+                            </div>
+                            <i class="fas fa-exclamation-circle text-deep-red text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Recent Filing Activity</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg" data-mock="true">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-forest rounded-full mr-3"></div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Motion for Summary Judgment</p>
+                                    <p class="text-xs text-gray-600">Case: 1:24-cv-10234-MLW • Filed: Today at 2:15 PM</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-forest text-white text-xs font-medium px-2 py-1 rounded">Filed</span>
+                                <button class="text-navy text-xs font-medium hover:text-blue-700">View NEF</button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg" data-mock="true">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-amber rounded-full mr-3"></div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Emergency TRO Application</p>
+                                    <p class="text-xs text-gray-600">Case: 1:24-cv-10235-GAO • Status: Awaiting Judge Review</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-amber text-white text-xs font-medium px-2 py-1 rounded">Pending</span>
+                                <button class="text-navy text-xs font-medium hover:text-blue-700">Track</button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg" data-mock="true">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-deep-red rounded-full mr-3"></div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Affidavit of Service</p>
+                                    <p class="text-xs text-gray-600">Case: 1:24-cv-10233-NMG • Error: Missing electronic signature</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-deep-red text-white text-xs font-medium px-2 py-1 rounded">Error</span>
+                                <button class="text-navy text-xs font-medium hover:text-blue-700">Fix</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: CMECFStatusSection -->
+
+        <!-- @COMPONENT: DocumentTemplatesSection -->
+        <div class="mt-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold text-gray-900">AI Document Templates</h3>
+                    <div class="flex space-x-2">
+                        <span class="bg-navy bg-opacity-10 text-navy text-xs font-medium px-2.5 py-0.5 rounded">OpenAI Powered</span>
+                        <button class="text-navy text-sm font-medium hover:text-blue-700">View All Templates</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-navy cursor-pointer transition-colors" data-mock="true">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-file-alt text-navy text-lg mr-2"></i>
+                                <h4 class="text-sm font-semibold text-gray-900">Civil Complaint</h4>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Popular</span>
+                        </div>
+                        <p class="text-xs text-gray-600 mb-3">Federal Rule 8 compliant complaint template with AI-assisted fact gathering</p>
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-gray-500">Last updated: Dec 2024</span>
+                            <button class="text-navy font-medium hover:text-blue-700">Use Template</button>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-navy cursor-pointer transition-colors" data-mock="true">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-bolt text-amber text-lg mr-2"></i>
+                                <h4 class="text-sm font-semibold text-gray-900">TRO Motion</h4>
+                            </div>
+                            <span class="bg-amber bg-opacity-20 text-amber text-xs font-medium px-2 py-1 rounded">Emergency</span>
+                        </div>
+                        <p class="text-xs text-gray-600 mb-3">Temporary restraining order with required affidavit and proposed order</p>
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-gray-500">Rule 65 compliant</span>
+                            <button class="text-navy font-medium hover:text-blue-700">Use Template</button>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-navy cursor-pointer transition-colors" data-mock="true">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-balance-scale text-slate text-lg mr-2"></i>
+                                <h4 class="text-sm font-semibold text-gray-900">Motion to Dismiss</h4>
+                            </div>
+                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">Common</span>
+                        </div>
+                        <p class="text-xs text-gray-600 mb-3">Rule 12(b) motion with supporting memorandum and case law citations</p>
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-gray-500">Auto-cite checking</span>
+                            <button class="text-navy font-medium hover:text-blue-700">Use Template</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div class="flex items-start">
+                        <i class="fas fa-lightbulb text-blue-600 mr-3 mt-0.5"></i>
+                        <div>
+                            <h4 class="text-sm font-semibold text-blue-900">Smart Template Suggestions</h4>
+                            <p class="text-sm text-blue-800 mt-1">Based on your case type and filing history, we recommend starting with a <strong>Civil Complaint</strong> template. Our AI can help populate case-specific details.</p>
+                            <button class="mt-2 text-blue-700 text-sm font-medium hover:text-blue-800">
+                                Get AI Recommendation <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: DocumentTemplatesSection -->
+
+        <!-- @COMPONENT: CourtContactInfo -->
+        <div class="mt-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h3 class="text-xl font-semibold text-gray-900 mb-6">Court Contact Information</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-phone text-navy mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-900">CM/ECF Help Desk</h4>
+                                <p class="text-sm text-gray-600">866-239-6233</p>
+                                <p class="text-xs text-gray-500">M-F, 8:30 AM - 4:30 PM EST</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <i class="fas fa-envelope text-navy mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-900">Technical Support</h4>
+                                <p class="text-sm text-gray-600">ecfhelp@mad.uscourts.gov</p>
+                                <p class="text-xs text-gray-500">Do not email documents</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <i class="fas fa-globe text-navy mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-900">CM/ECF System</h4>
+                                <a href="https://ecf.mad.uscourts.gov/" class="text-sm text-blue-600 hover:text-blue-800">ecf.mad.uscourts.gov</a>
+                                <p class="text-xs text-gray-500">Version 1.8.3 (Current)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-user-shield text-navy mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-900">PACER Support</h4>
+                                <p class="text-sm text-gray-600">1-800-676-6856</p>
+                                <p class="text-sm text-gray-600">pacer@psc.uscourts.gov</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-navy mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-900">General Information</h4>
+                                <a href="https://www.mad.uscourts.gov/" class="text-sm text-blue-600 hover:text-blue-800">mad.uscourts.gov</a>
+                                <p class="text-xs text-gray-500">Court rules and procedures</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-amber bg-opacity-10 p-3 rounded-lg border border-amber-200">
+                            <div class="flex items-start">
+                                <i class="fas fa-exclamation-triangle text-amber mr-2 mt-0.5"></i>
+                                <div>
+                                    <p class="text-xs font-medium text-amber-800">Emergency Filing Notice</p>
+                                    <p class="text-xs text-amber-700 mt-1">Ex parte TRO motions must be filed on paper and cannot use the ECF system</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: CourtContactInfo -->
+
+    </main>
+    <!-- @END_COMPONENT: MainContent -->
+
+    <!-- @COMPONENT: Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-gavel text-navy text-xl mr-2"></i>
+                        <span class="font-bold text-gray-900">LegalFile AI</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Automated legal document filing for Massachusetts Federal District Court</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-900 mb-3">Resources</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#" class="hover:text-gray-900">User Guide</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Filing Requirements</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Court Rules</a></li>
+                        <li><a href="#" class="hover:text-gray-900">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-900 mb-3">Support</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#" class="hover:text-gray-900">Help Center</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Contact Support</a></li>
+                        <li><a href="#" class="hover:text-gray-900">System Status</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Security</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-900 mb-3">Legal</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#" class="hover:text-gray-900">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Disclaimers</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 mt-8 pt-8 text-center">
+                <p class="text-sm text-gray-600">© 2024 LegalFile AI. This system is not affiliated with the U.S. District Court for the District of Massachusetts.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        // TODO: Implement business logic for document upload, AI analysis, and CM/ECF integration
+        // TODO: Add form validation and error handling
+        // TODO: Implement progress tracking for multi-step processes
+        // TODO: Add real-time status updates from CM/ECF system
+        
+        (function() {
+            // Mock interactions for demonstration
+            document.addEventListener('DOMContentLoaded', function() {
+                // Handle quick action clicks
+                const quickActionCards = document.querySelectorAll('.grid .bg-white.rounded-lg.shadow-sm');
+                quickActionCards.forEach(card => {
+                    card.addEventListener('click', function() {
+                        // TODO: Navigate to appropriate workflow
+                        console.log('Quick action clicked');
+                    });
+                });
+
+                // Handle file upload area
+                const uploadArea = document.querySelector('.border-dashed');
+                if (uploadArea) {
+                    uploadArea.addEventListener('click', function() {
+                        // TODO: Trigger file selection dialog
+                        console.log('File upload area clicked');
+                    });
+                }
+
+                // Handle emergency filing options
+                const filingOptions = document.querySelectorAll('input[name="filing-type"]');
+                filingOptions.forEach(option => {
+                    option.addEventListener('change', function() {
+                        // TODO: Update wizard based on selection
+                        console.log('Filing type selected:', this.value);
+                    });
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
