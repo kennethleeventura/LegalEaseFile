@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 import EmergencyAlert from "@/components/legal/emergency-alert";
 import FileUploadZone from "@/components/document/file-upload-zone";
 import DocumentTemplates from "@/components/document/document-templates";
@@ -10,25 +11,12 @@ import CMECFStatusCard from "@/components/legal/cmecf-status";
 import ProBonoDirectory from "@/components/legal/pro-bono-directory";
 
 export default function Dashboard() {
+  const { user, isAuthenticated } = useAuth();
+  
   const { data: recentActivity = [] } = useQuery({
-    queryKey: ["/api/filing-history", "demo-user-id"],
-    queryFn: async () => {
-      // Mock recent activity for dashboard
-      return [
-        {
-          id: "1",
-          title: "Motion for Summary Judgment",
-          status: "Draft saved - Ready for review",
-          timestamp: "2 hours ago",
-        },
-        {
-          id: "2", 
-          title: "Discovery Request",
-          status: "Filed successfully",
-          timestamp: "1 day ago",
-        },
-      ];
-    },
+    queryKey: ["/api/filing-history/user"],
+    enabled: isAuthenticated,
+    retry: false,
   });
 
   const handleStartFiling = () => {
@@ -77,17 +65,17 @@ export default function Dashboard() {
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">File New Document</h3>
-                <p className="text-sm text-gray-600">Start the filing process with AI assistance</p>
+                <p className="text-sm text-gray-500">Start a new legal document filing</p>
               </div>
             </div>
             <div className="mt-4">
               <Link href="/file-document">
                 <Button 
-                  className="w-full bg-primary-600 text-white hover:bg-primary-700"
+                  className="w-full" 
                   onClick={handleStartFiling}
-                  data-testid="start-filing-button"
+                  data-testid="button-file-document"
                 >
-                  Start Filing Process
+                  Start Filing
                 </Button>
               </Link>
             </div>
@@ -95,25 +83,26 @@ export default function Dashboard() {
         </Card>
 
         {/* Emergency Filing */}
-        <Card className="hover:shadow-lg transition-shadow duration-200">
+        <Card className="hover:shadow-lg transition-shadow duration-200 border-red-200 bg-red-50">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="h-12 w-12 bg-error-100 rounded-lg flex items-center justify-center">
-                  <AlertTriangle className="text-error-600 text-xl" />
+                <div className="h-12 w-12 bg-red-100 rounded-lg flex items-center justify-center">
+                  <AlertTriangle className="text-red-600 text-xl" />
                 </div>
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Emergency Filing</h3>
-                <p className="text-sm text-gray-600">TRO, preliminary injunctions, urgent matters</p>
+                <p className="text-sm text-gray-500">Urgent court filings</p>
               </div>
             </div>
             <div className="mt-4">
               <Link href="/emergency-filing">
                 <Button 
-                  className="w-full bg-error-600 text-white hover:bg-error-700"
+                  variant="destructive" 
+                  className="w-full" 
                   onClick={handleEmergencyFiling}
-                  data-testid="emergency-filing-button"
+                  data-testid="button-emergency-filing"
                 >
                   Emergency Filing
                 </Button>
@@ -122,27 +111,28 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Find Legal Help */}
-        <Card className="hover:shadow-lg transition-shadow duration-200">
+        {/* Pro Bono Help */}
+        <Card className="hover:shadow-lg transition-shadow duration-200 border-blue-200 bg-blue-50">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="h-12 w-12 bg-success-100 rounded-lg flex items-center justify-center">
-                  <HandHeart className="text-success-600 text-xl" />
+                <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <HandHeart className="text-blue-600 text-xl" />
                 </div>
               </div>
               <div className="ml-4">
-                <h3 className="text-lg font-medium text-gray-900">Find Legal Help</h3>
-                <p className="text-sm text-gray-600">Pro bono lawyers and legal aid organizations</p>
+                <h3 className="text-lg font-medium text-gray-900">Pro Bono Legal Aid</h3>
+                <p className="text-sm text-gray-500">Find free legal assistance</p>
               </div>
             </div>
             <div className="mt-4">
               <Link href="/pro-bono-search">
                 <Button 
-                  className="w-full bg-success-600 text-white hover:bg-success-700"
-                  data-testid="find-legal-help-button"
+                  variant="outline" 
+                  className="w-full border-blue-300 text-blue-700 hover:bg-blue-100"
+                  data-testid="button-pro-bono"
                 >
-                  Search Directory
+                  Find Help
                 </Button>
               </Link>
             </div>
@@ -184,26 +174,34 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {recentActivity.map((activity: any) => (
-                <div key={activity.id} className="flex items-start" data-testid={`activity-${activity.id}`}>
-                  <div className="flex-shrink-0">
-                    <div className="h-8 w-8 bg-primary-100 rounded-full flex items-center justify-center">
-                      <Upload className="text-primary-600 text-sm" />
+              {Array.isArray(recentActivity) && recentActivity.length > 0 ? (
+                recentActivity.map((activity: any) => (
+                  <div key={activity.id} className="flex items-start" data-testid={`activity-${activity.id}`}>
+                    <div className="flex-shrink-0">
+                      <div className="h-8 w-8 bg-primary-100 rounded-full flex items-center justify-center">
+                        <Upload className="text-primary-600 text-sm" />
+                      </div>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm font-medium text-gray-900" data-testid="activity-title">
+                        {activity.title}
+                      </p>
+                      <p className="text-sm text-gray-600" data-testid="activity-status">
+                        {activity.status}
+                      </p>
+                      <p className="text-xs text-gray-500" data-testid="activity-timestamp">
+                        {activity.timestamp}
+                      </p>
                     </div>
                   </div>
-                  <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-900" data-testid="activity-title">
-                      {activity.title}
-                    </p>
-                    <p className="text-sm text-gray-600" data-testid="activity-status">
-                      {activity.status}
-                    </p>
-                    <p className="text-xs text-gray-500" data-testid="activity-timestamp">
-                      {activity.timestamp}
-                    </p>
-                  </div>
+                ))
+              ) : (
+                <div className="text-center py-6 text-gray-500">
+                  <Upload className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                  <p>No recent activity</p>
+                  <p className="text-sm">Start by uploading a document or creating a new filing</p>
                 </div>
-              ))}
+              )}
             </div>
             <div className="mt-4">
               <Button 
@@ -211,7 +209,7 @@ export default function Dashboard() {
                 className="w-full text-center text-sm text-primary-600 hover:text-primary-700 font-medium"
                 data-testid="view-all-activity"
               >
-                View all activity
+                View All Activity
               </Button>
             </div>
           </CardContent>
@@ -250,32 +248,33 @@ export default function Dashboard() {
                   <h4 className="font-medium text-gray-900">Email Support</h4>
                   <p className="text-sm text-gray-600">
                     <a 
-                      href="mailto:ecfhelp@mad.uscourts.gov" 
+                      href="mailto:support@legalfileai.com" 
                       className="text-primary-600 hover:text-primary-700"
                       data-testid="help-email"
                     >
-                      ecfhelp@mad.uscourts.gov
+                      support@legalfileai.com
                     </a>
                   </p>
-                  <p className="text-xs text-gray-500">Do not email documents</p>
+                  <p className="text-xs text-gray-500">Response within 24 hours</p>
                 </div>
               </div>
 
               <div className="flex items-start">
                 <Book className="text-primary-600 text-lg mt-1" />
                 <div className="ml-3">
-                  <h4 className="font-medium text-gray-900">User Manual</h4>
+                  <h4 className="font-medium text-gray-900">Documentation</h4>
                   <p className="text-sm text-gray-600">
-                    <a
-                      href="https://www.mad.uscourts.gov/caseinfo/pdf/training/ECFmanual-MA.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary-600 hover:text-primary-700 underline"
-                      data-testid="help-manual"
+                    <a 
+                      href="https://www.mad.uscourts.gov" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-primary-600 hover:text-primary-700"
+                      data-testid="help-docs"
                     >
-                      Download CM/ECF Manual
+                      Federal Court Guidelines
                     </a>
                   </p>
+                  <p className="text-xs text-gray-500">Official filing requirements</p>
                 </div>
               </div>
             </div>

@@ -110,17 +110,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Document upload and analysis
-  app.post("/api/documents/upload", upload.single('file'), async (req, res) => {
+  // Document upload and analysis (authenticated)
+  app.post("/api/documents/upload", isAuthenticated, upload.single('file'), async (req: any, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
       }
 
-      const { userId } = req.body;
-      if (!userId) {
-        return res.status(400).json({ message: "User ID is required" });
-      }
+      const userId = req.user.claims.sub;
 
       // Extract text content
       const textContent = DocumentProcessor.extractTextFromBuffer(
@@ -333,10 +330,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get user filing history
-  app.get("/api/filing-history/:userId", async (req, res) => {
+  // Get user filing history (authenticated)
+  app.get("/api/filing-history/user", isAuthenticated, async (req: any, res) => {
     try {
-      const { userId } = req.params;
+      const userId = req.user.claims.sub;
       const history = await storage.getFilingHistory(userId);
       res.json(history);
     } catch (error) {
@@ -346,16 +343,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Mock CM/ECF status check
-  app.get("/api/cmecf/status", async (req, res) => {
+  // CM/ECF system status check (requires PACER account)
+  app.get("/api/cmecf/status", isAuthenticated, async (req, res) => {
     try {
-      // Mock CM/ECF system status
-      res.json({
-        systemStatus: "online",
-        version: "1.8.3",
-        lastUpdated: new Date().toISOString(),
-        maintenanceScheduled: false,
-        emergencyFilingAvailable: true,
+      const userId = req.user?.claims?.sub;
+      const user = await storage.getUser(userId);
+      
+      if (!user || !user.pacerAccountLinked) {
+        return res.status(400).json({
+          message: "PACER account required",
+          requiresPacer: true
+        });
+      }
+
+      // Real CM/ECF status would require PACER API integration
+      // For now, return error until real PACER credentials are provided
+      res.status(503).json({
+        message: "CM/ECF integration requires valid PACER API credentials",
+        requiresSetup: true
       });
     } catch (error) {
       res.status(500).json({ 
@@ -364,27 +369,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Mock PACER account linking
-  app.post("/api/pacer/link", async (req, res) => {
+  // PACER account linking (requires real PACER credentials)
+  app.post("/api/pacer/link", isAuthenticated, async (req, res) => {
     try {
-      const { userId, pacerUsername } = req.body;
+      const userId = req.user?.claims?.sub;
+      const { pacerUsername, pacerPassword } = req.body;
       
-      // Mock PACER account validation
-      if (!pacerUsername) {
-        return res.status(400).json({ message: "PACER username is required" });
+      if (!pacerUsername || !pacerPassword) {
+        return res.status(400).json({ 
+          message: "PACER username and password are required for account linking" 
+        });
       }
 
-      // Update user's PACER account status
-      const user = await storage.getUser(userId);
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      // In a real implementation, this would validate with PACER
-      res.json({
-        success: true,
-        message: "PACER account linked successfully",
-        linkedAt: new Date().toISOString(),
+      // Real PACER validation would happen here
+      // This requires actual PACER API integration which needs valid credentials
+      res.status(501).json({
+        message: "PACER integration requires valid API credentials and approval from PACER/Administrative Office",
+        documentation: "https://pacer.uscourts.gov/help/pacer-case-management-electronic-case-files-cm-ecf",
+        requiresApproval: true
       });
     } catch (error) {
       res.status(500).json({ 
