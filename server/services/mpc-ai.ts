@@ -24,7 +24,7 @@ interface FormPopulationData {
   suggestedContent: Record<string, any>;
 }
 
-export class NBCAIService {
+export class MPCAIService {
   
   /**
    * Generate exhibit list based on existing case data
@@ -43,7 +43,7 @@ export class NBCAIService {
         documentType: caseData.documentType
       });
 
-      const systemPrompt = `You are NBC, an AI legal assistant specializing in Massachusetts Federal District Court procedures. 
+      const systemPrompt = `You are MPC, an AI legal assistant specializing in Massachusetts Federal District Court procedures. 
       Generate a comprehensive exhibit list based on the case data provided. 
       Follow Federal Rules of Civil Procedure for exhibit formatting and numbering.
       
@@ -106,7 +106,7 @@ export class NBCAIService {
 
       const existingCases = await airtableMPC.searchCases(searchCriteria);
       
-      const systemPrompt = `You are NBC, an AI legal assistant for Massachusetts Federal District Court.
+      const systemPrompt = `You are MPC, an AI legal assistant for Massachusetts Federal District Court.
       Based on existing case data, auto-populate form fields for a ${formType} form.
       
       Analyze the historical case data and suggest appropriate values for form fields.
@@ -181,7 +181,7 @@ export class NBCAIService {
         c.emergencyType === caseData.emergencyType
       ).slice(0, 15);
 
-      const systemPrompt = `You are NBC, an AI legal analyst for Massachusetts Federal District Court.
+      const systemPrompt = `You are MPC, an AI legal analyst for Massachusetts Federal District Court.
       Analyze case patterns and provide strategic insights based on historical data.
       
       Return JSON with this structure:
@@ -239,7 +239,7 @@ export class NBCAIService {
         documentType: caseData.documentType
       });
 
-      const systemPrompt = `You are NBC, an AI legal template selector for Massachusetts Federal District Court.
+      const systemPrompt = `You are MPC, an AI legal template selector for Massachusetts Federal District Court.
       Based on case history, select the optimal document template and suggest customizations.
       
       Return JSON with this structure:
@@ -284,4 +284,4 @@ export class NBCAIService {
   }
 }
 
-export const nbcAI = new NBCAIService();
+export const mpcAI = new MPCAIService();

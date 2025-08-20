@@ -5,7 +5,7 @@ import { storage } from "./storage";
 import { upload, DocumentProcessor } from "./services/document-processor";
 import { documentAnalysisService } from "./services/openai";
 import { airtableMPC } from "./services/airtable-mpc";
-import { nbcAI } from "./services/nbc-ai";
+import { mpcAI } from "./services/mpc-ai";
 import {
   insertDocumentSchema,
   insertFilingHistorySchema,
@@ -478,10 +478,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // ===== NBC AI ENDPOINTS =====
+  // ===== MPC AI ENDPOINTS =====
   
   // Generate exhibit list from existing case database
-  app.post("/api/nbc/exhibit-list/:caseId", async (req, res) => {
+  app.post("/api/mpc/exhibit-list/:caseId", async (req, res) => {
     try {
       const { caseId } = req.params;
       
@@ -489,7 +489,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Case ID is required" });
       }
       
-      const exhibitList = await nbcAI.generateExhibitList(caseId);
+      const exhibitList = await mpcAI.generateExhibitList(caseId);
       
       res.json({
         success: true,
@@ -504,7 +504,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Auto-populate forms based on existing case database
-  app.post("/api/nbc/auto-populate", async (req, res) => {
+  app.post("/api/mpc/auto-populate", async (req, res) => {
     try {
       const { clientName, caseType, documentType, formType } = req.body;
       
@@ -512,7 +512,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Form type is required" });
       }
       
-      const populatedData = await nbcAI.autoPopulateForm({
+      const populatedData = await mpcAI.autoPopulateForm({
         clientName,
         caseType,
         documentType,
@@ -532,7 +532,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Generate case insights based on database patterns
-  app.get("/api/nbc/insights/:caseId", async (req, res) => {
+  app.get("/api/mpc/insights/:caseId", async (req, res) => {
     try {
       const { caseId } = req.params;
       
@@ -540,7 +540,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Case ID is required" });
       }
       
-      const insights = await nbcAI.generateCaseInsights(caseId);
+      const insights = await mpcAI.generateCaseInsights(caseId);
       
       res.json({
         success: true,
@@ -555,7 +555,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Smart template selection based on case database
-  app.post("/api/nbc/select-template", async (req, res) => {
+  app.post("/api/mpc/select-template", async (req, res) => {
     try {
       const { documentType, emergencyType, clientName } = req.body;
       
@@ -563,7 +563,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Document type and client name are required" });
       }
       
-      const template = await nbcAI.selectOptimalTemplate({
+      const template = await mpcAI.selectOptimalTemplate({
         documentType,
         emergencyType,
         clientName

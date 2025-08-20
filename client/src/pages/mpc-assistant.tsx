@@ -28,7 +28,7 @@ interface CaseInsights {
   requiredDocuments: string[];
 }
 
-export default function NBCAssistant() {
+export default function MPCAssistant() {
   const [selectedCaseId, setSelectedCaseId] = useState("");
   const [formParams, setFormParams] = useState({
     clientName: "",
@@ -53,7 +53,7 @@ export default function NBCAssistant() {
   // Generate exhibit list mutation
   const exhibitMutation = useMutation({
     mutationFn: async (caseId: string) => {
-      const response = await fetch(`/api/nbc/exhibit-list/${caseId}`, {
+      const response = await fetch(`/api/mpc/exhibit-list/${caseId}`, {
         method: 'POST'
       });
       if (!response.ok) throw new Error('Failed to generate exhibit list');
@@ -62,7 +62,7 @@ export default function NBCAssistant() {
     onSuccess: () => {
       toast({
         title: "Exhibit List Generated",
-        description: "NBC AI has created your exhibit list based on case database"
+        description: "MPC AI has created your exhibit list based on case database"
       });
     },
     onError: (error: any) => {
@@ -77,7 +77,7 @@ export default function NBCAssistant() {
   // Auto-populate form mutation
   const autoPopulateMutation = useMutation({
     mutationFn: async (params: typeof formParams) => {
-      const response = await fetch('/api/nbc/auto-populate', {
+      const response = await fetch('/api/mpc/auto-populate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(params)
@@ -88,7 +88,7 @@ export default function NBCAssistant() {
     onSuccess: () => {
       toast({
         title: "Form Auto-Populated",
-        description: "NBC AI has populated your form using existing case data"
+        description: "MPC AI has populated your form using existing case data"
       });
     },
     onError: (error: any) => {
@@ -102,14 +102,14 @@ export default function NBCAssistant() {
 
   // Case insights query
   const { data: insightsData, refetch: fetchInsights, isLoading: insightsLoading } = useQuery({
-    queryKey: [`/api/nbc/insights/${selectedCaseId}`],
+    queryKey: [`/api/mpc/insights/${selectedCaseId}`],
     enabled: false
   });
 
   // Template selection mutation
   const templateMutation = useMutation({
     mutationFn: async (params: typeof templateParams) => {
-      const response = await fetch('/api/nbc/select-template', {
+      const response = await fetch('/api/mpc/select-template', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(params)
@@ -120,7 +120,7 @@ export default function NBCAssistant() {
     onSuccess: () => {
       toast({
         title: "Optimal Template Selected",
-        description: "NBC AI has selected the best template based on case history"
+        description: "MPC AI has selected the best template based on case history"
       });
     },
     onError: (error: any) => {
@@ -138,7 +138,7 @@ export default function NBCAssistant() {
         <div className="flex items-center gap-3">
           <Brain className="h-8 w-8 text-purple-600" />
           <div>
-            <h1 className="text-3xl font-bold">NBC AI Assistant</h1>
+            <h1 className="text-3xl font-bold">MPC AI Assistant</h1>
             <p className="text-gray-600">Pull from existing case database to auto-populate forms and create exhibit lists</p>
           </div>
         </div>
@@ -236,7 +236,7 @@ export default function NBCAssistant() {
             <CardHeader>
               <CardTitle>Auto-Populate Forms from Database</CardTitle>
               <CardDescription>
-                Let NBC AI fill out form fields based on patterns from your existing cases
+                Let MPC AI fill out form fields based on patterns from your existing cases
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -409,7 +409,7 @@ export default function NBCAssistant() {
             <CardHeader>
               <CardTitle>Smart Template Selection</CardTitle>
               <CardDescription>
-                NBC AI selects the optimal template based on your case database history
+                MPC AI selects the optimal template based on your case database history
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
