@@ -1,33 +1,73 @@
 import { Link, useLocation } from "wouter";
-import { Scale, Bell, User, Menu } from "lucide-react";
+import { Scale, Bell, User, Menu, Sparkles, ShoppingBag, BarChart3, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export default function Navigation() {
   const [location] = useLocation();
 
   const navItems = [
-    { path: "/", label: "Dashboard", testId: "nav-dashboard" },
-    { path: "/file-document", label: "File Document", testId: "nav-file-document" },
-    { path: "/emergency-filing", label: "Emergency Filing", testId: "nav-emergency" },
-    { path: "/pro-bono-search", label: "Find Legal Help", testId: "nav-probono" },
-    { path: "/case-management", label: "Case Management", testId: "nav-case-management" },
-    { path: "/mpc-assistant", label: "MPC AI Assistant", testId: "nav-mpc-assistant" },
+    { path: "/", label: "Dashboard", testId: "nav-dashboard", icon: null },
+    { path: "/file-document", label: "File Document", testId: "nav-file-document", icon: null },
+    { path: "/emergency-filing", label: "Emergency Filing", testId: "nav-emergency", icon: null },
+    { path: "/pro-bono-search", label: "Find Legal Help", testId: "nav-probono", icon: null },
+    { path: "/case-management", label: "Case Management", testId: "nav-case-management", icon: null },
+    { path: "/mpc-assistant", label: "MPC AI Assistant", testId: "nav-mpc-assistant", icon: null },
+  ];
+
+  const premiumNavItems = [
+    {
+      path: "/premium-marketplace",
+      label: "Premium Services",
+      testId: "nav-premium",
+      icon: <Sparkles className="w-4 h-4 mr-1" />,
+      badge: "NEW"
+    },
+    {
+      path: "/analytics",
+      label: "Analytics",
+      testId: "nav-analytics",
+      icon: <BarChart3 className="w-4 h-4 mr-1" />,
+      badge: null
+    },
   ];
 
   const NavLinks = ({ mobile = false }) => (
-    <div className={mobile ? "flex flex-col space-y-4" : "hidden md:flex items-baseline space-x-4"}>
+    <div className={mobile ? "flex flex-col space-y-4" : "hidden lg:flex items-baseline space-x-2"}>
       {navItems.map((item) => (
         <Link key={item.path} href={item.path}>
           <Button
             variant={location === item.path ? "default" : "ghost"}
-            className={location === item.path ? "border-b-2 border-primary-600" : ""}
+            className={`${location === item.path ? "bg-blue-600 text-white" : ""} text-sm`}
             data-testid={item.testId}
           >
+            {item.icon}
             {item.label}
           </Button>
         </Link>
       ))}
+
+      {/* Premium Navigation Items */}
+      <div className="border-l border-gray-300 pl-2 ml-2">
+        {premiumNavItems.map((item) => (
+          <Link key={item.path} href={item.path}>
+            <Button
+              variant={location === item.path ? "default" : "ghost"}
+              className={`${location === item.path ? "bg-purple-600 text-white" : "text-purple-600 hover:bg-purple-50"} text-sm relative`}
+              data-testid={item.testId}
+            >
+              {item.icon}
+              {item.label}
+              {item.badge && (
+                <Badge className="ml-2 bg-green-500 text-white text-xs px-1 py-0">
+                  {item.badge}
+                </Badge>
+              )}
+            </Button>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 
@@ -37,8 +77,19 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/" className="flex items-center" data-testid="logo-link">
-              <Scale className="text-primary-600 text-2xl mr-3" />
-              <span className="text-xl font-bold text-gray-900">LegalFile AI</span>
+              <div className="relative">
+                <Scale className="text-blue-600 text-2xl mr-3" />
+                <Sparkles className="absolute -top-1 -right-1 text-yellow-500 text-sm animate-pulse" />
+              </div>
+              <div>
+                <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  LegalEaseFile
+                </span>
+                <div className="flex items-center space-x-1 -mt-1">
+                  <Gift className="w-3 h-3 text-green-500" />
+                  <span className="text-xs text-green-600 font-medium">Always Free</span>
+                </div>
+              </div>
             </Link>
             <div className="ml-10">
               <NavLinks />
