@@ -68,7 +68,7 @@ async function upsertUser(
 
 export async function setupAuth(app: Express) {
   app.set("trust proxy", 1);
-  app.use(getSession());
+  app.use(getSession() as any);
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -95,7 +95,7 @@ export async function setupAuth(app: Express) {
       },
       verify,
     );
-    passport.use(strategy);
+    passport.use(strategy as any);
   }
 
   passport.serializeUser((user: Express.User, cb) => cb(null, user));

@@ -121,7 +121,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.claims.sub;
 
       // Extract text content
-      const textContent = DocumentProcessor.extractTextFromBuffer(
+      const textContent = await DocumentProcessor.extractTextFromBuffer(
         req.file.buffer,
         req.file.mimetype
       );
