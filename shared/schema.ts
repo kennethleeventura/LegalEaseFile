@@ -118,6 +118,71 @@ export const mpcCaseData = pgTable("mpc_case_data", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Cases table for enhanced case management
+export const cases = pgTable("cases", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  caseNumber: text("case_number").notNull(),
+  caseName: text("case_name").notNull(),
+  caseType: text("case_type").notNull(), // civil, criminal, bankruptcy, etc.
+  court: text("court").notNull(),
+  judge: text("judge"),
+  plaintiff: text("plaintiff"),
+  defendant: text("defendant"),
+  description: text("description"),
+  status: text("status").notNull().default("active"), // active, closed, on-hold
+  filingDate: timestamp("filing_date"),
+  lastActivity: timestamp("last_activity").defaultNow(),
+  isEmergency: boolean("is_emergency").default(false),
+  practiceArea: text("practice_area"), // litigation, transactional, regulatory, etc.
+  metadata: jsonb("metadata"), // Additional case-specific data
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Deadline management system
+export const deadlines = pgTable("deadlines", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  caseId: varchar("case_id").references(() => cases.id),
+  title: text("title").notNull(),
+  description: text("description"),
+  dueDate: timestamp("due_date").notNull(),
+  deadlineType: text("deadline_type").notNull(), // court, statute, internal, discovery, etc.
+  priority: text("priority").notNull().default("medium"), // low, medium, high, critical
+  status: text("status").notNull().default("pending"), // pending, completed, overdue, cancelled
+  isRecurring: boolean("is_recurring").default(false),
+  recurringPattern: text("recurring_pattern"), // daily, weekly, monthly, etc.
+  reminderSettings: jsonb("reminder_settings"), // Array of reminder times
+  completedAt: timestamp("completed_at"),
+  completedBy: varchar("completed_by").references(() => users.id),
+  notes: text("notes"),
+  attachments: jsonb("attachments"), // Array of document references
+  courtRule: text("court_rule"), // Reference to specific court rule
+  statuteReference: text("statute_reference"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Legal research links and resources
+export const legalResources = pgTable("legal_resources", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description"),
+  url: text("url").notNull(),
+  resourceType: text("resource_type").notNull(), // case_law, statute, regulation, form, guide
+  jurisdiction: text("jurisdiction"), // federal, state, local
+  practiceArea: text("practice_area"),
+  court: text("court"),
+  isOfficial: boolean("is_official").default(false), // Official court or government resource
+  isFree: boolean("is_free").default(true),
+  rating: real("rating"), // User rating 1-5
+  usageCount: integer("usage_count").default(0),
+  tags: text("tags").array(),
+  lastVerified: timestamp("last_verified"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Insert schemas
 export const upsertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -157,6 +222,23 @@ export const insertMpcCaseDataSchema = createInsertSchema(mpcCaseData).omit({
   lastSyncedAt: true,
 });
 
+export const insertCaseSchema = createInsertSchema(cases).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertDeadlineSchema = createInsertSchema(deadlines).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertLegalResourceSchema = createInsertSchema(legalResources).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type UpsertUser = z.infer<typeof upsertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -178,6 +260,15 @@ export type SubscriptionPlan = typeof subscriptionPlans.$inferSelect;
 
 export type InsertMpcCaseData = z.infer<typeof insertMpcCaseDataSchema>;
 export type MpcCaseData = typeof mpcCaseData.$inferSelect;
+
+export type InsertCase = z.infer<typeof insertCaseSchema>;
+export type Case = typeof cases.$inferSelect;
+
+export type InsertDeadline = z.infer<typeof insertDeadlineSchema>;
+export type Deadline = typeof deadlines.$inferSelect;
+
+export type InsertLegalResource = z.infer<typeof insertLegalResourceSchema>;
+export type LegalResource = typeof legalResources.$inferSelect;
 
 // Additional types for API responses
 export type DocumentAnalysisResult = {

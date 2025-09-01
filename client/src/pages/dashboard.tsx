@@ -1,4 +1,4 @@
-import { Plus, AlertTriangle, HandHeart, Upload, Clock, Phone, Book, Mail } from "lucide-react";
+import { Plus, AlertTriangle, HandHeart, Upload, Clock, Phone, Book, Mail, Calendar, Search, Scale, Target, BookOpen } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -9,6 +9,8 @@ import FileUploadZone from "@/components/document/file-upload-zone";
 import DocumentTemplates from "@/components/document/document-templates";
 import CMECFStatusCard from "@/components/legal/cmecf-status";
 import ProBonoDirectory from "@/components/legal/pro-bono-directory";
+import DeadlineManager from "@/components/legal/deadline-manager";
+import LegalResearchAssistant from "@/components/legal/research-assistant";
 
 export default function Dashboard() {
   const { user, isAuthenticated } = useAuth();
@@ -136,6 +138,175 @@ export default function Dashboard() {
                 </Button>
               </Link>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Deadline Management */}
+        <Card className="hover:shadow-lg transition-shadow duration-200 border-purple-200 bg-purple-50">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <Calendar className="text-purple-600 text-xl" />
+                </div>
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Deadline Tracker</h3>
+                <p className="text-sm text-gray-500">Manage court deadlines & reminders</p>
+              </div>
+            </div>
+            <div className="mt-4">
+              <Link href="/deadlines">
+                <Button 
+                  variant="outline" 
+                  className="w-full border-purple-300 text-purple-700 hover:bg-purple-100"
+                  data-testid="button-deadlines"
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  View Deadlines
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Legal Research */}
+        <Card className="hover:shadow-lg transition-shadow duration-200 border-green-200 bg-green-50">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Search className="text-green-600 text-xl" />
+                </div>
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Legal Research</h3>
+                <p className="text-sm text-gray-500">Access free legal databases</p>
+              </div>
+            </div>
+            <div className="mt-4">
+              <Link href="/research">
+                <Button 
+                  variant="outline" 
+                  className="w-full border-green-300 text-green-700 hover:bg-green-100"
+                  data-testid="button-research"
+                >
+                  <Scale className="mr-2 h-4 w-4" />
+                  Start Research
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Case Management */}
+        <Card className="hover:shadow-lg transition-shadow duration-200 border-indigo-200 bg-indigo-50">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="h-12 w-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                  <Target className="text-indigo-600 text-xl" />
+                </div>
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Case Management</h3>
+                <p className="text-sm text-gray-500">Organize cases & documents</p>
+              </div>
+            </div>
+            <div className="mt-4">
+              <Link href="/case-management">
+                <Button 
+                  variant="outline" 
+                  className="w-full border-indigo-300 text-indigo-700 hover:bg-indigo-100"
+                  data-testid="button-case-management"
+                >
+                  <Target className="mr-2 h-4 w-4" />
+                  Manage Cases
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Enhanced Features Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8" data-testid="enhanced-features">
+        {/* Deadline Management Preview */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Calendar className="mr-2 h-5 w-5 text-purple-600" />
+              Upcoming Deadlines
+            </CardTitle>
+            <CardDescription>
+              Critical deadlines and court dates requiring attention
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-red-800">Motion to Dismiss Response</p>
+                    <p className="text-sm text-red-600">Due in 2 days</p>
+                  </div>
+                  <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">Critical</span>
+                </div>
+              </div>
+              <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-yellow-800">Discovery Deadline</p>
+                    <p className="text-sm text-yellow-600">Due in 5 days</p>
+                  </div>
+                  <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">High</span>
+                </div>
+              </div>
+            </div>
+            <Button variant="ghost" className="w-full mt-4 text-purple-600 hover:text-purple-700">
+              <Link href="/deadlines" className="flex items-center w-full">
+                <Calendar className="mr-2 h-4 w-4" />
+                View All Deadlines
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Legal Research Preview */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Search className="mr-2 h-5 w-5 text-green-600" />
+              Legal Research Tools
+            </CardTitle>
+            <CardDescription>
+              Quick access to free legal databases and resources
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <Button variant="ghost" className="w-full justify-start" 
+                      onClick={() => window.open('https://scholar.google.com/schhp?hl=en&as_sdt=2006', '_blank')}>
+                <Scale className="mr-2 h-4 w-4" />
+                Search Case Law
+              </Button>
+              <Button variant="ghost" className="w-full justify-start"
+                      onClick={() => window.open('https://www.congress.gov/', '_blank')}>
+                <Book className="mr-2 h-4 w-4" />
+                Federal Statutes
+              </Button>
+              <Button variant="ghost" className="w-full justify-start"
+                      onClick={() => window.open('https://www.law.cornell.edu/rules', '_blank')}>
+                <BookOpen className="mr-2 h-4 w-4" />
+                Court Rules
+              </Button>
+            </div>
+            <Button variant="ghost" className="w-full mt-4 text-green-600 hover:text-green-700">
+              <Link href="/research" className="flex items-center w-full">
+                <Search className="mr-2 h-4 w-4" />
+                Open Research Assistant
+              </Link>
+            </Button>
           </CardContent>
         </Card>
       </div>

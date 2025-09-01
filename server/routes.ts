@@ -678,6 +678,135 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Case Management API
+  app.get("/api/cases", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const userCases = await storage.getUserCases(userId);
+      res.json(userCases);
+    } catch (error) {
+      console.error("Error fetching cases:", error);
+      res.status(500).json({ message: "Failed to fetch cases" });
+    }
+  });
+
+  app.post("/api/cases", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const caseData = { ...req.body, userId };
+      const newCase = await storage.createCase(caseData);
+      res.json(newCase);
+    } catch (error) {
+      console.error("Error creating case:", error);
+      res.status(500).json({ message: "Failed to create case" });
+    }
+  });
+
+  app.get("/api/cases/:id", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const caseId = req.params.id;
+      const caseData = await storage.getCase(caseId, userId);
+      
+      if (!caseData) {
+        return res.status(404).json({ message: "Case not found" });
+      }
+      
+      res.json(caseData);
+    } catch (error) {
+      console.error("Error fetching case:", error);
+      res.status(500).json({ message: "Failed to fetch case" });
+    }
+  });
+
+  app.put("/api/cases/:id", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const caseId = req.params.id;
+      const updatedCase = await storage.updateCase(caseId, userId, req.body);
+      res.json(updatedCase);
+    } catch (error) {
+      console.error("Error updating case:", error);
+      res.status(500).json({ message: "Failed to update case" });
+    }
+  });
+
+  // Deadline Management API
+  app.get("/api/deadlines", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const deadlines = await storage.getUserDeadlines(userId);
+      res.json(deadlines);
+    } catch (error) {
+      console.error("Error fetching deadlines:", error);
+      res.status(500).json({ message: "Failed to fetch deadlines" });
+    }
+  });
+
+  app.post("/api/deadlines", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const deadlineData = { ...req.body, userId };
+      const newDeadline = await storage.createDeadline(deadlineData);
+      res.json(newDeadline);
+    } catch (error) {
+      console.error("Error creating deadline:", error);
+      res.status(500).json({ message: "Failed to create deadline" });
+    }
+  });
+
+  app.patch("/api/deadlines/:id", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const deadlineId = req.params.id;
+      const updatedDeadline = await storage.updateDeadline(deadlineId, userId, req.body);
+      res.json(updatedDeadline);
+    } catch (error) {
+      console.error("Error updating deadline:", error);
+      res.status(500).json({ message: "Failed to update deadline" });
+    }
+  });
+
+  app.delete("/api/deadlines/:id", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const deadlineId = req.params.id;
+      await storage.deleteDeadline(deadlineId, userId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting deadline:", error);
+      res.status(500).json({ message: "Failed to delete deadline" });
+    }
+  });
+
+  // Legal Resources API (public endpoints for curated resources)
+  app.get("/api/legal-resources", async (req, res) => {
+    try {
+      const { type, jurisdiction, practiceArea, search } = req.query;
+      const resources = await storage.getLegalResources({
+        type: type as string,
+        jurisdiction: jurisdiction as string,
+        practiceArea: practiceArea as string,
+        search: search as string
+      });
+      res.json(resources);
+    } catch (error) {
+      console.error("Error fetching legal resources:", error);
+      res.status(500).json({ message: "Failed to fetch legal resources" });
+    }
+  });
+
+  app.post("/api/legal-resources/:id/track-usage", async (req, res) => {
+    try {
+      const resourceId = req.params.id;
+      await storage.incrementResourceUsage(resourceId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error tracking resource usage:", error);
+      res.status(500).json({ message: "Failed to track usage" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

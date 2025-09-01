@@ -9,11 +9,20 @@ import {
   type InsertLegalAidOrganization,
   type FilingHistory,
   type InsertFilingHistory,
+  type Case,
+  type InsertCase,
+  type Deadline,
+  type InsertDeadline,
+  type LegalResource,
+  type InsertLegalResource,
   users,
   documents,
   documentTemplates,
   legalAidOrganizations,
   filingHistory,
+  cases,
+  deadlines,
+  legalResources,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, like } from "drizzle-orm";
@@ -50,6 +59,29 @@ export interface IStorage {
   getFilingHistory(userId: string): Promise<FilingHistory[]>;
   createFilingHistory(filing: InsertFilingHistory): Promise<FilingHistory>;
   updateFilingHistory(id: string, updates: Partial<FilingHistory>): Promise<FilingHistory | undefined>;
+
+  // Case management operations
+  getUserCases(userId: string): Promise<Case[]>;
+  getCase(id: string, userId: string): Promise<Case | undefined>;
+  createCase(case_: InsertCase): Promise<Case>;
+  updateCase(id: string, userId: string, updates: Partial<Case>): Promise<Case | undefined>;
+  deleteCase(id: string, userId: string): Promise<boolean>;
+
+  // Deadline management operations
+  getUserDeadlines(userId: string): Promise<Deadline[]>;
+  getDeadline(id: string, userId: string): Promise<Deadline | undefined>;
+  createDeadline(deadline: InsertDeadline): Promise<Deadline>;
+  updateDeadline(id: string, userId: string, updates: Partial<Deadline>): Promise<Deadline | undefined>;
+  deleteDeadline(id: string, userId: string): Promise<boolean>;
+
+  // Legal resources operations
+  getLegalResources(filters: {
+    type?: string;
+    jurisdiction?: string;
+    practiceArea?: string;
+    search?: string;
+  }): Promise<LegalResource[]>;
+  incrementResourceUsage(id: string): Promise<void>;
 
   // Subscription plan operations
   getSubscriptionPlans(): Promise<any[]>;
@@ -326,6 +358,156 @@ export class DatabaseStorage implements IStorage {
       .where(eq(filingHistory.id, id))
       .returning();
     return filing;
+  }
+
+  // Case management operations
+  async getUserCases(userId: string): Promise<Case[]> {
+    const userCases = await db
+      .select()
+      .from(cases)
+      .where(eq(cases.userId, userId))
+      .orderBy(cases.lastActivity);
+    return userCases;
+  }
+
+  async getCase(id: string, userId: string): Promise<Case | undefined> {
+    const [case_] = await db
+      .select()
+      .from(cases)
+      .where(and(eq(cases.id, id), eq(cases.userId, userId)))
+      .limit(1);
+    return case_;
+  }
+
+  async createCase(insertCase: InsertCase): Promise<Case> {
+    const caseId = randomUUID();
+    const [case_] = await db
+      .insert(cases)
+      .values({ ...insertCase, id: caseId })
+      .returning();
+    return case_;
+  }
+
+  async updateCase(id: string, userId: string, updates: Partial<Case>): Promise<Case | undefined> {
+    const [case_] = await db
+      .update(cases)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(and(eq(cases.id, id), eq(cases.userId, userId)))
+      .returning();
+    return case_;
+  }
+
+  async deleteCase(id: string, userId: string): Promise<boolean> {
+    const result = await db
+      .delete(cases)
+      .where(and(eq(cases.id, id), eq(cases.userId, userId)));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  // Deadline management operations
+  async getUserDeadlines(userId: string): Promise<Deadline[]> {
+    const userDeadlines = await db
+      .select({
+        id: deadlines.id,
+        title: deadlines.title,
+        description: deadlines.description,
+        dueDate: deadlines.dueDate,
+        deadlineType: deadlines.deadlineType,
+        priority: deadlines.priority,
+        status: deadlines.status,
+        isRecurring: deadlines.isRecurring,
+        recurringPattern: deadlines.recurringPattern,
+        reminderSettings: deadlines.reminderSettings,
+        completedAt: deadlines.completedAt,
+        completedBy: deadlines.completedBy,
+        notes: deadlines.notes,
+        attachments: deadlines.attachments,
+        courtRule: deadlines.courtRule,
+        statuteReference: deadlines.statuteReference,
+        createdAt: deadlines.createdAt,
+        updatedAt: deadlines.updatedAt,
+        caseId: deadlines.caseId,
+        caseName: cases.caseName,
+        caseNumber: cases.caseNumber,
+      })
+      .from(deadlines)
+      .leftJoin(cases, eq(deadlines.caseId, cases.id))
+      .where(eq(deadlines.userId, userId))
+      .orderBy(deadlines.dueDate);
+    return userDeadlines as any[];
+  }
+
+  async getDeadline(id: string, userId: string): Promise<Deadline | undefined> {
+    const [deadline] = await db
+      .select()
+      .from(deadlines)
+      .where(and(eq(deadlines.id, id), eq(deadlines.userId, userId)))
+      .limit(1);
+    return deadline;
+  }
+
+  async createDeadline(insertDeadline: InsertDeadline): Promise<Deadline> {
+    const deadlineId = randomUUID();
+    const [deadline] = await db
+      .insert(deadlines)
+      .values({ ...insertDeadline, id: deadlineId })
+      .returning();
+    return deadline;
+  }
+
+  async updateDeadline(id: string, userId: string, updates: Partial<Deadline>): Promise<Deadline | undefined> {
+    const [deadline] = await db
+      .update(deadlines)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(and(eq(deadlines.id, id), eq(deadlines.userId, userId)))
+      .returning();
+    return deadline;
+  }
+
+  async deleteDeadline(id: string, userId: string): Promise<boolean> {
+    const result = await db
+      .delete(deadlines)
+      .where(and(eq(deadlines.id, id), eq(deadlines.userId, userId)));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  // Legal resources operations
+  async getLegalResources(filters: {
+    type?: string;
+    jurisdiction?: string;
+    practiceArea?: string;
+    search?: string;
+  }): Promise<LegalResource[]> {
+    let query = db.select().from(legalResources);
+    
+    // For now, return hardcoded resources since we haven't seeded the database
+    // In a real implementation, you would apply filters to the database query
+    return [
+      {
+        id: "justia-case-law",
+        title: "Justia Case Law",
+        description: "Free access to millions of case law opinions from federal and state courts",
+        url: "https://law.justia.com/cases/",
+        resourceType: "case_law",
+        jurisdiction: "Federal",
+        practiceArea: null,
+        court: null,
+        isOfficial: false,
+        isFree: true,
+        rating: 4.5,
+        usageCount: 1250,
+        tags: ["comprehensive", "search", "free", "updated"],
+        lastVerified: null,
+        createdAt: new Date(),
+      },
+      // Add more hardcoded resources as needed
+    ] as LegalResource[];
+  }
+
+  async incrementResourceUsage(id: string): Promise<void> {
+    // For now, this is a no-op since we're using hardcoded data
+    // In a real implementation, you would increment the usage count in the database
+    console.log(`Tracking usage for resource: ${id}`);
   }
 
   // Subscription plan operations

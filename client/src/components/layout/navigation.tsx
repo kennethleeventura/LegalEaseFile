@@ -9,10 +9,12 @@ export default function Navigation() {
   const navItems = [
     { path: "/", label: "Dashboard", testId: "nav-dashboard" },
     { path: "/file-document", label: "File Document", testId: "nav-file-document" },
-    { path: "/emergency-filing", label: "Emergency Filing", testId: "nav-emergency" },
-    { path: "/pro-bono-search", label: "Find Legal Help", testId: "nav-probono" },
-    { path: "/case-management", label: "Case Management", testId: "nav-case-management" },
-    { path: "/mpc-assistant", label: "MPC AI Assistant", testId: "nav-mpc-assistant" },
+    { path: "/deadlines", label: "Deadlines", testId: "nav-deadlines" },
+    { path: "/research", label: "Research", testId: "nav-research" },
+    { path: "/case-management", label: "Cases", testId: "nav-case-management" },
+    { path: "/emergency-filing", label: "Emergency", testId: "nav-emergency" },
+    { path: "/pro-bono-search", label: "Legal Help", testId: "nav-probono" },
+    { path: "/mpc-assistant", label: "AI Assistant", testId: "nav-mpc-assistant" },
   ];
 
   const NavLinks = ({ mobile = false }) => (
