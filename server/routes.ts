@@ -13,6 +13,7 @@ import {
   insertFilingHistorySchema,
   type DocumentAnalysisResult,
   type EmergencyFilingRequest,
+  type AuthenticatedUser,
 } from "@shared/schema";
 
 if (!process.env.STRIPE_SECRET_KEY) {
@@ -346,7 +347,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // CM/ECF system status check (requires PACER account)
   app.get("/api/cmecf/status", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user?.claims?.sub;
+      const userId = (req.user as AuthenticatedUser)?.claims?.sub;
+      
+      if (!userId) {
+        return res.status(401).json({ message: "User ID not found in claims" });
+      }
+      
       const user = await storage.getUser(userId);
       
       if (!user || !user.pacerAccountLinked) {
@@ -372,7 +378,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // PACER account linking (requires real PACER credentials)
   app.post("/api/pacer/link", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user?.claims?.sub;
+      const userId = (req.user as AuthenticatedUser)?.claims?.sub;
+      
+      if (!userId) {
+        return res.status(401).json({ message: "User ID not found in claims" });
+      }
+      
       const { pacerUsername, pacerPassword } = req.body;
       
       if (!pacerUsername || !pacerPassword) {

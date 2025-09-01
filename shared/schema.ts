@@ -161,6 +161,19 @@ export const insertMpcCaseDataSchema = createInsertSchema(mpcCaseData).omit({
 export type UpsertUser = z.infer<typeof upsertUserSchema>;
 export type User = typeof users.$inferSelect;
 
+// Extended User type for authenticated requests with session claims
+export interface AuthenticatedUser extends User {
+  claims?: {
+    sub: string;
+    email?: string;
+    exp?: number;
+    [key: string]: any;
+  };
+  access_token?: string;
+  refresh_token?: string;
+  expires_at?: number;
+}
+
 export type InsertDocument = z.infer<typeof insertDocumentSchema>;
 export type Document = typeof documents.$inferSelect;
 

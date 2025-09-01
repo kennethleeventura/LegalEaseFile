@@ -171,7 +171,7 @@ export class AirtableMPCService {
       
       // Client-side filtering for encrypted client names
       if (filters.clientName) {
-        results = results.filter(result => 
+        results = results.filter((result: any) => 
           result.clientName.toLowerCase().includes(filters.clientName!.toLowerCase())
         );
       }
