@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Scale, Shield, Clock, Users, FileText, Zap } from "lucide-react";
+import { CheckCircle, Scale, Shield, Clock, Users, FileText, Zap, Sparkles, Heart, Gift, Star, Rocket, Brain, Lock, Smartphone } from "lucide-react";
 
 export default function Landing() {
   const handleLogin = () => {
@@ -9,17 +9,26 @@ export default function Landing() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-white/80 backdrop-blur-md shadow-sm border-b sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <Scale className="h-8 w-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-900">LegalFile AI</h1>
+            <div className="flex items-center space-x-3">
+              <div className="relative">
+                <Scale className="h-8 w-8 text-blue-600" />
+                <Sparkles className="h-4 w-4 text-yellow-500 absolute -top-1 -right-1 animate-pulse" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  LegalEaseFile
+                </h1>
+                <p className="text-xs text-gray-500 -mt-1">Completely Free Forever</p>
+              </div>
             </div>
-            <Button onClick={handleLogin} className="bg-blue-600 hover:bg-blue-700">
-              Sign In
+            <Button onClick={handleLogin} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg">
+              <Gift className="w-4 h-4 mr-2" />
+              Start Free Now
             </Button>
           </div>
         </div>

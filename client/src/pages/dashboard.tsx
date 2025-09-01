@@ -1,4 +1,4 @@
-import { Plus, AlertTriangle, HandHeart, Upload, Clock, Phone, Book, Mail } from "lucide-react";
+import { Plus, AlertTriangle, HandHeart, Upload, Clock, Phone, Book, Mail, Sparkles, ShoppingBag, TrendingUp, Star, Gift } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -38,16 +38,33 @@ export default function Dashboard() {
 
       {/* Main Header */}
       <div className="px-4 py-6 sm:px-0">
-        <Card className="border-4 border-dashed border-gray-200 bg-white p-8" data-testid="main-header">
+        <Card className="border-4 border-dashed border-purple-200 bg-gradient-to-br from-blue-50 to-purple-50 p-8" data-testid="main-header">
           <div className="text-center">
-            <Upload className="text-primary-500 text-6xl mb-4 mx-auto" />
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <div className="relative inline-block mb-4">
+              <Upload className="text-blue-600 text-6xl mx-auto" />
+              <Sparkles className="absolute -top-2 -right-2 text-yellow-500 text-2xl animate-pulse" />
+            </div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
               Massachusetts Federal District Court Filing
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto mb-6">
               AI-powered document preparation and filing for the U.S. District Court for the District of Massachusetts.
-              Let our system help you prepare, validate, and file your legal documents with confidence.
+              <span className="font-semibold text-green-600"> Completely free forever</span> - no subscriptions, no limits.
             </p>
+            <div className="flex flex-wrap justify-center gap-4 text-sm">
+              <div className="flex items-center bg-white px-3 py-1 rounded-full shadow-sm">
+                <Gift className="w-4 h-4 text-green-500 mr-1" />
+                <span>Always Free</span>
+              </div>
+              <div className="flex items-center bg-white px-3 py-1 rounded-full shadow-sm">
+                <Star className="w-4 h-4 text-yellow-500 mr-1" />
+                <span>No Credit Card</span>
+              </div>
+              <div className="flex items-center bg-white px-3 py-1 rounded-full shadow-sm">
+                <TrendingUp className="w-4 h-4 text-blue-500 mr-1" />
+                <span>Unlimited Usage</span>
+              </div>
+            </div>
           </div>
         </Card>
       </div>
@@ -133,6 +150,34 @@ export default function Dashboard() {
                   data-testid="button-pro-bono"
                 >
                   Find Help
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Premium Services */}
+        <Card className="hover:shadow-lg transition-shadow duration-200 border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <ShoppingBag className="text-purple-600 text-xl" />
+                </div>
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Premium Services</h3>
+                <p className="text-sm text-gray-500">Optional premium enhancements</p>
+              </div>
+            </div>
+            <div className="mt-4">
+              <Link href="/premium-marketplace">
+                <Button
+                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                  data-testid="button-premium-services"
+                >
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Explore Premium
                 </Button>
               </Link>
             </div>

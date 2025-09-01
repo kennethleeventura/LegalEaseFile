@@ -330,79 +330,107 @@ export class DatabaseStorage implements IStorage {
 
   // Subscription plan operations
   async getSubscriptionPlans(): Promise<any[]> {
-    // Return hardcoded subscription plans for now
+    // Free for users - monetized through other channels
     return [
       {
-        id: "basic",
-        name: "Basic",
-        description: "Perfect for individual filers with occasional legal needs",
-        price: 29.99,
-        priceId: "price_1QZixNJFx4DyG3C8MF9yzuGQ",
-        interval: "month",
+        id: "free_tier",
+        name: "LegalEaseFile Free",
+        description: "Complete legal document management - free for all users",
+        price: 0,
+        priceId: null,
+        interval: "lifetime",
         features: [
-          "5 documents per month",
-          "AI document analysis",
-          "Basic template library",
-          "Email support",
-          "Standard filing guidance"
-        ],
-        limits: {
-          documentsPerMonth: 5,
-          emergencyFilings: 1,
-          aiAnalysisMinutes: 30
-        },
-        isActive: true,
-        sortOrder: 1
-      },
-      {
-        id: "professional",
-        name: "Professional",
-        description: "Ideal for frequent filers and small legal practices",
-        price: 79.99,
-        priceId: "price_professional_monthly",
-        interval: "month",
-        features: [
-          "25 documents per month",
-          "Advanced AI analysis",
-          "Complete template library",
-          "Priority support",
-          "Emergency filing assistance",
-          "Pro bono attorney directory",
-          "MPC AI case insights"
-        ],
-        limits: {
-          documentsPerMonth: 25,
-          emergencyFilings: 5,
-          aiAnalysisMinutes: 120
-        },
-        isActive: true,
-        sortOrder: 2
-      },
-      {
-        id: "enterprise",
-        name: "Enterprise",
-        description: "Comprehensive solution for legal organizations and high-volume users",
-        price: 199.99,
-        priceId: "price_enterprise_monthly",
-        interval: "month",
-        features: [
-          "Unlimited documents",
-          "Premium AI analysis",
-          "Custom templates",
-          "24/7 priority support",
-          "Unlimited emergency filings",
-          "Dedicated pro bono coordinator",
-          "Advanced MPC AI features",
-          "API access",
-          "Team collaboration tools"
+          "✨ Unlimited documents and storage",
+          "🤖 Advanced AI analysis with GPT-4",
+          "📋 500+ Professional templates",
+          "🆘 Emergency filing support",
+          "👥 Pro bono attorney network",
+          "🔍 MPC AI insights",
+          "🤝 Basic collaboration tools",
+          "📱 Mobile access",
+          "📤 Export capabilities",
+          "🔍 Search & filtering"
         ],
         limits: {
           documentsPerMonth: -1, // Unlimited
           emergencyFilings: -1, // Unlimited
-          aiAnalysisMinutes: -1 // Unlimited
+          aiAnalysisMinutes: -1, // Unlimited
+          storageGB: -1, // Unlimited
+          collaborators: 5, // Basic collaboration
+          templates: -1 // Unlimited
         },
         isActive: true,
-        sortOrder: 3
+        sortOrder: 1,
+        badge: "FREE FOR EVERYONE"
+      },
+      {
+        id: "professional_plus",
+        name: "Professional Plus",
+        description: "Enhanced features for legal professionals",
+        price: 29.99,
+        priceId: "price_professional_plus",
+        interval: "month",
+        features: [
+          "🎨 Custom branding & white-label",
+          "📋 1000+ Premium templates",
+          "👥 Unlimited team collaboration",
+          "🔌 Full API access & integrations",
+          "📊 Advanced analytics dashboard",
+          "📞 Priority phone support",
+          "🏢 Law firm management tools",
+          "💼 Client portal access",
+          "🔄 Advanced version control",
+          "📈 Business intelligence reports"
+        ],
+        limits: {
+          documentsPerMonth: -1,
+          emergencyFilings: -1,
+          aiAnalysisMinutes: -1,
+          storageGB: -1,
+          collaborators: -1,
+          templates: -1,
+          customBranding: true,
+          apiAccess: true,
+          prioritySupport: true
+        },
+        isActive: true,
+        sortOrder: 2,
+        badge: "MOST POPULAR"
+      },
+      {
+        id: "enterprise_solutions",
+        name: "Enterprise Solutions",
+        description: "Custom solutions for large organizations",
+        price: 199.99,
+        priceId: "price_enterprise_solutions",
+        interval: "month",
+        features: [
+          "🏢 Multi-office management",
+          "🔐 Advanced security & compliance",
+          "🤖 Custom AI model training",
+          "📊 Enterprise analytics suite",
+          "🔌 Custom integrations",
+          "👨‍💼 Dedicated account manager",
+          "📞 24/7 priority support",
+          "🎯 Custom template development",
+          "📈 Advanced reporting & insights",
+          "🔄 Enterprise-grade backups"
+        ],
+        limits: {
+          documentsPerMonth: -1,
+          emergencyFilings: -1,
+          aiAnalysisMinutes: -1,
+          storageGB: -1,
+          collaborators: -1,
+          templates: -1,
+          customBranding: true,
+          apiAccess: true,
+          prioritySupport: true,
+          dedicatedSupport: true
+        },
+        isActive: true,
+        sortOrder: 3,
+        badge: "ENTERPRISE"
       }
     ];
   }
