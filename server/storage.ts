@@ -330,63 +330,108 @@ export class DatabaseStorage implements IStorage {
 
   // Subscription plan operations
   async getSubscriptionPlans(): Promise<any[]> {
-    // Free for users - monetized through other channels
+    // Free trial + subscription model for maximum conversion
     return [
       {
-        id: "free_tier",
-        name: "LegalEaseFile Free",
-        description: "Complete legal document management - free for all users",
+        id: "free_trial",
+        name: "Free Trial",
+        description: "Try all premium features free for 14 days - no credit card required",
         price: 0,
         priceId: null,
-        interval: "lifetime",
+        interval: "trial",
+        trialDays: 14,
         features: [
+          "🎉 14-day FREE trial - no credit card",
           "✨ Unlimited documents and storage",
           "🤖 Advanced AI analysis with GPT-4",
           "📋 500+ Professional templates",
-          "🆘 Emergency filing support",
+          "🆘 Priority emergency filing",
           "👥 Pro bono attorney network",
-          "🔍 MPC AI insights",
-          "🤝 Basic collaboration tools",
-          "📱 Mobile access",
-          "📤 Export capabilities",
-          "🔍 Search & filtering"
-        ],
-        limits: {
-          documentsPerMonth: -1, // Unlimited
-          emergencyFilings: -1, // Unlimited
-          aiAnalysisMinutes: -1, // Unlimited
-          storageGB: -1, // Unlimited
-          collaborators: 5, // Basic collaboration
-          templates: -1 // Unlimited
-        },
-        isActive: true,
-        sortOrder: 1,
-        badge: "FREE FOR EVERYONE"
-      },
-      {
-        id: "professional_plus",
-        name: "Professional Plus",
-        description: "Enhanced features for legal professionals",
-        price: 29.99,
-        priceId: "price_professional_plus",
-        interval: "month",
-        features: [
-          "🎨 Custom branding & white-label",
-          "📋 1000+ Premium templates",
-          "👥 Unlimited team collaboration",
-          "🔌 Full API access & integrations",
-          "📊 Advanced analytics dashboard",
-          "📞 Priority phone support",
-          "🏢 Law firm management tools",
-          "💼 Client portal access",
-          "🔄 Advanced version control",
-          "📈 Business intelligence reports"
+          "🔍 Advanced MPC AI insights",
+          "📱 Mobile app access",
+          "📤 All export formats",
+          "🤝 Team collaboration (5 members)",
+          "📊 Analytics dashboard",
+          "📞 Email support"
         ],
         limits: {
           documentsPerMonth: -1,
           emergencyFilings: -1,
           aiAnalysisMinutes: -1,
           storageGB: -1,
+          collaborators: 5,
+          templates: -1,
+          trialDays: 14
+        },
+        isActive: true,
+        sortOrder: 1,
+        badge: "🎉 FREE TRIAL",
+        highlight: true,
+        ctaText: "Start Free Trial"
+      },
+      {
+        id: "starter_plan",
+        name: "Starter Plan",
+        description: "Perfect for individual lawyers and small practices",
+        price: 19.99,
+        priceId: "price_starter_monthly",
+        interval: "month",
+        originalPrice: 39.99,
+        discount: "50% OFF",
+        features: [
+          "✨ Everything in Free Trial",
+          "📋 Unlimited premium templates",
+          "🤖 Advanced AI document analysis",
+          "🆘 Priority emergency filing",
+          "👥 Team collaboration (10 members)",
+          "📊 Basic analytics dashboard",
+          "📞 Email support",
+          "📱 Mobile app access",
+          "💾 Enhanced cloud storage",
+          "🔄 Document version control"
+        ],
+        limits: {
+          documentsPerMonth: -1,
+          emergencyFilings: -1,
+          aiAnalysisMinutes: -1,
+          storageGB: 100,
+          collaborators: 10,
+          templates: -1
+        },
+        isActive: true,
+        sortOrder: 2,
+        badge: "MOST POPULAR",
+        highlight: true,
+        ctaText: "Continue with Starter"
+      },
+      {
+        id: "professional_plan",
+        name: "Professional Plan",
+        description: "Advanced features for growing legal practices",
+        price: 49.99,
+        priceId: "price_professional_monthly",
+        interval: "month",
+        originalPrice: 79.99,
+        discount: "38% OFF",
+        features: [
+          "✨ Everything in Starter Plan",
+          "🎨 Custom branding & white-label",
+          "👥 Unlimited team collaboration",
+          "🔌 API access & integrations",
+          "📊 Advanced analytics dashboard",
+          "📞 Priority phone support",
+          "🏢 Law firm management tools",
+          "💼 Client portal access",
+          "🔄 Advanced version control",
+          "📈 Business intelligence reports",
+          "🎯 Custom template creation",
+          "🔐 Advanced security features"
+        ],
+        limits: {
+          documentsPerMonth: -1,
+          emergencyFilings: -1,
+          aiAnalysisMinutes: -1,
+          storageGB: 500,
           collaborators: -1,
           templates: -1,
           customBranding: true,
@@ -394,17 +439,21 @@ export class DatabaseStorage implements IStorage {
           prioritySupport: true
         },
         isActive: true,
-        sortOrder: 2,
-        badge: "MOST POPULAR"
+        sortOrder: 3,
+        badge: "BEST VALUE",
+        ctaText: "Upgrade to Professional"
       },
       {
-        id: "enterprise_solutions",
-        name: "Enterprise Solutions",
-        description: "Custom solutions for large organizations",
-        price: 199.99,
-        priceId: "price_enterprise_solutions",
+        id: "enterprise_plan",
+        name: "Enterprise Plan",
+        description: "Complete solution for large law firms and organizations",
+        price: 149.99,
+        priceId: "price_enterprise_monthly",
         interval: "month",
+        originalPrice: 299.99,
+        discount: "50% OFF",
         features: [
+          "✨ Everything in Professional Plan",
           "🏢 Multi-office management",
           "🔐 Advanced security & compliance",
           "🤖 Custom AI model training",
@@ -414,7 +463,11 @@ export class DatabaseStorage implements IStorage {
           "📞 24/7 priority support",
           "🎯 Custom template development",
           "📈 Advanced reporting & insights",
-          "🔄 Enterprise-grade backups"
+          "🔄 Enterprise-grade backups",
+          "🌐 White-label solutions",
+          "⚖️ Compliance reporting",
+          "🔒 SSO integration",
+          "📋 Custom workflows"
         ],
         limits: {
           documentsPerMonth: -1,
@@ -426,11 +479,14 @@ export class DatabaseStorage implements IStorage {
           customBranding: true,
           apiAccess: true,
           prioritySupport: true,
-          dedicatedSupport: true
+          dedicatedSupport: true,
+          ssoIntegration: true,
+          customWorkflows: true
         },
         isActive: true,
-        sortOrder: 3,
-        badge: "ENTERPRISE"
+        sortOrder: 4,
+        badge: "ENTERPRISE",
+        ctaText: "Contact Sales"
       }
     ];
   }

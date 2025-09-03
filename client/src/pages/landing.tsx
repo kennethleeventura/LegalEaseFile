@@ -37,25 +37,51 @@ export default function Landing() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
-          <Badge className="mb-4 bg-blue-100 text-blue-800 hover:bg-blue-100">
-            Massachusetts Federal District Court
+          <Badge className="mb-4 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border-green-200 px-4 py-2 text-sm font-semibold animate-pulse">
+            <Gift className="w-4 h-4 mr-2 text-green-600" />
+            14-Day FREE Trial • No Credit Card Required
           </Badge>
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
             AI-Powered Legal Document Filing
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Streamline your legal document preparation and filing with intelligent AI analysis, 
+            Streamline your legal document preparation and filing with intelligent AI analysis,
             emergency filing capabilities, and comprehensive pro bono legal assistance for Massachusetts Federal District Court.
+            <span className="font-semibold text-green-600"> Start your free trial today!</span>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               onClick={handleLogin}
-              className="bg-blue-600 hover:bg-blue-700 px-8 py-3 text-lg"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 px-8 py-3 text-lg text-white shadow-lg"
               data-testid="button-get-started"
             >
-              Get Started Now
+              <Gift className="w-5 h-5 mr-2" />
+              Start Free Trial
             </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="px-8 py-3 text-lg border-2 border-gray-300 hover:border-gray-400"
+            >
+              View Pricing
+            </Button>
+          </div>
+
+          {/* Trust indicators */}
+          <div className="flex flex-wrap justify-center items-center gap-8 mt-8 text-sm text-gray-500">
+            <div className="flex items-center">
+              <Star className="w-4 h-4 text-yellow-500 mr-1" />
+              <span>No Credit Card Required</span>
+            </div>
+            <div className="flex items-center">
+              <Shield className="w-4 h-4 text-green-500 mr-1" />
+              <span>Cancel Anytime</span>
+            </div>
+            <div className="flex items-center">
+              <Users className="w-4 h-4 text-blue-500 mr-1" />
+              <span>Join 10,000+ Legal Professionals</span>
+            </div>
           </div>
         </div>
       </section>

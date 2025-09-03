@@ -12,6 +12,7 @@ import ProBonoSearch from "@/pages/pro-bono-search";
 import CaseManagement from "@/pages/case-management";
 import MPCAssistant from "@/pages/mpc-assistant";
 import Subscribe from "@/pages/subscribe";
+import Pricing from "@/pages/pricing";
 import PremiumMarketplace from "@/pages/premium-marketplace";
 import AnalyticsDashboard from "@/pages/analytics-dashboard";
 import NotFound from "@/pages/not-found";
@@ -41,6 +42,7 @@ function Router() {
           <Route path="/case-management" component={CaseManagement} />
           <Route path="/mpc-assistant" component={MPCAssistant} />
           <Route path="/subscribe" component={Subscribe} />
+          <Route path="/pricing" component={Pricing} />
           <Route path="/premium-marketplace" component={PremiumMarketplace} />
           <Route path="/analytics" component={AnalyticsDashboard} />
         </>
