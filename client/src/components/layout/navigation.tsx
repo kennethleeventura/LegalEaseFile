@@ -18,11 +18,18 @@ export default function Navigation() {
 
   const premiumNavItems = [
     {
-      path: "/premium-marketplace",
-      label: "Premium Services",
-      testId: "nav-premium",
-      icon: <Sparkles className="w-4 h-4 mr-1" />,
-      badge: "NEW"
+      path: "/marketplace",
+      label: "Marketplace",
+      testId: "nav-marketplace",
+      icon: <ShoppingBag className="w-4 h-4 mr-1" />,
+      badge: "45+ SERVICES"
+    },
+    {
+      path: "/pricing",
+      label: "Pricing",
+      testId: "nav-pricing",
+      icon: <Gift className="w-4 h-4 mr-1" />,
+      badge: "FREE TRIAL"
     },
     {
       path: "/analytics",

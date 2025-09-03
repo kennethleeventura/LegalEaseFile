@@ -43,62 +43,76 @@ export default function AnalyticsDashboard() {
   const revenueMetrics: RevenueMetric[] = [
     {
       title: "Total Revenue",
-      value: "$127,450",
-      change: "+23.5%",
+      value: "$285,471",
+      change: "+35.2%",
       changeType: "positive",
       icon: <DollarSign className="w-5 h-5" />
     },
     {
-      title: "Premium Users",
-      value: "3,247",
-      change: "+18.2%",
-      changeType: "positive", 
-      icon: <Users className="w-5 h-5" />
+      title: "Active Services",
+      value: "45+",
+      change: "+28 new",
+      changeType: "positive",
+      icon: <Sparkles className="w-5 h-5" />
     },
     {
-      title: "Conversion Rate",
-      value: "24.8%",
-      change: "+4.1%",
+      title: "Trial Conversion",
+      value: "31.3%",
+      change: "+6.8%",
       changeType: "positive",
       icon: <Target className="w-5 h-5" />
     },
     {
-      title: "Avg. Order Value",
-      value: "$89.32",
-      change: "+12.7%",
+      title: "Annual Projection",
+      value: "$3.4M",
+      change: "+127%",
       changeType: "positive",
-      icon: <ShoppingBag className="w-5 h-5" />
+      icon: <TrendingUp className="w-5 h-5" />
     }
   ];
 
   const servicePerformance: ServicePerformance[] = [
     {
-      name: "Premium Templates",
-      revenue: 45230,
-      users: 1250,
-      conversionRate: 28.5,
-      growth: 15.2
+      name: "Enterprise Solutions",
+      revenue: 78000,
+      users: 234,
+      conversionRate: 45.8,
+      growth: 28.5
     },
     {
-      name: "AI Document Review",
-      revenue: 32100,
-      users: 890,
+      name: "Marketplace Services",
+      revenue: 42000,
+      users: 1890,
       conversionRate: 22.1,
-      growth: 32.8
+      growth: 35.2
     },
     {
-      name: "Legal Consultations",
-      revenue: 28900,
-      users: 145,
-      conversionRate: 45.2,
-      growth: 8.7
+      name: "Education & Training",
+      revenue: 39500,
+      users: 2145,
+      conversionRate: 18.4,
+      growth: 42.7
     },
     {
-      name: "Priority Filing",
-      revenue: 21220,
-      users: 320,
+      name: "Technology Services",
+      revenue: 40000,
+      users: 567,
       conversionRate: 35.6,
-      growth: 25.4
+      growth: 31.4
+    },
+    {
+      name: "Trial Conversions",
+      revenue: 35471,
+      users: 892,
+      conversionRate: 31.3,
+      growth: 25.8
+    },
+    {
+      name: "Professional Services",
+      revenue: 31500,
+      users: 1234,
+      conversionRate: 28.9,
+      growth: 19.6
     }
   ];
 

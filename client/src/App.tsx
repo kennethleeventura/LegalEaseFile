@@ -14,6 +14,7 @@ import MPCAssistant from "@/pages/mpc-assistant";
 import Subscribe from "@/pages/subscribe";
 import Pricing from "@/pages/pricing";
 import PremiumMarketplace from "@/pages/premium-marketplace";
+import ComprehensiveMarketplace from "@/pages/comprehensive-marketplace";
 import AnalyticsDashboard from "@/pages/analytics-dashboard";
 import NotFound from "@/pages/not-found";
 import Landing from "./pages/landing";
@@ -44,6 +45,7 @@ function Router() {
           <Route path="/subscribe" component={Subscribe} />
           <Route path="/pricing" component={Pricing} />
           <Route path="/premium-marketplace" component={PremiumMarketplace} />
+          <Route path="/marketplace" component={ComprehensiveMarketplace} />
           <Route path="/analytics" component={AnalyticsDashboard} />
         </>
       )}
