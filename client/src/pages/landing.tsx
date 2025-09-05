@@ -47,7 +47,7 @@ export default function Landing() {
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Streamline your legal document preparation and filing with intelligent AI analysis,
             emergency filing capabilities, and comprehensive pro bono legal assistance for Massachusetts Federal District Court.
-            <span className="font-semibold text-green-600"> Start your free trial today!</span>
+            <span className="font-semibold text-green-600"> Try all features free for 14 days, then choose your plan.</span>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button

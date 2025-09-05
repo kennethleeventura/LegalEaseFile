@@ -330,65 +330,68 @@ export class DatabaseStorage implements IStorage {
 
   // Subscription plan operations
   async getSubscriptionPlans(): Promise<any[]> {
-    // Free trial + subscription model for maximum conversion
+    // Trial-to-subscription model - users pay after trial
     return [
       {
         id: "free_trial",
-        name: "Free Trial",
-        description: "Try all premium features free for 14 days - no credit card required",
+        name: "14-Day Free Trial",
+        description: "Experience all features free - no credit card required to start",
         price: 0,
         priceId: null,
         interval: "trial",
         trialDays: 14,
         features: [
-          "🎉 14-day FREE trial - no credit card",
-          "✨ Unlimited documents and storage",
-          "🤖 Advanced AI analysis with GPT-4",
-          "📋 500+ Professional templates",
-          "🆘 Priority emergency filing",
+          "🎉 14-day FREE trial - no credit card to start",
+          "✨ Full access to all premium features",
+          "🤖 Unlimited AI document analysis",
+          "📋 Complete template library (500+)",
+          "🆘 Emergency filing support",
           "👥 Pro bono attorney network",
           "🔍 Advanced MPC AI insights",
           "📱 Mobile app access",
           "📤 All export formats",
-          "🤝 Team collaboration (5 members)",
+          "🤝 Team collaboration (up to 5 members)",
           "📊 Analytics dashboard",
-          "📞 Email support"
+          "📞 Priority email support"
         ],
         limits: {
-          documentsPerMonth: -1,
-          emergencyFilings: -1,
-          aiAnalysisMinutes: -1,
-          storageGB: -1,
+          documentsPerMonth: -1, // Unlimited during trial
+          emergencyFilings: -1, // Unlimited during trial
+          aiAnalysisMinutes: -1, // Unlimited during trial
+          storageGB: -1, // Unlimited during trial
           collaborators: 5,
-          templates: -1,
+          templates: -1, // All templates during trial
           trialDays: 14
         },
         isActive: true,
         sortOrder: 1,
-        badge: "🎉 FREE TRIAL",
+        badge: "🎉 START FREE",
         highlight: true,
-        ctaText: "Start Free Trial"
+        ctaText: "Start 14-Day Free Trial",
+        afterTrial: "Choose a plan to continue"
       },
       {
-        id: "starter_plan",
-        name: "Starter Plan",
-        description: "Perfect for individual lawyers and small practices",
-        price: 19.99,
-        priceId: "price_starter_monthly",
+        id: "essential_plan",
+        name: "Essential Plan",
+        description: "Perfect for solo practitioners and small firms",
+        price: 29.99,
+        priceId: "price_essential_monthly",
         interval: "month",
-        originalPrice: 39.99,
-        discount: "50% OFF",
+        annualPrice: 299.99, // 2 months free when paid annually
+        annualDiscount: "17% OFF",
         features: [
-          "✨ Everything in Free Trial",
+          "✨ Continue all trial features seamlessly",
           "📋 Unlimited premium templates",
-          "🤖 Advanced AI document analysis",
+          "🤖 Unlimited AI document analysis",
           "🆘 Priority emergency filing",
           "👥 Team collaboration (10 members)",
-          "📊 Basic analytics dashboard",
-          "📞 Email support",
+          "📊 Advanced analytics dashboard",
+          "📞 Priority email support",
           "📱 Mobile app access",
-          "💾 Enhanced cloud storage",
-          "🔄 Document version control"
+          "💾 Enhanced cloud storage (100GB)",
+          "🔄 Document version control",
+          "📤 Advanced export options",
+          "🔍 Enhanced search capabilities"
         ],
         limits: {
           documentsPerMonth: -1,
@@ -402,30 +405,33 @@ export class DatabaseStorage implements IStorage {
         sortOrder: 2,
         badge: "MOST POPULAR",
         highlight: true,
-        ctaText: "Continue with Starter"
+        ctaText: "Continue with Essential",
+        trialOffer: "First month 50% off - just $14.99"
       },
       {
         id: "professional_plan",
         name: "Professional Plan",
         description: "Advanced features for growing legal practices",
-        price: 49.99,
+        price: 79.99,
         priceId: "price_professional_monthly",
         interval: "month",
-        originalPrice: 79.99,
-        discount: "38% OFF",
+        annualPrice: 799.99, // 2 months free when paid annually
+        annualDiscount: "17% OFF",
         features: [
-          "✨ Everything in Starter Plan",
+          "✨ Everything in Essential Plan",
           "🎨 Custom branding & white-label",
           "👥 Unlimited team collaboration",
           "🔌 API access & integrations",
-          "📊 Advanced analytics dashboard",
+          "📊 Advanced analytics & reporting",
           "📞 Priority phone support",
-          "🏢 Law firm management tools",
-          "💼 Client portal access",
-          "🔄 Advanced version control",
-          "📈 Business intelligence reports",
-          "🎯 Custom template creation",
-          "🔐 Advanced security features"
+          "🏢 Advanced law firm management",
+          "💼 Client portal & communication",
+          "🔄 Advanced document workflows",
+          "📈 Business intelligence & insights",
+          "🎯 Custom template creation tools",
+          "🔐 Enterprise-grade security",
+          "⚡ Priority processing & filing",
+          "🤝 Dedicated customer success manager"
         ],
         limits: {
           documentsPerMonth: -1,
@@ -436,38 +442,44 @@ export class DatabaseStorage implements IStorage {
           templates: -1,
           customBranding: true,
           apiAccess: true,
-          prioritySupport: true
+          prioritySupport: true,
+          dedicatedManager: true
         },
         isActive: true,
         sortOrder: 3,
         badge: "BEST VALUE",
-        ctaText: "Upgrade to Professional"
+        ctaText: "Upgrade to Professional",
+        trialOffer: "First month 40% off - just $47.99"
       },
       {
         id: "enterprise_plan",
         name: "Enterprise Plan",
         description: "Complete solution for large law firms and organizations",
-        price: 149.99,
+        price: 199.99,
         priceId: "price_enterprise_monthly",
         interval: "month",
-        originalPrice: 299.99,
-        discount: "50% OFF",
+        annualPrice: 1999.99, // 2 months free when paid annually
+        annualDiscount: "17% OFF",
+        customPricing: true,
         features: [
           "✨ Everything in Professional Plan",
-          "🏢 Multi-office management",
-          "🔐 Advanced security & compliance",
-          "🤖 Custom AI model training",
-          "📊 Enterprise analytics suite",
-          "🔌 Custom integrations",
-          "👨‍💼 Dedicated account manager",
-          "📞 24/7 priority support",
-          "🎯 Custom template development",
-          "📈 Advanced reporting & insights",
-          "🔄 Enterprise-grade backups",
-          "🌐 White-label solutions",
-          "⚖️ Compliance reporting",
-          "🔒 SSO integration",
-          "📋 Custom workflows"
+          "🏢 Multi-office & multi-location management",
+          "🔐 Enterprise security & compliance suite",
+          "🤖 Custom AI model training & deployment",
+          "📊 Enterprise analytics & business intelligence",
+          "🔌 Custom integrations & API development",
+          "👨‍💼 Dedicated account manager & support team",
+          "📞 24/7 priority support with SLA guarantee",
+          "🎯 Custom template development service",
+          "📈 Advanced reporting & data insights",
+          "🔄 Enterprise-grade backups & disaster recovery",
+          "🌐 Full white-label & co-branding options",
+          "⚖️ Compliance reporting & audit trails",
+          "🔒 SSO integration & advanced authentication",
+          "📋 Custom workflows & automation",
+          "🎓 Training & onboarding for unlimited users",
+          "🔧 Custom feature development",
+          "📱 Custom mobile app development"
         ],
         limits: {
           documentsPerMonth: -1,
@@ -481,12 +493,14 @@ export class DatabaseStorage implements IStorage {
           prioritySupport: true,
           dedicatedSupport: true,
           ssoIntegration: true,
-          customWorkflows: true
+          customWorkflows: true,
+          customDevelopment: true
         },
         isActive: true,
         sortOrder: 4,
         badge: "ENTERPRISE",
-        ctaText: "Contact Sales"
+        ctaText: "Contact Sales",
+        trialOffer: "Extended 30-day trial available"
       }
     ];
   }

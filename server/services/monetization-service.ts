@@ -750,11 +750,11 @@ export class MonetizationService {
 export class RevenueAnalytics {
   static async getRevenueStreams() {
     return {
-      subscriptions: {
-        trial_conversions: 35471, // Monthly from trial conversions
-        starter_plan: 10675,
-        professional_plan: 14447,
-        enterprise_plan: 10349
+      primary_subscriptions: {
+        essential_plan: 89970, // 3000 users × $29.99
+        professional_plan: 95988, // 1200 users × $79.99
+        enterprise_plan: 59997, // 300 users × $199.99
+        total_subscription_revenue: 245955 // 86% of total revenue
       },
       marketplace_services: {
         premium_templates: 15000,
@@ -804,16 +804,20 @@ export class RevenueAnalytics {
     return {
       total_monthly_revenue: 285471,
       breakdown: {
-        subscriptions: 35471, // 12.4%
-        marketplace: 42000, // 14.7%
-        education: 39500, // 13.8%
-        professional_services: 31500, // 11.0%
-        technology: 40000, // 14.0%
-        commissions: 19000, // 6.7%
-        data_services: 10000, // 3.5%
-        enterprise: 78000 // 27.3%
+        primary_subscriptions: 245955, // 86.2% - Main revenue source
+        additional_services: 15000, // 5.3% - Premium add-ons
+        marketplace_commissions: 12000, // 4.2% - Passive income
+        enterprise_services: 8000, // 2.8% - Custom solutions
+        training_education: 4516 // 1.6% - Courses & certifications
       },
-      growth_rate: 15, // 15% monthly growth
+      subscription_metrics: {
+        total_subscribers: 4500,
+        average_revenue_per_user: 54.66,
+        monthly_churn_rate: 3.2,
+        trial_conversion_rate: 31.3,
+        annual_contract_value: 656
+      },
+      growth_rate: 12, // 12% monthly growth
       annual_projection: 3425652 // $3.4M annually
     };
   }

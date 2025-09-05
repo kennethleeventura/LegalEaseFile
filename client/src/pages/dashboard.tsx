@@ -36,6 +36,30 @@ export default function Dashboard() {
     <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" data-testid="dashboard">
       <EmergencyAlert />
 
+      {/* Trial Status Banner */}
+      <div className="px-4 py-4 sm:px-0">
+        <Card className="border-2 border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Clock className="w-6 h-6 text-orange-600" />
+              <div>
+                <h3 className="font-semibold text-gray-900">Free Trial Active</h3>
+                <p className="text-sm text-gray-600">7 days remaining • Full access to all features</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <Button variant="outline" className="border-orange-300 text-orange-700 hover:bg-orange-100">
+                View Plans
+              </Button>
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                <Gift className="w-4 h-4 mr-2" />
+                Upgrade Now
+              </Button>
+            </div>
+          </div>
+        </Card>
+      </div>
+
       {/* Main Header */}
       <div className="px-4 py-6 sm:px-0">
         <Card className="border-4 border-dashed border-purple-200 bg-gradient-to-br from-blue-50 to-purple-50 p-8" data-testid="main-header">
@@ -49,20 +73,20 @@ export default function Dashboard() {
             </h1>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto mb-6">
               AI-powered document preparation and filing for the U.S. District Court for the District of Massachusetts.
-              <span className="font-semibold text-green-600"> Completely free forever</span> - no subscriptions, no limits.
+              <span className="font-semibold text-blue-600"> You're on a free trial</span> - experience all premium features.
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-sm">
               <div className="flex items-center bg-white px-3 py-1 rounded-full shadow-sm">
                 <Gift className="w-4 h-4 text-green-500 mr-1" />
-                <span>Always Free</span>
+                <span>14-Day Trial</span>
               </div>
               <div className="flex items-center bg-white px-3 py-1 rounded-full shadow-sm">
                 <Star className="w-4 h-4 text-yellow-500 mr-1" />
-                <span>No Credit Card</span>
+                <span>All Features</span>
               </div>
               <div className="flex items-center bg-white px-3 py-1 rounded-full shadow-sm">
                 <TrendingUp className="w-4 h-4 text-blue-500 mr-1" />
-                <span>Unlimited Usage</span>
+                <span>No Limits</span>
               </div>
             </div>
           </div>
