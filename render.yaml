@@ -1,0 +1,61 @@
+services:
+  # Main Web Service
+  - type: web
+    name: legaleasefile
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: legaleasefile-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: STRIPE_PUBLIC_KEY
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: VITE_STRIPE_PUBLIC_KEY
+        sync: false
+
+  # PostgreSQL Database
+  - type: pserv
+    name: legaleasefile-db
+    env: postgresql
+    plan: free
+    databaseName: legaleasefile
+    user: legaleasefile_user
+
+  # Background Worker (for processing jobs)
+  - type: worker
+    name: legaleasefile-worker
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: node dist/worker.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: legaleasefile-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: legaleasefile-redis
+          property: connectionString
+
+  # Redis for caching and job queues
+  - type: redis
+    name: legaleasefile-redis
+    plan: free
+    maxmemoryPolicy: allkeys-lru
