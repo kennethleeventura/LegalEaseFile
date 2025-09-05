@@ -15,6 +15,7 @@ import Subscribe from "@/pages/subscribe";
 import Pricing from "@/pages/pricing";
 import PremiumMarketplace from "@/pages/premium-marketplace";
 import ComprehensiveMarketplace from "@/pages/comprehensive-marketplace";
+import UltimateMarketplace from "@/pages/ultimate-marketplace";
 import AnalyticsDashboard from "@/pages/analytics-dashboard";
 import NotFound from "@/pages/not-found";
 import Landing from "./pages/landing";
@@ -46,6 +47,7 @@ function Router() {
           <Route path="/pricing" component={Pricing} />
           <Route path="/premium-marketplace" component={PremiumMarketplace} />
           <Route path="/marketplace" component={ComprehensiveMarketplace} />
+          <Route path="/ultimate-marketplace" component={UltimateMarketplace} />
           <Route path="/analytics" component={AnalyticsDashboard} />
         </>
       )}

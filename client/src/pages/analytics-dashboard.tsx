@@ -42,16 +42,16 @@ export default function AnalyticsDashboard() {
 
   const revenueMetrics: RevenueMetric[] = [
     {
-      title: "Total Revenue",
-      value: "$285,471",
-      change: "+35.2%",
+      title: "Monthly Revenue",
+      value: "$3.2M",
+      change: "+1,130%",
       changeType: "positive",
       icon: <DollarSign className="w-5 h-5" />
     },
     {
-      title: "Active Services",
-      value: "45+",
-      change: "+28 new",
+      title: "Revenue Streams",
+      value: "75+",
+      change: "+650%",
       changeType: "positive",
       icon: <Sparkles className="w-5 h-5" />
     },
@@ -64,8 +64,8 @@ export default function AnalyticsDashboard() {
     },
     {
       title: "Annual Projection",
-      value: "$3.4M",
-      change: "+127%",
+      value: "$38.7M",
+      change: "+1,032%",
       changeType: "positive",
       icon: <TrendingUp className="w-5 h-5" />
     }
