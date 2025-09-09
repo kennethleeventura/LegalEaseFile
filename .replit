@@ -1,0 +1,18 @@
+# .replit - LegalEaseFile configuration for Replit
+
+# Command to start your app
+run = "node dist/index.js"
+
+# Language
+language = "nodejs"
+
+# Replit agent settings (optional, if you use Replit AI Agents)
+[agent]
+enabled = false
+
+# Replit Auth
+[auth]
+enabled = true
+
+# Optional: Show output logs in console
+console = "integrated"
