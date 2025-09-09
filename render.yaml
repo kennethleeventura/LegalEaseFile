@@ -12,6 +12,6 @@ services:
       - key: PORT
         value: 10000
       - key: ALLOWED_DOMAINS
-        value: legaleasefile.online
+        value: legaleasefile.onrender.com
       - key: OPENAI_API_KEY
         sync: false
