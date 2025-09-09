@@ -61,8 +61,20 @@ export class DatabaseStorage implements IStorage {
     this.initializeData().catch(console.error);
   }
 
+  private throwIfNoDatabase() {
+    if (!db) {
+      throw new Error('Database not connected. Database features are disabled.');
+    }
+  }
+
   private async initializeData() {
     try {
+      // Skip database initialization if database is not connected
+      if (!db) {
+        console.log('Database not connected, skipping data initialization');
+        return;
+      }
+      
       // Check if we need to seed data
       const existingTemplates = await db.select().from(documentTemplates).limit(1);
       if (existingTemplates.length > 0) return;
@@ -190,7 +202,8 @@ export class DatabaseStorage implements IStorage {
 
   // User operations
   async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
+    this.throwIfNoDatabase();
+    const [user] = await db!.select().from(users).where(eq(users.id, id));
     return user;
   }
 

@@ -8,7 +8,8 @@ export class AirtableMPCService {
   
   constructor() {
     if (!process.env.AIRTABLE_API_KEY || !process.env.AIRTABLE_BASE_ID) {
-      throw new Error('Airtable credentials not configured');
+      console.warn('Airtable credentials not configured. MPC features will be disabled.');
+      return;
     }
     
     Airtable.configure({

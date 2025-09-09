@@ -2,12 +2,20 @@ import OpenAI from "openai";
 import { type DocumentAnalysisResult } from "@shared/schema";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR || "your-openai-api-key" 
-});
+const openai = process.env.OPENAI_API_KEY ? new OpenAI({ 
+  apiKey: process.env.OPENAI_API_KEY
+}) : null;
+
+if (!process.env.OPENAI_API_KEY) {
+  console.warn('OPENAI_API_KEY not configured. AI features will be disabled.');
+}
 
 export class DocumentAnalysisService {
   async analyzeDocument(content: string, filename: string): Promise<DocumentAnalysisResult> {
+    if (!openai) {
+      throw new Error('OpenAI service not available. AI features are disabled.');
+    }
+    
     try {
       const response = await openai.chat.completions.create({
         model: "gpt-4o",
