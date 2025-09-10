@@ -2,10 +2,12 @@ services:
   - type: web
     name: legaleasefile
     env: node
-    buildCommand: npm install && npm run build
+    buildCommand: node build-script.cjs
     startCommand: npm start
     plan: free
     region: oregon
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NODE_OPTIONS
+        value: "--max-old-space-size=4096"

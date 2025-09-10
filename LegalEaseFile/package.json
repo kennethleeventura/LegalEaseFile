@@ -4,12 +4,13 @@
   "type": "module",
   "license": "MIT",
   "engines": {
-    "node": ">=18.0.0",
+    "node": "22.x",
     "npm": ">=8.0.0"
   },
   "scripts": {
     "dev": "NODE_ENV=development tsx server/index.ts",
-    "build": "npm run build:client && npm run build:server",
+    "build": "node build-script.cjs",
+    "build:legacy": "npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "NODE_ENV=production node dist/index.js",
