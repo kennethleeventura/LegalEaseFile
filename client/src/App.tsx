@@ -26,23 +26,24 @@ function Router() {
     );
   }
 
+  if (!isAuthenticated) {
+    return <Landing />;
+  }
+
   return (
-    <Switch>
-      {!isAuthenticated ? (
-        <Route path="/" component={Landing} />
-      ) : (
-        <>
-          <Route path="/" component={Dashboard} />
-          <Route path="/file-document" component={FileDocument} />
-          <Route path="/emergency-filing" component={EmergencyFiling} />
-          <Route path="/pro-bono-search" component={ProBonoSearch} />
-          <Route path="/case-management" component={CaseManagement} />
-          <Route path="/mpc-assistant" component={MPCAssistant} />
-          <Route path="/subscribe" component={Subscribe} />
-        </>
-      )}
-      <Route component={NotFound} />
-    </Switch>
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <Switch>
+        <Route path="/" component={Dashboard} />
+        <Route path="/file-document" component={FileDocument} />
+        <Route path="/emergency-filing" component={EmergencyFiling} />
+        <Route path="/pro-bono-search" component={ProBonoSearch} />
+        <Route path="/case-management" component={CaseManagement} />
+        <Route path="/mpc-assistant" component={MPCAssistant} />
+        <Route path="/subscribe" component={Subscribe} />
+        <Route component={NotFound} />
+      </Switch>
+    </div>
   );
 }
 
@@ -50,11 +51,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div className="min-h-screen bg-gray-50">
-          <Navigation />
-          <Router />
-          <Toaster />
-        </div>
+        <Router />
+        <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
   );
