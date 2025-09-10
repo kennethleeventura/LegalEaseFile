@@ -55,10 +55,10 @@ try {
   // Step 6: Verify build outputs
   console.log('\n🔍 Verifying build outputs...');
   
-  const clientBuildExists = fs.existsSync('dist/index.html');
+  const clientBuildExists = fs.existsSync('dist/public/index.html');
   const serverBuildExists = fs.existsSync('dist/index.js');
   
-  console.log(`📄 Client build (dist/index.html): ${clientBuildExists ? '✅' : '❌'}`);
+  console.log(`📄 Client build (dist/public/index.html): ${clientBuildExists ? '✅' : '❌'}`);
   console.log(`⚙️  Server build (dist/index.js): ${serverBuildExists ? '✅' : '❌'}`);
   
   if (!serverBuildExists) {
@@ -66,7 +66,7 @@ try {
   }
   
   if (!clientBuildExists) {
-    console.warn('⚠️  Client build verification failed - but continuing...');
+    throw new Error('Client build failed - dist/public/index.html not found');
   }
 
   console.log('\n🎉 Build completed successfully!');
