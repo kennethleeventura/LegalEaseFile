@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: legaleasefile
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm ci && npm run build:vite && npm run build:server
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION  
+        value: "22"
