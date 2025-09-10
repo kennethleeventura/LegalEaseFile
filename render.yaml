@@ -3,7 +3,7 @@ services:
     name: legaleasefile
     runtime: node
     plan: free
-    buildCommand: npm install --production=false && npm run build
+    buildCommand: npm ci && npm run build
     startCommand: npm run start
     healthCheckPath: /
     envVars:
