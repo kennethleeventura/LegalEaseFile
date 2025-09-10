@@ -9,7 +9,7 @@ import connectPg from "connect-pg-simple";
 import { storage } from "./storage";
 
 // Allow flexible domain configuration for different deployment platforms
-const allowedDomains = process.env.REPLIT_DOMAINS || process.env.ALLOWED_DOMAINS || process.env.DOMAINS;
+let allowedDomains = process.env.REPLIT_DOMAINS || process.env.ALLOWED_DOMAINS || process.env.DOMAINS;
 
 // Debug logging for deployment troubleshooting
 console.log("🔍 Domain Environment Variables Check:");
@@ -19,9 +19,11 @@ console.log("DOMAINS:", process.env.DOMAINS ? "SET" : "NOT SET");
 console.log("Final allowedDomains:", allowedDomains);
 
 if (!allowedDomains) {
-  console.error("❌ No domain environment variable found!");
-  console.error("Available environment variables:", Object.keys(process.env).filter(key => key.includes('DOMAIN')));
-  throw new Error("Environment variable REPLIT_DOMAINS, ALLOWED_DOMAINS, or DOMAINS not provided. Please set one of these variables with your domain (e.g., ALLOWED_DOMAINS=your-app.onrender.com)");
+  console.warn("⚠️ No domain environment variable found! Using default domains.");
+  console.warn("Available environment variables:", Object.keys(process.env).filter(key => key.includes('DOMAIN')));
+  console.warn("For production, set ALLOWED_DOMAINS=your-app.onrender.com");
+  // Use default domains for development/deployment
+  allowedDomains = "localhost,127.0.0.1,legaleasefile.onrender.com,legaleasefile.online";
 }
 
 const getOidcConfig = memoize(
@@ -36,21 +38,31 @@ const getOidcConfig = memoize(
 
 export function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
-  const pgStore = connectPg(session);
-  const sessionStore = new pgStore({
-    conString: process.env.DATABASE_URL,
-    createTableIfMissing: false,
-    ttl: sessionTtl,
-    tableName: "sessions",
-  });
+  
+  // Use memory store if database not available
+  let sessionStore;
+  if (process.env.DATABASE_URL) {
+    const pgStore = connectPg(session);
+    sessionStore = new pgStore({
+      conString: process.env.DATABASE_URL,
+      createTableIfMissing: false,
+      ttl: sessionTtl,
+      tableName: "sessions",
+    });
+  } else {
+    console.warn("DATABASE_URL not configured - using memory store for sessions");
+    // Use default memory store (sessions won't persist across restarts)
+    sessionStore = undefined;
+  }
+  
   return session({
-    secret: process.env.SESSION_SECRET!,
+    secret: process.env.SESSION_SECRET || "fallback-secret-for-development",
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: true,
+      secure: false, // Set to false for development without HTTPS
       maxAge: sessionTtl,
     },
   });
@@ -83,6 +95,12 @@ export async function setupAuth(app: Express) {
   app.use(getSession());
   app.use(passport.initialize());
   app.use(passport.session());
+
+  // Skip OIDC setup if REPL_ID is not available
+  if (!process.env.REPL_ID) {
+    console.warn("REPL_ID not configured - authentication will be disabled");
+    return;
+  }
 
   const config = await getOidcConfig();
 

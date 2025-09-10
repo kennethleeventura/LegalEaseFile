@@ -15,10 +15,12 @@ import {
   type EmergencyFilingRequest,
 } from "@shared/schema";
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+let stripe: Stripe | null = null;
+if (process.env.STRIPE_SECRET_KEY) {
+  stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+} else {
+  console.warn("STRIPE_SECRET_KEY not provided - payment features will be disabled");
 }
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication
@@ -39,6 +41,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Subscription management
   app.post("/api/create-subscription", isAuthenticated, async (req: any, res) => {
     try {
+      if (!stripe) {
+        return res.status(503).json({ message: "Payment features not configured" });
+      }
+      
       const userId = req.user.claims.sub;
       const user = await storage.getUser(userId);
       

@@ -2,7 +2,9 @@ import OpenAI from "openai";
 import { airtableMPC } from "./airtable-mpc.js";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = process.env.OPENAI_API_KEY ? new OpenAI({ 
+  apiKey: process.env.OPENAI_API_KEY
+}) : null;
 
 interface ExhibitListItem {
   exhibitNumber: string;
@@ -31,6 +33,11 @@ export class MPCAIService {
    */
   async generateExhibitList(caseId: string): Promise<ExhibitListItem[]> {
     try {
+      if (!openai) {
+        console.warn('OpenAI not configured - returning empty exhibit list');
+        return [];
+      }
+      
       // Get case data from Airtable MPC
       const caseData = await airtableMPC.getCase(caseId);
       if (!caseData) {
@@ -97,6 +104,25 @@ export class MPCAIService {
     formType: string;
   }): Promise<FormPopulationData> {
     try {
+      if (!openai) {
+        console.warn('OpenAI not configured - returning basic form data');
+        return {
+          caseNumber: "Not available",
+          clientName: params.clientName || "Not specified",
+          documentType: params.documentType || "Not specified",
+          jurisdiction: "Massachusetts Federal District Court",
+          emergencyType: "Not applicable",
+          priorFilings: [],
+          relatedCases: [],
+          suggestedContent: {
+            caption: "Auto-population not available",
+            background: "OpenAI not configured",
+            legalBasis: "Please configure AI features",
+            relief: "Manual completion required"
+          }
+        };
+      }
+      
       const { clientName, caseType, documentType, formType } = params;
 
       // Search for similar cases in the database
@@ -169,6 +195,17 @@ export class MPCAIService {
     requiredDocuments: string[];
   }> {
     try {
+      if (!openai) {
+        console.warn('OpenAI not configured - returning basic insights');
+        return {
+          similarCases: [],
+          riskFactors: ["AI features not configured"],
+          recommendations: ["Configure OpenAI to get insights"],
+          timelineEstimate: "Unable to estimate without AI",
+          requiredDocuments: ["Manual review required"]
+        };
+      }
+      
       const caseData = await airtableMPC.getCase(caseId);
       if (!caseData) {
         throw new Error('Case not found');
@@ -234,6 +271,20 @@ export class MPCAIService {
     confidence: number;
   }> {
     try {
+      if (!openai) {
+        console.warn('OpenAI not configured - returning default template');
+        return {
+          templateId: "default-template",
+          templateName: "Default Template",
+          customizations: {
+            jurisdiction: "Mass. Fed. Dist. Court",
+            specialProvisions: ["Manual customization required"],
+            urgencyLevel: "standard"
+          },
+          confidence: 0.5
+        };
+      }
+      
       // Get similar cases for template analysis
       const similarCases = await airtableMPC.searchCases({
         documentType: caseData.documentType
