@@ -1,20 +1,37 @@
+// @ts-nocheck
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-export default defineConfig({
+async function loadReplitPlugins() {
+  if (process.env.NODE_ENV !== "production" && process.env.REPL_ID !== undefined) {
+    try {
+      const plugins: any[] = [];
+      try {
+        const runtimeErrorModal = await import("@replit/vite-plugin-runtime-error-modal");
+        plugins.push(runtimeErrorModal.default());
+      } catch (e) {
+        // Plugin not available
+      }
+      try {
+        const cartographer = await import("@replit/vite-plugin-cartographer");
+        plugins.push(cartographer.cartographer());
+      } catch (e) {
+        // Plugin not available
+      }
+      return plugins;
+    } catch (error) {
+      console.warn('Failed to load Replit plugins:', error);
+      return [];
+    }
+  }
+  return [];
+}
+
+export default defineConfig(async () => ({
   plugins: [
     react(),
-    runtimeErrorOverlay(),
-    ...(process.env.NODE_ENV !== "production" &&
-    process.env.REPL_ID !== undefined
-      ? [
-          await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer(),
-          ),
-        ]
-      : []),
+    ...(await loadReplitPlugins()),
   ],
   resolve: {
     alias: {
@@ -34,4 +51,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));

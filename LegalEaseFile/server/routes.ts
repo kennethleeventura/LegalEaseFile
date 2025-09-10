@@ -27,7 +27,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user!.claims.sub;
       const user = await storage.getUser(userId);
       res.json(user);
     } catch (error) {
@@ -39,7 +39,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Subscription management
   app.post("/api/create-subscription", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user!.claims.sub;
       const user = await storage.getUser(userId);
       
       if (!user) {
@@ -117,7 +117,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No file uploaded" });
       }
 
-      const userId = req.user.claims.sub;
+      const userId = req.user!.claims.sub;
 
       // Extract text content
       const textContent = DocumentProcessor.extractTextFromBuffer(
@@ -333,7 +333,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get user filing history (authenticated)
   app.get("/api/filing-history/user", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user!.claims.sub;
       const history = await storage.getFilingHistory(userId);
       res.json(history);
     } catch (error) {
@@ -346,7 +346,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // CM/ECF system status check (requires PACER account)
   app.get("/api/cmecf/status", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user?.claims?.sub;
+      const userId = req.user!.claims.sub;
       const user = await storage.getUser(userId);
       
       if (!user || !user.pacerAccountLinked) {
@@ -372,7 +372,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // PACER account linking (requires real PACER credentials)
   app.post("/api/pacer/link", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user?.claims?.sub;
+      const userId = req.user!.claims.sub;
       const { pacerUsername, pacerPassword } = req.body;
       
       if (!pacerUsername || !pacerPassword) {

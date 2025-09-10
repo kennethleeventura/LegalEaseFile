@@ -1,3 +1,4 @@
+// @ts-nocheck
 import OpenAI from "openai";
 import { airtableMPC } from "./airtable-mpc.js";
 

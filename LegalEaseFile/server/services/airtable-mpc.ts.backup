@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Airtable from 'airtable';
 import crypto from 'crypto';
 
@@ -26,14 +25,14 @@ export class AirtableMPCService {
   }
   
   private encryptSensitiveData(data: string): string {
-    const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(this.encryptionKey, 'hex').slice(0, 32), crypto.randomBytes(16));
+    const cipher = crypto.createCipher('aes-256-cbc', this.encryptionKey);
     let encrypted = cipher.update(data, 'utf8', 'hex');
     encrypted += cipher.final('hex');
     return encrypted;
   }
   
   private decryptSensitiveData(encryptedData: string): string {
-    const decipher = crypto.createDecipheriv('aes-256-cbc', this.encryptionKey);
+    const decipher = crypto.createDecipher('aes-256-cbc', this.encryptionKey);
     let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
     return decrypted;
