@@ -26,17 +26,31 @@ function TestApp() {
 }
 
 try {
-  const rootElement = document.getElementById("root");
-  console.log("🎯 Root element:", rootElement);
-  
-  if (rootElement) {
-    const root = createRoot(rootElement);
-    console.log("✅ Creating React root...");
-    root.render(<TestApp />);
-    console.log("🎊 React app rendered!");
-  } else {
-    document.body.innerHTML = '<div style="background: red; color: white; padding: 50px;">❌ No root element found!</div>';
-  }
+  // Wait for DOM to be ready
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM Content Loaded!");
+    
+    const rootElement = document.getElementById("root");
+    console.log("🎯 Root element:", rootElement);
+    console.log("🎯 Document body:", document.body);
+    console.log("🎯 All elements with id:", document.querySelectorAll('[id]'));
+    
+    if (rootElement) {
+      const root = createRoot(rootElement);
+      console.log("✅ Creating React root...");
+      root.render(<TestApp />);
+      console.log("🎊 React app rendered!");
+    } else {
+      // Create root element if it doesn't exist
+      const newRoot = document.createElement('div');
+      newRoot.id = 'root';
+      document.body.appendChild(newRoot);
+      
+      const root = createRoot(newRoot);
+      root.render(<TestApp />);
+      console.log("🎊 Created root element and rendered!");
+    }
+  });
   
 } catch (error) {
   console.error("💥 Error in main.tsx:", error);
