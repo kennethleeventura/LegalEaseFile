@@ -16,22 +16,19 @@ import NotFound from "@/pages/not-found";
 import Landing from "./pages/landing";
 
 function Router() {
-  console.log("🎯 Router rendering - bypassing auth for now");
+  console.log("🎯 Router rendering - comprehensive app enabled");
   
   try {
-    // TEMPORARY: Bypass authentication completely to get app working
-    // Always show Landing page until auth is fully fixed
-    console.log("🔄 Showing Landing page (auth bypassed)");
-    return <Landing />;
-    
-    /* DISABLED: Authentication system (causing white screen)
     const { isAuthenticated, isLoading } = useAuth();
 
     if (isLoading) {
       return (
-        <div style={{ padding: '50px', textAlign: 'center', backgroundColor: 'yellow' }}>
-          <h2>Loading authentication...</h2>
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <h2 className="text-xl font-semibold text-gray-700">Loading LegalEaseFile...</h2>
+            <p className="text-gray-500 mt-2">Authenticating your session</p>
+          </div>
         </div>
       );
     }
@@ -55,14 +52,20 @@ function Router() {
         </Switch>
       </div>
     );
-    */
   } catch (error) {
     console.error("💥 Router error:", error);
     return (
-      <div style={{ padding: '50px', backgroundColor: 'red', color: 'white' }}>
-        <h1>Error in Router</h1>
-        <p>{error.toString()}</p>
-        <h2>Fallback: Welcome to LegalEaseFile!</h2>
+      <div className="min-h-screen flex items-center justify-center bg-red-50">
+        <div className="text-center p-8 bg-white rounded-lg shadow-lg max-w-md">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">Application Error</h1>
+          <p className="text-gray-700 mb-4">{error.toString()}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Reload Application
+          </button>
+        </div>
       </div>
     );
   }
@@ -72,11 +75,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div style={{ padding: '20px', backgroundColor: 'lightblue', minHeight: '100vh' }}>
-          <h1 style={{ color: 'black', fontSize: '24px' }}>LegalEaseFile App Loading...</h1>
-          <Router />
-          <Toaster />
-        </div>
+        <Router />
+        <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
   );
