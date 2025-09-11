@@ -78,8 +78,13 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
-  // fall through to index.html if the file doesn't exist
+  // fall through to test.html for now to verify deployment works
   app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+    const testFile = path.resolve(import.meta.dirname, "..", "test.html");
+    if (fs.existsSync(testFile)) {
+      res.sendFile(testFile);
+    } else {
+      res.sendFile(path.resolve(distPath, "index.html"));
+    }
   });
 }
