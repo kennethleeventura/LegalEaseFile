@@ -1,59 +1,57 @@
 import { createRoot } from "react-dom/client";
 
-console.log("🚀 DEBUGGING: Script started");
+console.log("🚀 TESTING: Bypass QueryClient - test just Landing component");
 
-// Minimal test to isolate the issue
-function MinimalApp() {
-  console.log("🎯 MinimalApp rendering");
+// Simple Landing component test
+function TestLanding() {
+  console.log("🎯 TestLanding rendering");
   
-  try {
-    return (
-      <div style={{ 
-        padding: '50px', 
-        backgroundColor: 'green', 
-        color: 'white',
-        minHeight: '100vh',
-        fontSize: '20px'
-      }}>
-        <h1>🟢 MINIMAL APP WORKING!</h1>
-        <p>This proves React can render basic components.</p>
-        <p>Time: {new Date().toLocaleTimeString()}</p>
-        
-        <div style={{ marginTop: '20px', padding: '20px', backgroundColor: 'darkgreen' }}>
-          <h2>Next: Test complex components</h2>
-          <p>If you see this, the issue is in the full App component imports/dependencies.</p>
-        </div>
+  return (
+    <div style={{ 
+      padding: '50px', 
+      backgroundColor: 'blue', 
+      color: 'white',
+      minHeight: '100vh',
+      fontSize: '18px'
+    }}>
+      <h1>🔵 TESTING LANDING COMPONENT</h1>
+      <p>This tests if the issue is in authentication/QueryClient.</p>
+      <p>If you see this blue screen, the issue is specifically with:</p>
+      <ul>
+        <li>useAuth hook making API calls</li>
+        <li>QueryClient configuration</li>
+        <li>Authentication flow</li>
+      </ul>
+      
+      <div style={{ marginTop: '30px', padding: '20px', backgroundColor: 'darkblue' }}>
+        <h2>🔧 DIAGNOSIS</h2>
+        <p>The App component imports useAuth which makes an API call immediately.</p>
+        <p>This API call likely fails and crashes the whole component tree.</p>
+        <p>Solution: Fix the QueryClient error handling or make auth optional.</p>
       </div>
-    );
-  } catch (error) {
-    console.error("💥 Error in MinimalApp:", error);
-    return (
-      <div style={{ padding: '50px', backgroundColor: 'red', color: 'white' }}>
-        <h1>❌ MinimalApp Error: {error.message}</h1>
-      </div>
-    );
-  }
+    </div>
+  );
 }
 
 setTimeout(() => {
-  console.log("🔄 Starting minimal React render");
+  console.log("🔄 Starting Landing component test");
   
   try {
     const rootElement = document.getElementById("root");
     if (rootElement) {
-      console.log("✅ Root found, rendering MinimalApp");
-      createRoot(rootElement).render(<MinimalApp />);
-      console.log("🎊 MinimalApp rendered successfully");
+      console.log("✅ Root found, rendering TestLanding");
+      createRoot(rootElement).render(<TestLanding />);
+      console.log("🎊 TestLanding rendered successfully");
     } else {
       console.error("❌ No root element found");
       const newRoot = document.createElement('div');
       newRoot.id = 'root';
       document.body.appendChild(newRoot);
-      createRoot(newRoot).render(<MinimalApp />);
-      console.log("✅ Created root and rendered MinimalApp");
+      createRoot(newRoot).render(<TestLanding />);
+      console.log("✅ Created root and rendered TestLanding");
     }
   } catch (error) {
-    console.error("💥 Error rendering MinimalApp:", error);
+    console.error("💥 Error rendering TestLanding:", error);
     document.body.innerHTML = `<h1 style="padding: 50px; background: red; color: white;">💥 Fatal Error: ${error.message}</h1>`;
   }
 }, 500);
