@@ -78,13 +78,17 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
-  // fall through to test.html for now to verify deployment works
+  // fall through to React app, with test deployment fallback
   app.use("*", (_req, res) => {
-    const testFile = path.resolve(import.meta.dirname, "..", "test.html");
-    if (fs.existsSync(testFile)) {
-      res.sendFile(testFile);
+    const reactApp = path.resolve(distPath, "index.html");
+    const testDeployment = path.resolve(import.meta.dirname, "..", "test-deployment.html");
+    
+    if (fs.existsSync(reactApp)) {
+      res.sendFile(reactApp);
+    } else if (fs.existsSync(testDeployment)) {
+      res.sendFile(testDeployment);
     } else {
-      res.sendFile(path.resolve(distPath, "index.html"));
+      res.status(404).send("LegalEaseFile - Service temporarily unavailable");
     }
   });
 }
