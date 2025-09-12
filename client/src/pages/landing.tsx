@@ -50,7 +50,7 @@ export default function Landing() {
   }, []);
 
   const handleLogin = () => {
-    window.location.href = "/api/login";
+    window.location.href = "/auth";
   };
 
   const scrollToSection = (ref: React.RefObject<HTMLElement>) => {

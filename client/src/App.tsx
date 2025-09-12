@@ -18,6 +18,7 @@ const Features = React.lazy(() => import("./pages/features").catch(() => ({ defa
 const Pricing = React.lazy(() => import("./pages/pricing").catch(() => ({ default: () => <div>Pricing unavailable</div> })));
 const About = React.lazy(() => import("./pages/about").catch(() => ({ default: () => <div>About unavailable</div> })));
 const Blog = React.lazy(() => import("./pages/blog").catch(() => ({ default: () => <div>Blog unavailable</div> })));
+const Auth = React.lazy(() => import("./pages/auth").catch(() => ({ default: () => <div>Auth unavailable</div> })));
 
 import React, { Suspense } from "react";
 
@@ -74,6 +75,10 @@ function Router() {
         <Route path="/pricing" component={Pricing} />
         <Route path="/about" component={About} />
         <Route path="/blog" component={Blog} />
+        <Route path="/auth" component={Auth} />
+        <Route path="/signin" component={Auth} />
+        <Route path="/signup" component={Auth} />
+        <Route path="/login" component={Auth} />
         
         {/* Protected Pages - Full Features */}
         <Route path="/dashboard" component={ProtectedRoute} />

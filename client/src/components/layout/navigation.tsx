@@ -7,7 +7,7 @@ export default function Navigation() {
   const [location] = useLocation();
 
   const navItems = [
-    { path: "/", label: "Dashboard", testId: "nav-dashboard" },
+    { path: "/dashboard", label: "Dashboard", testId: "nav-dashboard" },
     { path: "/file-document", label: "File Document", testId: "nav-file-document" },
     { path: "/emergency-filing", label: "Emergency Filing", testId: "nav-emergency" },
     { path: "/pro-bono-search", label: "Find Legal Help", testId: "nav-probono" },
@@ -36,9 +36,9 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center" data-testid="logo-link">
+            <Link href="/dashboard" className="flex items-center" data-testid="logo-link">
               <Scale className="text-primary-600 text-2xl mr-3" />
-              <span className="text-xl font-bold text-gray-900">LegalFile AI</span>
+              <span className="text-xl font-bold text-gray-900">LegalEaseFile</span>
             </Link>
             <div className="ml-10">
               <NavLinks />
