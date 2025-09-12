@@ -72,20 +72,17 @@ function Router() {
     return (
       <Suspense fallback={<div style={{ padding: "2rem", textAlign: "center" }}>Loading LegalEaseFile...</div>}>
         <Switch>
-          {/* Public Pages - Always Accessible */}
-          <Route path="/" component={Landing} />
+          {/* Direct Filing Access - No Auth Required */}
+          <Route path="/" component={ProtectedRoute} />
+          <Route path="/file-document" component={ProtectedRoute} />
+          <Route path="/dashboard" component={ProtectedRoute} />
+          
+          {/* Public Pages */}
           <Route path="/features" component={Features} />
           <Route path="/pricing" component={Pricing} />
           <Route path="/about" component={About} />
           <Route path="/blog" component={Blog} />
-          <Route path="/auth" component={Auth} />
-          <Route path="/signin" component={Auth} />
-          <Route path="/signup" component={Auth} />
-          <Route path="/login" component={Auth} />
-          
-          {/* Protected Pages - Full Features */}
-          <Route path="/dashboard" component={ProtectedRoute} />
-          <Route path="/file-document" component={ProtectedRoute} />
+          <Route path="/landing" component={Landing} />
           <Route path="/emergency-filing" component={ProtectedRoute} />
           <Route path="/pro-bono-search" component={ProtectedRoute} />
           <Route path="/case-management" component={ProtectedRoute} />
@@ -110,15 +107,15 @@ function Router() {
 }
 
 function ProtectedRoute({ params }: { params?: any }) {
-  // For now, let's allow access to protected routes and add auth later
-  // This ensures the features work while we build them properly
+  // Direct access to filing system - no authentication required
   return (
     <div className="min-h-screen bg-gray-50">
       <Suspense fallback={<div style={{ padding: "2rem" }}>Loading navigation...</div>}>
         <Navigation />
       </Suspense>
-      <Suspense fallback={<div style={{ padding: "2rem" }}>Loading page...</div>}>
+      <Suspense fallback={<div style={{ padding: "2rem" }}>Loading filing system...</div>}>
         <Switch>
+          <Route path="/" component={FileDocument} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/file-document" component={FileDocument} />
           <Route path="/emergency-filing" component={EmergencyFiling} />
