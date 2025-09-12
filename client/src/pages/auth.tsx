@@ -18,43 +18,48 @@ export default function Auth() {
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
     try {
+      e.preventDefault();
+      setIsLoading(true);
+      
       // Basic validation
       if (!formData.email || !formData.password) {
         alert("Please fill in all required fields");
-        setIsLoading(false);
         return;
       }
 
       if (isSignUp && formData.password !== formData.confirmPassword) {
         alert("Passwords do not match");
-        setIsLoading(false);
+        return;
+      }
+
+      if (isSignUp && !formData.fullName) {
+        alert("Please enter your full name");
         return;
       }
       
       console.log("Auth attempt:", isSignUp ? "signup" : "signin", formData);
       
       // Simulate auth process
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 500));
       
-      // Multiple redirect methods for compatibility
-      console.log("Redirecting to dashboard...");
+      console.log("Auth successful, redirecting...");
       
-      try {
-        setLocation("/dashboard");
-      } catch (routerError) {
-        console.warn("Router redirect failed, using window.location:", routerError);
-        window.location.href = "/dashboard";
-      }
+      // Use a more reliable redirect method
+      setTimeout(() => {
+        try {
+          setLocation("/dashboard");
+        } catch (routerError) {
+          console.warn("Router redirect failed, using window.location:", routerError);
+          window.location.href = "/dashboard";
+        }
+      }, 100);
       
     } catch (error) {
       console.error("Auth error:", error);
       alert("Authentication failed. Please try again.");
     } finally {
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 100);
     }
   };
 

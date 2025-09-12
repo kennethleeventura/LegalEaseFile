@@ -35,6 +35,8 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
 
   componentDidCatch(error: Error, errorInfo: any) {
     console.error("React Error Boundary caught an error:", error, errorInfo);
+    console.error("Error stack:", error.stack);
+    console.error("Component stack:", errorInfo.componentStack);
   }
 
   render() {
@@ -66,34 +68,45 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
 function Router() {
   console.log("🎯 Router rendering - BULLETPROOF version");
   
-  return (
-    <Suspense fallback={<div style={{ padding: "2rem", textAlign: "center" }}>Loading LegalEaseFile...</div>}>
-      <Switch>
-        {/* Public Pages - Always Accessible */}
-        <Route path="/" component={Landing} />
-        <Route path="/features" component={Features} />
-        <Route path="/pricing" component={Pricing} />
-        <Route path="/about" component={About} />
-        <Route path="/blog" component={Blog} />
-        <Route path="/auth" component={Auth} />
-        <Route path="/signin" component={Auth} />
-        <Route path="/signup" component={Auth} />
-        <Route path="/login" component={Auth} />
-        
-        {/* Protected Pages - Full Features */}
-        <Route path="/dashboard" component={ProtectedRoute} />
-        <Route path="/file-document" component={ProtectedRoute} />
-        <Route path="/emergency-filing" component={ProtectedRoute} />
-        <Route path="/pro-bono-search" component={ProtectedRoute} />
-        <Route path="/case-management" component={ProtectedRoute} />
-        <Route path="/mpc-assistant" component={ProtectedRoute} />
-        <Route path="/subscribe" component={ProtectedRoute} />
-        
-        {/* 404 Page */}
-        <Route component={NotFound} />
-      </Switch>
-    </Suspense>
-  );
+  try {
+    return (
+      <Suspense fallback={<div style={{ padding: "2rem", textAlign: "center" }}>Loading LegalEaseFile...</div>}>
+        <Switch>
+          {/* Public Pages - Always Accessible */}
+          <Route path="/" component={Landing} />
+          <Route path="/features" component={Features} />
+          <Route path="/pricing" component={Pricing} />
+          <Route path="/about" component={About} />
+          <Route path="/blog" component={Blog} />
+          <Route path="/auth" component={Auth} />
+          <Route path="/signin" component={Auth} />
+          <Route path="/signup" component={Auth} />
+          <Route path="/login" component={Auth} />
+          
+          {/* Protected Pages - Full Features */}
+          <Route path="/dashboard" component={ProtectedRoute} />
+          <Route path="/file-document" component={ProtectedRoute} />
+          <Route path="/emergency-filing" component={ProtectedRoute} />
+          <Route path="/pro-bono-search" component={ProtectedRoute} />
+          <Route path="/case-management" component={ProtectedRoute} />
+          <Route path="/mpc-assistant" component={ProtectedRoute} />
+          <Route path="/subscribe" component={ProtectedRoute} />
+          
+          {/* 404 Page */}
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
+    );
+  } catch (error) {
+    console.error("Router error:", error);
+    return (
+      <div style={{ padding: "2rem", textAlign: "center" }}>
+        <h1>LegalEaseFile</h1>
+        <p>Loading error occurred. Please refresh the page.</p>
+        <button onClick={() => window.location.reload()}>Refresh Page</button>
+      </div>
+    );
+  }
 }
 
 function ProtectedRoute({ params }: { params?: any }) {

@@ -78,10 +78,17 @@ export default function Landing() {
           }
           
           .gradient-text {
-            background: linear-gradient(135deg, #FF5A5F 0%, #E0F7FF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #FF5A5F;
+            font-weight: 700;
+          }
+          
+          @supports (-webkit-background-clip: text) {
+            .gradient-text {
+              background: linear-gradient(135deg, #FF5A5F 0%, #E0F7FF 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            }
           }
           
           .coral-button {
