@@ -116,14 +116,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Document upload and analysis (authenticated)
-  app.post("/api/documents/upload", isAuthenticated, upload.single('file'), async (req: any, res) => {
+  // Document upload and analysis (no auth required for immediate access)
+  app.post("/api/documents/upload", upload.single('file'), async (req: any, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
       }
 
-      const userId = req.user.claims.sub;
+      const userId = 'demo-user'; // Demo mode - no auth required
 
       // Extract text content
       const textContent = DocumentProcessor.extractTextFromBuffer(
@@ -336,10 +336,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get user filing history (authenticated)
-  app.get("/api/filing-history/user", isAuthenticated, async (req: any, res) => {
+  // Get user filing history (no auth required)
+  app.get("/api/filing-history/user", async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = 'demo-user'; // Demo mode
       const history = await storage.getFilingHistory(userId);
       res.json(history);
     } catch (error) {

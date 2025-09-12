@@ -50,7 +50,7 @@ export default function Landing() {
   }, []);
 
   const handleLogin = () => {
-    window.location.href = "/auth";
+    window.location.href = "/file-document";
   };
 
   const scrollToSection = (ref: React.RefObject<HTMLElement>) => {

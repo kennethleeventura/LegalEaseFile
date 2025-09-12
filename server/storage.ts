@@ -19,6 +19,64 @@ import { db } from "./db";
 import { eq, and, like } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
+// In-memory storage for demo mode when DB is not available
+const memoryStorage = {
+  users: new Map<string, User>(),
+  documents: new Map<string, Document>(),
+  filingHistory: new Map<string, FilingHistory>(),
+  templates: new Map<string, DocumentTemplate>(),
+  organizations: new Map<string, LegalAidOrganization>(),
+};
+
+// Initialize demo data
+memoryStorage.users.set('demo-user', {
+  id: 'demo-user',
+  email: 'demo@legaleasefile.com',
+  firstName: 'Demo',
+  lastName: 'User',
+  createdAt: new Date(),
+});
+
+// Add some sample document templates
+const sampleTemplates: DocumentTemplate[] = [
+  {
+    id: '1',
+    name: 'Motion for Temporary Restraining Order',
+    category: 'emergency',
+    description: 'Emergency motion for immediate court intervention',
+    templateContent: 'MOTION FOR TEMPORARY RESTRAINING ORDER\n\nTO THE HONORABLE COURT:\n\nNOW COMES the Plaintiff...',
+    requiredFields: ['plaintiff_name', 'defendant_name', 'case_number', 'emergency_grounds'],
+    isEmergency: true,
+    estimatedTime: 30,
+  },
+  {
+    id: '2', 
+    name: 'Complaint for Civil Rights Violation',
+    category: 'civil_rights',
+    description: 'Standard complaint for civil rights violations under Section 1983',
+    templateContent: 'COMPLAINT FOR VIOLATION OF CIVIL RIGHTS\n\nCOMES NOW the Plaintiff...',
+    requiredFields: ['plaintiff_name', 'defendant_name', 'violation_details', 'damages_sought'],
+    isEmergency: false,
+    estimatedTime: 60,
+  },
+  {
+    id: '3',
+    name: 'Emergency Motion for Preliminary Injunction',
+    category: 'emergency',
+    description: 'Motion seeking preliminary injunctive relief',
+    templateContent: 'EMERGENCY MOTION FOR PRELIMINARY INJUNCTION\n\nTO THE HONORABLE COURT:\n\nPlaintiff respectfully moves...',
+    requiredFields: ['plaintiff_name', 'defendant_name', 'case_number', 'injunction_sought', 'irreparable_harm'],
+    isEmergency: true,
+    estimatedTime: 45,
+  }
+];
+
+sampleTemplates.forEach(template => {
+  memoryStorage.templates.set(template.id, template);
+});
+
+const useFallbackStorage = !process.env.DATABASE_URL;
+
 export interface IStorage {
   // User operations (authentication required)
   getUser(id: string): Promise<User | undefined>;
