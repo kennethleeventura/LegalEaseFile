@@ -9,6 +9,7 @@ import { useLocation } from "wouter";
 export default function Auth() {
   const [, setLocation] = useLocation();
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,14 +17,45 @@ export default function Auth() {
     fullName: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     
-    // For now, just redirect to dashboard - no real auth needed
-    console.log("Auth attempt:", isSignUp ? "signup" : "signin", formData);
-    
-    // Redirect to dashboard
-    setLocation("/dashboard");
+    try {
+      // Basic validation
+      if (!formData.email || !formData.password) {
+        alert("Please fill in all required fields");
+        setIsLoading(false);
+        return;
+      }
+
+      if (isSignUp && formData.password !== formData.confirmPassword) {
+        alert("Passwords do not match");
+        setIsLoading(false);
+        return;
+      }
+      
+      console.log("Auth attempt:", isSignUp ? "signup" : "signin", formData);
+      
+      // Simulate auth process
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Multiple redirect methods for compatibility
+      console.log("Redirecting to dashboard...");
+      
+      try {
+        setLocation("/dashboard");
+      } catch (routerError) {
+        console.warn("Router redirect failed, using window.location:", routerError);
+        window.location.href = "/dashboard";
+      }
+      
+    } catch (error) {
+      console.error("Auth error:", error);
+      alert("Authentication failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,13 +166,40 @@ export default function Auth() {
                 </div>
               )}
 
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
-                {isSignUp ? "Create Account" : "Sign In"}
-                <ArrowRight className="ml-2 h-4 w-4" />
+              <Button 
+                type="submit" 
+                className="w-full bg-blue-600 hover:bg-blue-700"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    {isSignUp ? "Creating Account..." : "Signing In..."}
+                  </>
+                ) : (
+                  <>
+                    {isSignUp ? "Create Account" : "Sign In"}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </>
+                )}
               </Button>
             </form>
 
-            <div className="mt-6 text-center">
+            <div className="mt-4 text-center">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full mb-2"
+                onClick={() => {
+                  console.log("Quick dashboard redirect test...");
+                  window.location.href = "/dashboard";
+                }}
+              >
+                🚀 Skip to Dashboard (Test)
+              </Button>
+            </div>
+
+            <div className="mt-4 text-center">
               <button
                 type="button"
                 onClick={() => setIsSignUp(!isSignUp)}
