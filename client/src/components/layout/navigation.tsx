@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Scale, Bell, User, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { CompassLogo } from "@/components/CompassLogo";
 
 export default function Navigation() {
   const [location] = useLocation();
@@ -37,7 +38,7 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/dashboard" className="flex items-center" data-testid="logo-link">
-              <Scale className="text-primary-600 text-2xl mr-3" />
+              <CompassLogo size="w-8 h-8" className="mr-3" />
               <span className="text-xl font-bold text-gray-900">LegalEaseFile</span>
             </Link>
             <div className="ml-10">
