@@ -59,7 +59,7 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <Plus className="h-12 w-12 text-transparent bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
+                <Plus className="h-12 w-12 gradient-icon" />
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">File New Document</h3>
@@ -85,7 +85,7 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <AlertTriangle className="h-12 w-12 text-transparent bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
+                <AlertTriangle className="h-12 w-12 gradient-red" />
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Emergency Filing</h3>
@@ -112,7 +112,7 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <HandHeart className="h-12 w-12 text-transparent bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
+                <HandHeart className="h-12 w-12 gradient-blue" />
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Pro Bono Legal Aid</h3>
@@ -172,7 +172,7 @@ export default function Dashboard() {
                 recentActivity.map((activity: any) => (
                   <div key={activity.id} className="flex items-start" data-testid={`activity-${activity.id}`}>
                     <div className="flex-shrink-0">
-                      <Upload className="h-8 w-8 text-transparent bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
+                      <Upload className="h-8 w-8 gradient-icon" />
                     </div>
                     <div className="ml-3">
                       <p className="text-sm font-medium text-gray-900" data-testid="activity-title">
