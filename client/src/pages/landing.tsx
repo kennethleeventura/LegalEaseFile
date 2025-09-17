@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Scale, Shield, Clock, Users, FileText, Zap, ArrowRight, Brain, Search, Lightbulb, ChevronDown } from "lucide-react";
+import { CompassLogo } from "@/components/CompassLogo";
 
 export default function Landing() {
   const heroRef = useRef<HTMLElement>(null);
@@ -196,9 +197,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <div className="geometric-icon w-10 h-10">
-                <Scale className="h-5 w-5" />
-              </div>
+              <CompassLogo size="w-10 h-10" />
               <h1 className="text-xl font-bold gradient-text">LegalEaseFile</h1>
             </div>
             
@@ -334,9 +333,7 @@ export default function Landing() {
                 <div className="grid grid-cols-2 gap-4">
                   <Card className="tier-card bg-white/90 backdrop-blur-sm">
                     <CardContent className="p-4 text-center">
-                      <div className="geometric-icon w-12 h-12 mx-auto mb-3" style={{borderRadius: "50% 10% 50% 10%"}}>
-                        <FileText className="h-6 w-6" />
-                      </div>
+                      <CompassLogo size="w-12 h-12" className="mx-auto mb-3" />
                       <h3 className="font-semibold">Smart Documents</h3>
                       <p className="text-sm text-gray-600">AI-generated forms</p>
                     </CardContent>
@@ -344,9 +341,7 @@ export default function Landing() {
                   
                   <Card className="tier-card bg-white/90 backdrop-blur-sm">
                     <CardContent className="p-4 text-center">
-                      <div className="geometric-icon w-12 h-12 mx-auto mb-3" style={{borderRadius: "10% 50% 10% 50%"}}>
-                        <Zap className="h-6 w-6" />
-                      </div>
+                      <CompassLogo size="w-12 h-12" className="mx-auto mb-3" />
                       <h3 className="font-semibold">Emergency Filing</h3>
                       <p className="text-sm text-gray-600">TRO & injunctions</p>
                     </CardContent>
@@ -354,9 +349,7 @@ export default function Landing() {
                   
                   <Card className="tier-card bg-white/90 backdrop-blur-sm">
                     <CardContent className="p-4 text-center">
-                      <div className="geometric-icon w-12 h-12 mx-auto mb-3" style={{borderRadius: "70% 30% 30% 70%"}}>
-                        <Brain className="h-6 w-6" />
-                      </div>
+                      <CompassLogo size="w-12 h-12" className="mx-auto mb-3" />
                       <h3 className="font-semibold">AI Research</h3>
                       <p className="text-sm text-gray-600">Case law analysis</p>
                     </CardContent>
@@ -364,9 +357,7 @@ export default function Landing() {
                   
                   <Card className="tier-card bg-white/90 backdrop-blur-sm">
                     <CardContent className="p-4 text-center">
-                      <div className="geometric-icon w-12 h-12 mx-auto mb-3" style={{borderRadius: "30% 70% 30% 70%"}}>
-                        <Shield className="h-6 w-6" />
-                      </div>
+                      <CompassLogo size="w-12 h-12" className="mx-auto mb-3" />
                       <h3 className="font-semibold">Secure Filing</h3>
                       <p className="text-sm text-gray-600">Bank-grade security</p>
                     </CardContent>
@@ -406,9 +397,7 @@ export default function Landing() {
             {/* Starter Tier */}
             <Card className="tier-card tier-starter border-2 border-transparent hover:border-[#B3E5FC]">
               <CardHeader className="text-center pb-4">
-                <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "50% 10% 50% 10%"}}>
-                  <FileText className="h-8 w-8" />
-                </div>
+                <CompassLogo size="w-16 h-16" className="mx-auto mb-4" />
                 <CardTitle className="text-2xl">Get Filing Fast</CardTitle>
                 <CardDescription className="text-lg">
                   No Hassle, No Guesswork
@@ -448,9 +437,7 @@ export default function Landing() {
                 <Badge className="bg-[#FF5A5F] text-white">Most Popular</Badge>
               </div>
               <CardHeader className="text-center pb-4">
-                <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "10% 50% 10% 50%"}}>
-                  <Brain className="h-8 w-8" />
-                </div>
+                <CompassLogo size="w-16 h-16" className="mx-auto mb-4" />
                 <CardTitle className="text-2xl">Level Up Your Practice</CardTitle>
                 <CardDescription className="text-lg">
                   Work Smarter, Not Harder
