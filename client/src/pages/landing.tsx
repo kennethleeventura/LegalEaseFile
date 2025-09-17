@@ -285,14 +285,37 @@ export default function Landing() {
                 {/* Compass Animation */}
                 <div className="mb-8 text-center">
                   <div className="relative inline-block">
-                    <img
-                      src="/assets/images/compass-placeholder.svg"
-                      alt="Legal Navigation Compass"
-                      className="w-64 h-64 mx-auto drop-shadow-2xl"
+                    <div
+                      className="w-64 h-64 mx-auto drop-shadow-2xl relative"
                       style={{
                         animation: 'rotate 20s linear infinite, scale 4s ease-in-out infinite',
                       }}
-                    />
+                    >
+                      {/* CSS Compass */}
+                      <div className="w-full h-full rounded-full border-8 border-gradient-to-r from-[#FF5A5F] via-[#3b82f6] to-[#8b5cf6] bg-gradient-to-br from-red-50 to-purple-50 relative overflow-hidden">
+                        {/* Outer ring */}
+                        <div className="absolute inset-4 rounded-full border-4 border-gray-300"></div>
+
+                        {/* Compass needle */}
+                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                          <div className="w-1 h-20 bg-gradient-to-t from-[#FF5A5F] to-[#3b82f6] rounded-full transform -translate-y-8"></div>
+                          <div className="w-4 h-4 bg-gradient-to-br from-[#FF5A5F] to-[#8b5cf6] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                        </div>
+
+                        {/* Cardinal directions */}
+                        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-lg font-bold gradient-icon">N</div>
+                        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-lg font-bold gradient-icon">S</div>
+                        <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-lg font-bold gradient-icon">E</div>
+                        <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-lg font-bold gradient-icon">W</div>
+
+                        {/* Scale icon in center */}
+                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-6">
+                          <div className="w-8 h-6 bg-white rounded border border-gray-300 flex items-center justify-center">
+                            <div className="text-xs text-gray-600">⚖️</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     {/* Tagline Overlay */}
                     <div className="mt-6">
                       <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border inline-block">
