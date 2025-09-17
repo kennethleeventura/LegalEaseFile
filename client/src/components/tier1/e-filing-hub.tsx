@@ -331,13 +331,13 @@ export default function EFilingHub() {
                     <span>Overall Compliance</span>
                     {complianceMutation.data.isCompliant ? (
                       <Badge className="border border-green-300">
-                        <CheckCircle className="mr-1 h-3 w-3 bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
-                        <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>Compliant</span>
+                        <CheckCircle className="mr-1 h-3 w-3 gradient-green" />
+                        <span className="gradient-green">Compliant</span>
                       </Badge>
                     ) : (
                       <Badge className="border border-red-300">
-                        <AlertCircle className="mr-1 h-3 w-3 bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
-                        <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>Issues Found</span>
+                        <AlertCircle className="mr-1 h-3 w-3 gradient-red" />
+                        <span className="gradient-red">Issues Found</span>
                       </Badge>
                     )}
                   </div>

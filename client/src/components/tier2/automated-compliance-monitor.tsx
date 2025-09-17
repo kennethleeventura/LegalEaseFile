@@ -418,8 +418,8 @@ export default function AutomatedComplianceMonitor() {
                                 <Badge variant="outline">{violation.category}</Badge>
                                 {violation.autoFixAvailable && (
                                   <Badge className="border border-green-300">
-                                    <Wrench className="h-3 w-3 mr-1 bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
-                                    <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>Auto-fixable</span>
+                                    <Wrench className="h-3 w-3 mr-1 gradient-green" />
+                                    <span className="gradient-green">Auto-fixable</span>
                                   </Badge>
                                 )}
                               </div>

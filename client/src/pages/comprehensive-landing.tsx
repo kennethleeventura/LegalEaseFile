@@ -559,7 +559,7 @@ const ComprehensiveLanding = () => {
                 <motion.div key={index} variants={fadeInUp}>
                   <Card className="h-full hover:shadow-xl transition-shadow duration-300 border-0 shadow-lg">
                     <CardHeader>
-                      <feature.icon className="w-12 h-12 mb-4 text-transparent bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
+                      <feature.icon className="w-12 h-12 mb-4 gradient-icon" />
                       <CardTitle className="text-xl">{feature.title}</CardTitle>
                       <CardDescription className="text-gray-600">
                         {feature.description}
