@@ -286,7 +286,7 @@ export default function Landing() {
                 <div className="mb-8 text-center">
                   <div className="relative inline-block">
                     <img
-                      src="/assets/images/compass-animation.gif"
+                      src="/assets/images/compass-placeholder.svg"
                       alt="Legal Navigation Compass"
                       className="w-64 h-64 mx-auto drop-shadow-2xl"
                       style={{

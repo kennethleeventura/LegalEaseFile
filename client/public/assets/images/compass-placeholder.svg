@@ -1,0 +1,32 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="compassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF5A5F;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Circle -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="url(#compassGrad)" stroke-width="4"/>
+
+  <!-- Inner Circle -->
+  <circle cx="100" cy="100" r="70" fill="none" stroke="url(#compassGrad)" stroke-width="2"/>
+
+  <!-- Compass Needle -->
+  <polygon points="100,30 110,95 100,170 90,95" fill="url(#compassGrad)"/>
+
+  <!-- Center Point -->
+  <circle cx="100" cy="100" r="8" fill="url(#compassGrad)"/>
+
+  <!-- Cardinal Directions -->
+  <text x="100" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="url(#compassGrad)">N</text>
+  <text x="180" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="url(#compassGrad)">E</text>
+  <text x="100" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="url(#compassGrad)">S</text>
+  <text x="20" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="url(#compassGrad)">W</text>
+
+  <!-- Scale Icon in Center -->
+  <g transform="translate(100, 100) scale(0.5)">
+    <path d="M16 11c1.66 0 2.99-1.34 2.99-3L19 2H9L9 8c0 1.66 1.34 3 3 3z M21 9H3v1h18V9z M21 10H3v1h18V10z M3 22h18v-9H3v9z M5 14h14v2H5v-2z M5 17h14v2H5v-2z" fill="white"/>
+  </g>
+</svg>
