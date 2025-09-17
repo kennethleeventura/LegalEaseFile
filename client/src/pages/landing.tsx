@@ -178,6 +178,16 @@ export default function Landing() {
               transform: translateX(-50%) translateY(-5px);
             }
           }
+
+          @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+
+          @keyframes scale {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+          }
         `
       }} />
 
@@ -217,30 +227,38 @@ export default function Landing() {
                   AI-Powered Legal Filing Platform
                 </Badge>
                 <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-                  AI-Powered Legal Filing, Built for Every Courtroom
+                  AI-Powered Legal Filing for <span className="text-[#FF5A5F]">Pro Se Litigants</span> & Small Law Firms
                 </h1>
-                <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                  From pro se litigants to law firms — prepare, comply, and e-file in minutes, not hours. The only AI platform that combines 
-                  <span className="font-semibold text-[#FF5A5F]"> document generation, compliance checking, and e-filing</span> in one solution.
+                <p className="text-xl text-gray-600 mb-4 leading-relaxed">
+                  <span className="font-semibold">Compliant. Simple. Court-Ready.</span>
+                </p>
+                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                  Massachusetts court forms, federal court filings, and self-representation help powered by AI legal research and case automation tools.
                 </p>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button 
-                  size="lg" 
-                  onClick={handleLogin}
-                  className="coral-button px-8 py-4 text-lg"
+              <div className="space-y-4">
+                {/* For Individuals (Pro Se Litigants) */}
+                <Button
+                  size="lg"
+                  onClick={() => window.location.href = "/file-document"}
+                  className="coral-button w-full px-8 py-4 text-lg font-semibold"
                 >
-                  Start Free 7-Day Trial
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <Users className="mr-3 h-5 w-5" />
+                  File My Case - For Individuals
+                  <ArrowRight className="ml-3 h-5 w-5" />
                 </Button>
-                <Button 
-                  size="lg" 
+
+                {/* For Legal Professionals */}
+                <Button
+                  size="lg"
                   variant="outline"
-                  onClick={() => scrollToSection(featuresRef)}
-                  className="border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white px-8 py-4 text-lg"
+                  onClick={() => window.location.href = "/pricing"}
+                  className="w-full border-2 border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white px-8 py-4 text-lg font-semibold"
                 >
-                  See How It Works
+                  <Scale className="mr-3 h-5 w-5" />
+                  Grow My Practice - For Attorneys
+                  <ArrowRight className="ml-3 h-5 w-5" />
                 </Button>
               </div>
               
@@ -261,12 +279,32 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Right Side - Visual */}
+            {/* Right Side - Visual with Compass Animation */}
             <div className="relative scroll-section parallax" data-speed="0.3">
               <div className="relative z-10">
-                {/* Large Geometric Icon */}
-                <div className="geometric-icon w-32 h-32 mx-auto mb-8" style={{borderRadius: "30% 70% 70% 30% / 30% 30% 70% 70%"}}>
-                  <Scale className="h-16 w-16" />
+                {/* Compass Animation */}
+                <div className="mb-8 text-center">
+                  <div className="relative inline-block">
+                    <img
+                      src="/assets/images/compass-animation.gif"
+                      alt="Legal Navigation Compass"
+                      className="w-64 h-64 mx-auto drop-shadow-2xl"
+                      style={{
+                        animation: 'rotate 20s linear infinite, scale 4s ease-in-out infinite',
+                      }}
+                    />
+                    {/* Tagline Overlay */}
+                    <div className="mt-6">
+                      <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border inline-block">
+                        <h3 className="text-xl font-bold text-[#FF5A5F] mb-1">
+                          Navigate the Courts with Confidence
+                        </h3>
+                        <p className="text-gray-600 text-sm">
+                          AI-powered legal guidance for every filing
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 
                 {/* Feature Highlights */}
