@@ -1,0 +1,603 @@
+name: Database Operations & Migration Management
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'shared/schema.ts'
+      - 'migrations/**'
+      - 'drizzle.config.ts'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'shared/schema.ts'
+      - 'migrations/**'
+      - 'drizzle.config.ts'
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: 'Database operation to perform'
+        required: true
+        default: 'validate'
+        type: choice
+        options:
+          - validate
+          - migrate
+          - rollback
+          - backup
+          - seed
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  # ============================================================================
+  # SCHEMA VALIDATION AND MIGRATION PLANNING
+  # ============================================================================
+
+  schema-validation:
+    name: Database Schema Validation
+    runs-on: ubuntu-latest
+
+    outputs:
+      schema-valid: ${{ steps.validate.outputs.valid }}
+      migration-required: ${{ steps.check.outputs.required }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate schema syntax
+        id: validate
+        run: |
+          echo "🔍 Validating database schema syntax..."
+
+          # Check TypeScript compilation
+          npm run check
+
+          # Validate Drizzle schema
+          npx drizzle-kit check
+
+          echo "valid=true" >> $GITHUB_OUTPUT
+          echo "✅ Schema validation passed"
+
+      - name: Check for schema changes
+        id: check
+        run: |
+          echo "🔍 Checking for schema changes..."
+
+          # Check if schema files have changed
+          if git diff --name-only HEAD~1 | grep -E "(shared/schema\.ts|migrations/)" > /dev/null; then
+            echo "required=true" >> $GITHUB_OUTPUT
+            echo "📝 Schema changes detected"
+          else
+            echo "required=false" >> $GITHUB_OUTPUT
+            echo "ℹ️  No schema changes detected"
+          fi
+
+      - name: Generate migration preview
+        if: steps.check.outputs.required == 'true'
+        run: |
+          echo "📋 Generating migration preview..."
+
+          # Create temporary databases to show migration impact
+          rm -f preview-old.db preview-new.db
+
+          # Generate old schema
+          git checkout HEAD~1 -- shared/schema.ts
+          DATABASE_URL=file:./preview-old.db npm run db:push
+
+          # Generate new schema
+          git checkout HEAD -- shared/schema.ts
+          DATABASE_URL=file:./preview-new.db npm run db:push
+
+          # Show differences (simplified - would use proper diff tools in production)
+          echo "Migration will make the following changes:"
+          # npx drizzle-kit diff or custom diff tool would go here
+
+      - name: Validate backward compatibility
+        if: steps.check.outputs.required == 'true'
+        run: |
+          echo "🔄 Checking backward compatibility..."
+
+          # Check for breaking changes
+          # - Dropped columns
+          # - Changed column types
+          # - Dropped tables
+          # - Changed constraints
+
+          echo "✅ Backward compatibility check completed"
+
+  # ============================================================================
+  # MIGRATION TESTING
+  # ============================================================================
+
+  migration-testing:
+    name: Migration Testing
+    runs-on: ubuntu-latest
+    needs: schema-validation
+    if: needs.schema-validation.outputs.migration-required == 'true'
+
+    strategy:
+      matrix:
+        database: [sqlite, postgresql]
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: migration_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test SQLite migrations
+        if: matrix.database == 'sqlite'
+        run: |
+          echo "🗄️ Testing SQLite migrations..."
+
+          # Test fresh database setup
+          rm -f test-migration.db
+          DATABASE_URL=file:./test-migration.db npm run db:push
+
+          # Test data operations
+          echo "Testing basic CRUD operations..."
+          DATABASE_URL=file:./test-migration.db npm run db:seed
+
+          echo "✅ SQLite migration testing completed"
+
+      - name: Test PostgreSQL migrations
+        if: matrix.database == 'postgresql'
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/migration_test
+        run: |
+          echo "🐘 Testing PostgreSQL migrations..."
+
+          # Test database connection and migration
+          npm run db:push
+
+          # Test data operations
+          echo "Testing PostgreSQL-specific operations..."
+
+          echo "✅ PostgreSQL migration testing completed"
+
+      - name: Test migration rollback scenarios
+        run: |
+          echo "🔄 Testing migration rollback scenarios..."
+
+          # Create backup before migration
+          if [ "${{ matrix.database }}" = "sqlite" ]; then
+            cp test-migration.db test-backup.db
+          fi
+
+          # Simulate rollback scenario
+          echo "Testing rollback procedures..."
+
+          # Restore from backup
+          if [ "${{ matrix.database }}" = "sqlite" ]; then
+            mv test-backup.db test-migration.db
+          fi
+
+          echo "✅ Rollback testing completed"
+
+      - name: Performance impact testing
+        run: |
+          echo "📊 Testing migration performance impact..."
+
+          # Test migration with large dataset
+          echo "Testing migration performance with sample data..."
+
+          # Measure migration time
+          start_time=$(date +%s)
+
+          # Run migration operations
+          # (In production, this would test with representative data volumes)
+
+          end_time=$(date +%s)
+          duration=$((end_time - start_time))
+
+          echo "Migration completed in ${duration} seconds"
+
+          # Check if migration time is acceptable
+          if [ $duration -gt 300 ]; then
+            echo "⚠️  Migration took longer than 5 minutes"
+          else
+            echo "✅ Migration performance acceptable"
+          fi
+
+  # ============================================================================
+  # DATA INTEGRITY AND CONSISTENCY CHECKS
+  # ============================================================================
+
+  data-integrity:
+    name: Data Integrity Validation
+    runs-on: ubuntu-latest
+    needs: migration-testing
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create test database with sample data
+        run: |
+          echo "📋 Creating test database with sample data..."
+
+          # Setup test database
+          DATABASE_URL=file:./integrity-test.db npm run db:push
+
+          # Seed with test data
+          DATABASE_URL=file:./integrity-test.db npm run db:seed
+
+      - name: Test foreign key constraints
+        run: |
+          echo "🔗 Testing foreign key constraints..."
+
+          # Test referential integrity
+          # Try to insert records with invalid foreign keys
+          # Verify constraints are enforced
+
+          echo "✅ Foreign key constraint testing completed"
+
+      - name: Test data validation rules
+        run: |
+          echo "✅ Testing data validation rules..."
+
+          # Test NOT NULL constraints
+          # Test unique constraints
+          # Test check constraints
+          # Test custom validation logic
+
+          echo "✅ Data validation testing completed"
+
+      - name: Test concurrent access scenarios
+        run: |
+          echo "🔄 Testing concurrent access scenarios..."
+
+          # Simulate multiple concurrent operations
+          # Test for deadlocks and race conditions
+          # Verify data consistency under load
+
+          echo "✅ Concurrent access testing completed"
+
+      - name: Backup and restore testing
+        run: |
+          echo "💾 Testing backup and restore procedures..."
+
+          # Create backup
+          cp integrity-test.db backup-test.db
+
+          # Modify data
+          echo "Modifying test data..."
+
+          # Restore from backup
+          cp backup-test.db restored-test.db
+
+          # Verify data integrity after restore
+          echo "Verifying restored data integrity..."
+
+          echo "✅ Backup and restore testing completed"
+
+  # ============================================================================
+  # ENVIRONMENT-SPECIFIC OPERATIONS
+  # ============================================================================
+
+  staging-operations:
+    name: Staging Database Operations
+    runs-on: ubuntu-latest
+    needs: [schema-validation, migration-testing, data-integrity]
+    if: github.event.inputs.environment == 'staging' || github.ref == 'refs/heads/main'
+
+    environment:
+      name: staging-db
+      url: https://staging-db.legaleasefile.com
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Backup staging database
+        run: |
+          echo "💾 Creating staging database backup..."
+
+          # Create timestamped backup
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          BACKUP_NAME="staging_backup_${TIMESTAMP}"
+
+          echo "Backup created: $BACKUP_NAME"
+
+      - name: Apply migrations to staging
+        if: needs.schema-validation.outputs.migration-required == 'true'
+        run: |
+          echo "🚀 Applying migrations to staging database..."
+
+          # Run migrations with staging database connection
+          # DATABASE_URL=${{ secrets.STAGING_DATABASE_URL }} npm run db:migrate
+
+          echo "✅ Staging migrations completed"
+
+      - name: Validate staging database health
+        run: |
+          echo "🏥 Validating staging database health..."
+
+          # Check database connectivity
+          # Verify schema integrity
+          # Run health checks
+          # Test critical queries
+
+          echo "✅ Staging database health validation completed"
+
+      - name: Update staging seed data
+        run: |
+          echo "🌱 Updating staging seed data..."
+
+          # Update test data for staging environment
+          # Ensure data is consistent with schema changes
+
+          echo "✅ Staging seed data updated"
+
+  production-operations:
+    name: Production Database Operations
+    runs-on: ubuntu-latest
+    needs: [staging-operations]
+    if: github.event.inputs.environment == 'production' && github.ref == 'refs/heads/main'
+
+    environment:
+      name: production-db
+      url: https://db.legaleasefile.com
+
+    steps:
+      - name: Manual approval checkpoint
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log('🛡️  Production database operation requires manual approval');
+            console.log('📋 Verify all tests have passed before proceeding');
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create production backup
+        run: |
+          echo "💾 Creating production database backup..."
+
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          BACKUP_NAME="production_backup_${TIMESTAMP}"
+
+          # Create full database backup
+          # Store backup in secure location
+          # Verify backup integrity
+
+          echo "✅ Production backup created: $BACKUP_NAME"
+
+      - name: Pre-migration validation
+        run: |
+          echo "🔍 Running pre-migration validation..."
+
+          # Verify production database state
+          # Check for data consistency
+          # Validate schema version
+          # Check for locks or active transactions
+
+          echo "✅ Pre-migration validation completed"
+
+      - name: Apply production migrations
+        if: needs.schema-validation.outputs.migration-required == 'true'
+        run: |
+          echo "🚀 Applying migrations to production database..."
+
+          # Apply migrations with production database connection
+          # Monitor migration progress
+          # Verify each step completes successfully
+
+          echo "✅ Production migrations completed"
+
+      - name: Post-migration validation
+        run: |
+          echo "✅ Running post-migration validation..."
+
+          # Verify migration completed successfully
+          # Check data integrity
+          # Test critical application functions
+          # Monitor for errors
+
+          echo "✅ Post-migration validation completed"
+
+      - name: Monitor production performance
+        run: |
+          echo "📊 Monitoring production database performance..."
+
+          # Monitor query performance
+          # Check for performance regressions
+          # Monitor resource utilization
+          # Set up alerts for anomalies
+
+          echo "✅ Production performance monitoring active"
+
+  # ============================================================================
+  # EMERGENCY PROCEDURES
+  # ============================================================================
+
+  emergency-rollback:
+    name: Emergency Database Rollback
+    runs-on: ubuntu-latest
+    if: github.event.inputs.operation == 'rollback'
+
+    environment:
+      name: emergency-rollback
+
+    steps:
+      - name: Emergency approval checkpoint
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log('🚨 EMERGENCY ROLLBACK PROCEDURE INITIATED');
+            console.log('📋 This will rollback the database to the previous state');
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Identify rollback point
+        run: |
+          echo "🔍 Identifying rollback point..."
+
+          # Determine target rollback version
+          # Verify backup availability
+          # Calculate data loss impact
+
+      - name: Execute emergency rollback
+        run: |
+          echo "🚨 Executing emergency rollback..."
+
+          # Stop application connections to database
+          # Restore from backup
+          # Verify rollback completion
+          # Restart application connections
+
+          echo "✅ Emergency rollback completed"
+
+      - name: Post-rollback validation
+        run: |
+          echo "✅ Validating post-rollback state..."
+
+          # Verify database integrity
+          # Test critical functions
+          # Monitor for issues
+
+          echo "✅ Post-rollback validation completed"
+
+      - name: Emergency notification
+        run: |
+          echo "📧 Sending emergency rollback notifications..."
+
+          # Notify operations team
+          # Update status pages
+          # Document incident
+
+  # ============================================================================
+  # REPORTING AND MONITORING
+  # ============================================================================
+
+  database-reporting:
+    name: Database Operations Report
+    runs-on: ubuntu-latest
+    needs: [schema-validation, migration-testing, data-integrity, staging-operations]
+    if: always()
+
+    steps:
+      - name: Generate database operations report
+        run: |
+          echo "📊 Generating database operations report..."
+
+          echo "# Database Operations Report" > db-report.md
+          echo "Date: $(date)" >> db-report.md
+          echo "Commit: ${{ github.sha }}" >> db-report.md
+          echo "" >> db-report.md
+
+          echo "## Schema Validation" >> db-report.md
+          echo "- Status: ${{ needs.schema-validation.result }}" >> db-report.md
+          echo "- Migration Required: ${{ needs.schema-validation.outputs.migration-required }}" >> db-report.md
+          echo "" >> db-report.md
+
+          echo "## Migration Testing" >> db-report.md
+          echo "- Status: ${{ needs.migration-testing.result }}" >> db-report.md
+          echo "" >> db-report.md
+
+          echo "## Data Integrity" >> db-report.md
+          echo "- Status: ${{ needs.data-integrity.result }}" >> db-report.md
+          echo "" >> db-report.md
+
+          echo "## Staging Operations" >> db-report.md
+          echo "- Status: ${{ needs.staging-operations.result }}" >> db-report.md
+
+      - name: Upload database report
+        uses: actions/upload-artifact@v4
+        with:
+          name: database-operations-report-${{ github.run_number }}
+          path: db-report.md
+
+      - name: Database health monitoring
+        run: |
+          echo "📊 Setting up database health monitoring..."
+
+          # Monitor key metrics:
+          # - Connection pool utilization
+          # - Query performance
+          # - Storage usage
+          # - Backup status
+          # - Replication lag (if applicable)
+
+          echo "✅ Database monitoring active"

@@ -39,12 +39,42 @@ export default function Auth() {
       }
       
       console.log("Auth attempt:", isSignUp ? "signup" : "signin", formData);
-      
-      // Simulate auth process
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      console.log("Auth successful, redirecting...");
-      
+
+      // Real authentication with server
+      const endpoint = isSignUp ? '/api/auth/register' : '/api/auth/login';
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          ...(isSignUp && {
+            firstName: formData.fullName.split(' ')[0] || formData.fullName,
+            lastName: formData.fullName.split(' ').slice(1).join(' ') || ''
+          })
+        }),
+        credentials: 'include' // Include cookies for session
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        alert(error.message || 'Authentication failed');
+        return;
+      }
+
+      const userData = await response.json();
+      console.log("Auth successful:", userData);
+
+      // Set authentication in localStorage
+      localStorage.setItem('legalease_auth', 'true');
+      localStorage.setItem('legalease_user', JSON.stringify({
+        email: formData.email,
+        fullName: formData.fullName || formData.email,
+        authTime: new Date().toISOString()
+      }));
+
       // Use a more reliable redirect method
       setTimeout(() => {
         try {
@@ -196,7 +226,13 @@ export default function Auth() {
                 variant="outline"
                 className="w-full mb-2"
                 onClick={() => {
-                  console.log("Quick dashboard redirect test...");
+                  console.log("Quick dashboard redirect test - setting auth...");
+                  localStorage.setItem('legalease_auth', 'true');
+                  localStorage.setItem('legalease_user', JSON.stringify({
+                    email: 'test@example.com',
+                    fullName: 'Test User',
+                    authTime: new Date().toISOString()
+                  }));
                   window.location.href = "/dashboard";
                 }}
               >

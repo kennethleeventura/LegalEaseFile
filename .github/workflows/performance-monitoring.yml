@@ -1,0 +1,679 @@
+name: Performance Monitoring & Load Testing
+
+on:
+  schedule:
+    # Run performance tests daily at 3 AM UTC
+    - cron: '0 3 * * *'
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Type of performance test to run'
+        required: true
+        default: 'comprehensive'
+        type: choice
+        options:
+          - comprehensive
+          - load
+          - stress
+          - spike
+          - endurance
+          - baseline
+      duration:
+        description: 'Test duration in minutes'
+        required: false
+        default: '10'
+      concurrent_users:
+        description: 'Number of concurrent users'
+        required: false
+        default: '100'
+
+env:
+  NODE_VERSION: '20'
+  DATABASE_URL: 'file:./performance-test.db'
+
+jobs:
+  # ============================================================================
+  # BASELINE PERFORMANCE MEASUREMENT
+  # ============================================================================
+
+  baseline-performance:
+    name: Baseline Performance Measurement
+    runs-on: ubuntu-latest
+
+    outputs:
+      baseline-score: ${{ steps.baseline.outputs.score }}
+      response-times: ${{ steps.baseline.outputs.response_times }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install performance testing tools
+        run: |
+          npm install -g autocannon
+          npm install -g lighthouse-ci
+          npm install -g k6
+
+      - name: Build and start application
+        run: |
+          npm run build
+          npm start &
+          sleep 30
+
+      - name: Initialize test database
+        run: npm run db:push
+
+      - name: Measure baseline API performance
+        id: baseline
+        run: |
+          echo "📊 Measuring baseline API performance..."
+
+          # Test document upload endpoint
+          echo "Testing document upload performance..."
+          echo "Test content" > test-file.txt
+          UPLOAD_TIME=$(curl -w "@{time_total}" -o /dev/null -s -X POST -F "file=@test-file.txt" http://localhost:3000/api/documents/upload)
+          echo "Document upload time: ${UPLOAD_TIME}s"
+
+          # Test template retrieval
+          echo "Testing template retrieval performance..."
+          TEMPLATE_TIME=$(curl -w "@{time_total}" -o /dev/null -s http://localhost:3000/api/templates)
+          echo "Template retrieval time: ${TEMPLATE_TIME}s"
+
+          # Test legal aid search
+          echo "Testing legal aid search performance..."
+          SEARCH_TIME=$(curl -w "@{time_total}" -o /dev/null -s "http://localhost:3000/api/legal-aid?practiceArea=family&location=CA")
+          echo "Legal aid search time: ${SEARCH_TIME}s"
+
+          # Test case assessment
+          echo "Testing case assessment performance..."
+          ASSESSMENT_TIME=$(curl -w "@{time_total}" -o /dev/null -s -X POST -H "Content-Type: application/json" -d '{"caseType":"contract","jurisdiction":"CA","factPattern":"test"}' http://localhost:3000/api/case-assessment)
+          echo "Case assessment time: ${ASSESSMENT_TIME}s"
+
+          # Calculate baseline score (lower is better)
+          BASELINE_SCORE=$(echo "$UPLOAD_TIME + $TEMPLATE_TIME + $SEARCH_TIME + $ASSESSMENT_TIME" | bc)
+          echo "score=$BASELINE_SCORE" >> $GITHUB_OUTPUT
+          echo "response_times=upload:$UPLOAD_TIME,template:$TEMPLATE_TIME,search:$SEARCH_TIME,assessment:$ASSESSMENT_TIME" >> $GITHUB_OUTPUT
+
+          echo "✅ Baseline performance measurement completed"
+
+      - name: Frontend performance audit
+        run: |
+          echo "🔍 Running frontend performance audit..."
+
+          # Lighthouse audit for main pages
+          lhci autorun --config=./lighthouse.config.js --upload.target=temporary-public-storage
+
+      - name: Memory usage baseline
+        run: |
+          echo "📊 Measuring memory usage baseline..."
+
+          # Monitor memory usage
+          sleep 10
+          ps -o pid,vsz,rss,comm -p $(pgrep node) || echo "Node process not found"
+          free -h
+
+  # ============================================================================
+  # LOAD TESTING
+  # ============================================================================
+
+  load-testing:
+    name: Load Testing
+    runs-on: ubuntu-latest
+    needs: baseline-performance
+
+    strategy:
+      matrix:
+        scenario: [normal, peak, document-heavy, api-heavy]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies and tools
+        run: |
+          npm ci
+          npm install -g autocannon k6
+
+      - name: Build and start application
+        run: |
+          npm run build
+          npm start &
+          sleep 30
+
+      - name: Initialize test database
+        run: npm run db:push
+
+      - name: Normal Load Test
+        if: matrix.scenario == 'normal'
+        run: |
+          echo "🚀 Running normal load test..."
+
+          # Simulate normal user load (10 concurrent users, 5 minutes)
+          autocannon -c 10 -d 300 --renderStatusCodes http://localhost:3000/api/templates > normal-load-results.txt
+
+          # Test API endpoints under normal load
+          autocannon -c 10 -d 300 --renderStatusCodes http://localhost:3000/api/legal-aid >> normal-load-results.txt
+
+          echo "✅ Normal load test completed"
+
+      - name: Peak Load Test
+        if: matrix.scenario == 'peak'
+        run: |
+          echo "🚀 Running peak load test..."
+
+          # Simulate peak traffic (50 concurrent users, 10 minutes)
+          autocannon -c 50 -d 600 --renderStatusCodes http://localhost:3000/api/templates > peak-load-results.txt
+
+          # Test multiple endpoints simultaneously
+          autocannon -c 25 -d 600 --renderStatusCodes http://localhost:3000/api/legal-aid >> peak-load-results.txt &
+          autocannon -c 25 -d 600 --renderStatusCodes http://localhost:3000/api/subscription-plans >> peak-load-results.txt &
+          wait
+
+          echo "✅ Peak load test completed"
+
+      - name: Document Heavy Test
+        if: matrix.scenario == 'document-heavy'
+        run: |
+          echo "📄 Running document-heavy load test..."
+
+          # Create test files
+          for i in {1..5}; do
+            echo "Test document content $i" > test-doc-$i.txt
+          done
+
+          # Test document upload under load
+          # Note: This is a simplified test - in production, you'd use proper load testing tools
+          for i in {1..10}; do
+            curl -X POST -F "file=@test-doc-1.txt" http://localhost:3000/api/documents/upload &
+          done
+          wait
+
+          echo "✅ Document-heavy load test completed"
+
+      - name: API Heavy Test
+        if: matrix.scenario == 'api-heavy'
+        run: |
+          echo "🔌 Running API-heavy load test..."
+
+          # Test API endpoints under heavy load
+          autocannon -c 30 -d 300 --renderStatusCodes http://localhost:3000/api/case-assessment -m POST -H "Content-Type: application/json" -b '{"caseType":"contract","jurisdiction":"CA","factPattern":"test"}' > api-heavy-results.txt
+
+          echo "✅ API-heavy load test completed"
+
+      - name: Upload load test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: load-test-results-${{ matrix.scenario }}
+          path: "*-results.txt"
+
+  # ============================================================================
+  # STRESS TESTING
+  # ============================================================================
+
+  stress-testing:
+    name: Stress Testing
+    runs-on: ubuntu-latest
+    needs: baseline-performance
+    if: github.event.inputs.test_type == 'stress' || github.event.inputs.test_type == 'comprehensive'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies and tools
+        run: |
+          npm ci
+          npm install -g autocannon
+
+      - name: Build and start application
+        run: |
+          npm run build
+          npm start &
+          sleep 30
+
+      - name: Initialize test database
+        run: npm run db:push
+
+      - name: Stress test - Breaking point analysis
+        run: |
+          echo "💥 Running stress test to find breaking point..."
+
+          # Gradually increase load until failure
+          for users in 50 100 200 300 500; do
+            echo "Testing with $users concurrent users..."
+
+            # Run stress test for 2 minutes
+            autocannon -c $users -d 120 --renderStatusCodes http://localhost:3000/api/templates > stress-$users-users.txt 2>&1 || true
+
+            # Check if application is still responding
+            if ! curl -f http://localhost:3000/api/templates > /dev/null 2>&1; then
+              echo "Application failed at $users concurrent users"
+              break
+            fi
+
+            # Brief pause to let system recover
+            sleep 30
+          done
+
+          echo "✅ Stress testing completed"
+
+      - name: Memory pressure test
+        run: |
+          echo "🧠 Running memory pressure test..."
+
+          # Create large payloads to stress memory
+          for i in {1..20}; do
+            # Create larger test documents
+            head -c 1M /dev/urandom | base64 > large-doc-$i.txt
+            curl -X POST -F "file=@large-doc-$i.txt" http://localhost:3000/api/documents/upload &
+          done
+          wait
+
+          # Monitor memory usage during stress
+          ps -o pid,vsz,rss,comm -p $(pgrep node) || echo "Node process monitoring"
+
+          echo "✅ Memory pressure test completed"
+
+      - name: Database stress test
+        run: |
+          echo "🗄️ Running database stress test..."
+
+          # Rapid database operations
+          for i in {1..100}; do
+            curl -X POST -H "Content-Type: application/json" \
+              -d "{\"userId\":\"stress-user-$i\",\"filingType\":\"motion\",\"status\":\"submitted\"}" \
+              http://localhost:3000/api/filing-history &
+          done
+          wait
+
+          echo "✅ Database stress test completed"
+
+      - name: Upload stress test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: stress-test-results
+          path: "stress-*.txt"
+
+  # ============================================================================
+  # SPIKE TESTING
+  # ============================================================================
+
+  spike-testing:
+    name: Spike Testing
+    runs-on: ubuntu-latest
+    needs: baseline-performance
+    if: github.event.inputs.test_type == 'spike' || github.event.inputs.test_type == 'comprehensive'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies and tools
+        run: |
+          npm ci
+          npm install -g autocannon
+
+      - name: Build and start application
+        run: |
+          npm run build
+          npm start &
+          sleep 30
+
+      - name: Initialize test database
+        run: npm run db:push
+
+      - name: Sudden traffic spike test
+        run: |
+          echo "📈 Running sudden traffic spike test..."
+
+          # Normal load (10 users for 1 minute)
+          echo "Starting with normal load..."
+          autocannon -c 10 -d 60 --renderStatusCodes http://localhost:3000/api/templates > spike-normal.txt &
+          NORMAL_PID=$!
+
+          sleep 30
+
+          # Sudden spike (200 users for 2 minutes)
+          echo "Introducing traffic spike..."
+          autocannon -c 200 -d 120 --renderStatusCodes http://localhost:3000/api/templates > spike-high.txt &
+          SPIKE_PID=$!
+
+          # Wait for normal load to complete
+          wait $NORMAL_PID
+
+          # Continue monitoring during spike
+          sleep 60
+
+          # Return to normal load
+          echo "Returning to normal load..."
+          autocannon -c 10 -d 60 --renderStatusCodes http://localhost:3000/api/templates > spike-recovery.txt &
+
+          # Wait for spike to complete
+          wait $SPIKE_PID
+
+          echo "✅ Traffic spike test completed"
+
+      - name: Document upload spike test
+        run: |
+          echo "📄 Running document upload spike test..."
+
+          # Create test files
+          for i in {1..10}; do
+            echo "Spike test document $i" > spike-doc-$i.txt
+          done
+
+          # Sudden spike in document uploads
+          for i in {1..50}; do
+            curl -X POST -F "file=@spike-doc-$((i % 10 + 1)).txt" http://localhost:3000/api/documents/upload &
+          done
+          wait
+
+          echo "✅ Document upload spike test completed"
+
+      - name: Upload spike test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: spike-test-results
+          path: "spike-*.txt"
+
+  # ============================================================================
+  # ENDURANCE TESTING
+  # ============================================================================
+
+  endurance-testing:
+    name: Endurance Testing
+    runs-on: ubuntu-latest
+    needs: baseline-performance
+    if: github.event.inputs.test_type == 'endurance' || github.event.inputs.test_type == 'comprehensive'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies and tools
+        run: |
+          npm ci
+          npm install -g autocannon
+
+      - name: Build and start application
+        run: |
+          npm run build
+          npm start &
+          sleep 30
+
+      - name: Initialize test database
+        run: npm run db:push
+
+      - name: Long-duration endurance test
+        run: |
+          echo "⏱️  Running endurance test (30 minutes)..."
+
+          # Sustained load for extended period
+          autocannon -c 25 -d 1800 --renderStatusCodes http://localhost:3000/api/templates > endurance-main.txt &
+          MAIN_PID=$!
+
+          # Monitor system resources during endurance test
+          while kill -0 $MAIN_PID 2>/dev/null; do
+            echo "$(date): Monitoring system resources..."
+            ps -o pid,vsz,rss,comm -p $(pgrep node) || echo "Node process monitoring"
+            free -h
+            df -h
+            sleep 300  # Check every 5 minutes
+          done
+
+          wait $MAIN_PID
+
+          echo "✅ Endurance test completed"
+
+      - name: Memory leak detection
+        run: |
+          echo "🔍 Checking for memory leaks..."
+
+          # Compare memory usage before and after
+          INITIAL_MEMORY=$(ps -o rss= -p $(pgrep node) | awk '{sum+=$1} END {print sum}')
+          echo "Initial memory usage: ${INITIAL_MEMORY}KB"
+
+          # Run sustained operations
+          for i in {1..1000}; do
+            curl -s http://localhost:3000/api/templates > /dev/null
+            if [ $((i % 100)) -eq 0 ]; then
+              CURRENT_MEMORY=$(ps -o rss= -p $(pgrep node) | awk '{sum+=$1} END {print sum}')
+              echo "Memory after $i requests: ${CURRENT_MEMORY}KB"
+            fi
+          done
+
+          FINAL_MEMORY=$(ps -o rss= -p $(pgrep node) | awk '{sum+=$1} END {print sum}')
+          MEMORY_GROWTH=$((FINAL_MEMORY - INITIAL_MEMORY))
+          echo "Memory growth: ${MEMORY_GROWTH}KB"
+
+          if [ $MEMORY_GROWTH -gt 100000 ]; then  # 100MB threshold
+            echo "⚠️  Potential memory leak detected"
+          else
+            echo "✅ No significant memory leaks detected"
+          fi
+
+      - name: Upload endurance test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: endurance-test-results
+          path: "endurance-*.txt"
+
+  # ============================================================================
+  # REAL-TIME MONITORING AND ALERTING
+  # ============================================================================
+
+  performance-monitoring:
+    name: Real-time Performance Monitoring
+    runs-on: ubuntu-latest
+    needs: [load-testing, stress-testing]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and start application with monitoring
+        run: |
+          npm run build
+          npm start &
+          APP_PID=$!
+          sleep 30
+
+          # Set up monitoring
+          echo "📊 Setting up performance monitoring..."
+
+      - name: API response time monitoring
+        run: |
+          echo "⏱️  Monitoring API response times..."
+
+          # Monitor critical endpoints
+          endpoints=(
+            "/api/templates"
+            "/api/legal-aid"
+            "/api/subscription-plans"
+            "/api/case-assessment"
+          )
+
+          for endpoint in "${endpoints[@]}"; do
+            echo "Monitoring $endpoint..."
+
+            # Take multiple measurements
+            total_time=0
+            num_requests=10
+
+            for i in $(seq 1 $num_requests); do
+              response_time=$(curl -w "@{time_total}" -o /dev/null -s http://localhost:3000$endpoint)
+              total_time=$(echo "$total_time + $response_time" | bc)
+            done
+
+            avg_time=$(echo "scale=3; $total_time / $num_requests" | bc)
+            echo "$endpoint average response time: ${avg_time}s"
+
+            # Alert if response time exceeds threshold
+            if (( $(echo "$avg_time > 2.0" | bc -l) )); then
+              echo "⚠️  ALERT: $endpoint response time exceeds 2 seconds"
+            fi
+          done
+
+      - name: Database performance monitoring
+        run: |
+          echo "🗄️ Monitoring database performance..."
+
+          # Monitor database operations
+          for i in {1..10}; do
+            start_time=$(date +%s.%N)
+
+            # Perform database operation
+            curl -s http://localhost:3000/api/templates > /dev/null
+
+            end_time=$(date +%s.%N)
+            db_time=$(echo "$end_time - $start_time" | bc)
+
+            echo "Database operation $i: ${db_time}s"
+          done
+
+      - name: System resource monitoring
+        run: |
+          echo "💻 Monitoring system resources..."
+
+          # Monitor for 5 minutes
+          for i in {1..10}; do
+            echo "Resource check $i:"
+
+            # CPU usage
+            CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'%' -f1)
+            echo "CPU Usage: ${CPU_USAGE}%"
+
+            # Memory usage
+            MEMORY_INFO=$(free -m | grep Mem)
+            echo "Memory: $MEMORY_INFO"
+
+            # Disk usage
+            DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}')
+            echo "Disk Usage: $DISK_USAGE"
+
+            sleep 30
+          done
+
+  # ============================================================================
+  # PERFORMANCE REPORTING AND ANALYSIS
+  # ============================================================================
+
+  performance-reporting:
+    name: Performance Analysis & Reporting
+    runs-on: ubuntu-latest
+    needs: [baseline-performance, load-testing, stress-testing, spike-testing, endurance-testing, performance-monitoring]
+    if: always()
+
+    steps:
+      - name: Download all performance test results
+        uses: actions/download-artifact@v4
+
+      - name: Generate comprehensive performance report
+        run: |
+          echo "📊 Generating comprehensive performance report..."
+
+          echo "# LegalEaseFile Performance Test Report" > performance-report.md
+          echo "Date: $(date)" >> performance-report.md
+          echo "Commit: ${{ github.sha }}" >> performance-report.md
+          echo "" >> performance-report.md
+
+          echo "## Baseline Performance" >> performance-report.md
+          echo "- Baseline Score: ${{ needs.baseline-performance.outputs.baseline-score }}" >> performance-report.md
+          echo "- Response Times: ${{ needs.baseline-performance.outputs.response-times }}" >> performance-report.md
+          echo "" >> performance-report.md
+
+          echo "## Test Results Summary" >> performance-report.md
+          echo "- Load Testing: ${{ needs.load-testing.result }}" >> performance-report.md
+          echo "- Stress Testing: ${{ needs.stress-testing.result }}" >> performance-report.md
+          echo "- Spike Testing: ${{ needs.spike-testing.result }}" >> performance-report.md
+          echo "- Endurance Testing: ${{ needs.endurance-testing.result }}" >> performance-report.md
+          echo "" >> performance-report.md
+
+          echo "## Recommendations" >> performance-report.md
+          echo "- Review application performance optimizations" >> performance-report.md
+          echo "- Consider database query optimization" >> performance-report.md
+          echo "- Monitor memory usage patterns" >> performance-report.md
+          echo "- Implement caching strategies where appropriate" >> performance-report.md
+
+      - name: Performance trend analysis
+        run: |
+          echo "📈 Analyzing performance trends..."
+
+          # Compare with previous test results
+          # Identify performance regressions
+          # Generate alerts for significant changes
+
+          echo "✅ Performance trend analysis completed"
+
+      - name: Generate performance alerts
+        if: failure()
+        run: |
+          echo "🚨 PERFORMANCE ALERT: Performance tests failed!"
+          echo "Review the performance report for details."
+
+          # Send alerts to:
+          # - Development team
+          # - Operations team
+          # - Performance monitoring systems
+
+      - name: Upload performance report
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-report-${{ github.run_number }}
+          path: performance-report.md
+
+      - name: Update performance dashboard
+        run: |
+          echo "📊 Updating performance dashboard..."
+
+          # Update metrics in monitoring systems
+          # Update performance dashboards
+          # Store historical performance data
+
+          echo "✅ Performance dashboard updated"

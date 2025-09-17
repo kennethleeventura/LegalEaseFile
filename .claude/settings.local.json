@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev:*)",
+      "Bash(tasklist)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(netstat:*)",
+      "Bash(cmd /c:*)",
+      "Bash(del local.db)",
+      "Bash(npm run:*)",
+      "Bash(fuser:*)",
+      "Bash(sqlite3:*)",
+      "Bash(PORT=8080 npm run dev)",
+      "Bash(PORT=9000 npm run dev)",
+      "Bash(curl:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

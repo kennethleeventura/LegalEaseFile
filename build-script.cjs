@@ -4,6 +4,47 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+function createDirectorySafe(dirPath) {
+  if (fs.existsSync(dirPath)) {
+    return true;
+  }
+
+  try {
+    fs.mkdirSync(dirPath, { recursive: true });
+    console.log(`📁 Created directory: ${dirPath}`);
+    return true;
+  } catch (error) {
+    if (error.code === 'EPERM') {
+      console.log(`⚠️  Permission denied creating ${dirPath}. Trying alternative methods...`);
+
+      // Method 1: Try without recursive option
+      try {
+        fs.mkdirSync(dirPath);
+        console.log(`📁 Created directory: ${dirPath} (alternative method)`);
+        return true;
+      } catch (retryError) {
+        // Method 2: Try using command line
+        try {
+          const isWindows = process.platform === 'win32';
+          const mkdirCmd = isWindows ? `mkdir "${dirPath}"` : `mkdir -p "${dirPath}"`;
+          execSync(mkdirCmd, { stdio: 'pipe' });
+          console.log(`📁 Created directory: ${dirPath} (command line fallback)`);
+          return true;
+        } catch (cmdError) {
+          console.error(`❌ Failed to create directory ${dirPath} with all methods`);
+          console.error('Solutions:');
+          console.error('1. Run command prompt as administrator');
+          console.error('2. Manually create the directory');
+          console.error('3. Change to a directory with write permissions');
+          throw error;
+        }
+      }
+    } else {
+      throw error;
+    }
+  }
+}
+
 console.log('🚀 Starting LegalEaseFile build process...');
 console.log('📍 Current directory:', process.cwd());
 console.log('📍 Node version:', process.version);
@@ -41,10 +82,7 @@ try {
   runCommand('npx vite build', '🏗️  Step 2: Building client with Vite');
 
   // Step 4: Create dist directory if it doesn't exist
-  if (!fs.existsSync('dist')) {
-    fs.mkdirSync('dist', { recursive: true });
-    console.log('📁 Created dist directory');
-  }
+  createDirectorySafe('dist');
 
   // Step 5: Build server
   runCommand(

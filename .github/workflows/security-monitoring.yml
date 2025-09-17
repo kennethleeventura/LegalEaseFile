@@ -1,0 +1,363 @@
+name: Security Monitoring & Compliance
+
+on:
+  schedule:
+    # Run security scans daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  security-audit:
+    name: Security Audit & Vulnerability Assessment
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        run: |
+          npm audit --audit-level=high --json > npm-audit.json || true
+          npm audit --audit-level=high
+
+      - name: Dependency vulnerability scan
+        uses: ossf/scorecard-action@v2.3.1
+        with:
+          results_file: scorecard-results.sarif
+          results_format: sarif
+          publish_results: true
+
+      - name: Run Snyk security scan
+        if: env.SNYK_TOKEN
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      - name: CodeQL analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript,typescript
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+
+      - name: Secret scanning
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+
+      - name: License compliance check
+        run: |
+          npx license-checker --json > license-report.json
+          # Check for problematic licenses
+          npx license-checker --excludePackages 'package-name@version' --failOn 'GPL;AGPL'
+
+      - name: OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'LegalEaseFile'
+          path: '.'
+          format: 'ALL'
+
+      - name: Upload security scan results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-scan-results-${{ github.run_number }}
+          path: |
+            npm-audit.json
+            license-report.json
+            reports/
+
+  compliance-check:
+    name: Legal & Regulatory Compliance
+    runs-on: ubuntu-latest
+    needs: security-audit
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: GDPR Compliance Check
+        run: |
+          echo "🔍 Checking GDPR compliance..."
+
+          # Check for data processing consent mechanisms
+          grep -r "consent" client/src/ || echo "Review consent mechanisms"
+
+          # Check for data retention policies
+          grep -r "retention" server/ || echo "Review data retention policies"
+
+          # Check for right to be forgotten implementation
+          grep -r "delete.*user" server/ || echo "Review user data deletion"
+
+      - name: CCPA Compliance Check
+        run: |
+          echo "🔍 Checking CCPA compliance..."
+
+          # Check for privacy policy links
+          grep -r "privacy.*policy" client/src/ || echo "Review privacy policy implementation"
+
+          # Check for data sale opt-out mechanisms
+          grep -r "opt.*out" client/src/ || echo "Review opt-out mechanisms"
+
+      - name: HIPAA Compliance Check (if applicable)
+        run: |
+          echo "🔍 Checking HIPAA compliance indicators..."
+
+          # Check for encryption of PHI
+          grep -r "encrypt" server/ || echo "Review encryption implementation"
+
+          # Check for audit logging
+          grep -r "audit.*log" server/ || echo "Review audit logging"
+
+      - name: Legal Industry Standards Check
+        run: |
+          echo "🔍 Checking legal industry standards..."
+
+          # Check for attorney-client privilege protections
+          grep -r "privilege" server/ || echo "Review privilege protections"
+
+          # Check for confidentiality measures
+          grep -r "confidential" server/ || echo "Review confidentiality measures"
+
+  penetration-testing:
+    name: Penetration Testing
+    runs-on: ubuntu-latest
+    needs: security-audit
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Start application for testing
+        run: |
+          npm start &
+          sleep 30
+
+      - name: OWASP ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.10.0
+        with:
+          target: 'http://localhost:3000'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a -j'
+
+      - name: SQL Injection Testing
+        run: |
+          echo "🔍 Testing for SQL injection vulnerabilities..."
+
+          # Test common SQL injection patterns
+          curl -X POST -H "Content-Type: application/json" \
+            -d '{"email":"admin@test.com'\''OR 1=1--","password":"test"}' \
+            http://localhost:3000/api/auth/login || echo "SQL injection test completed"
+
+      - name: XSS Testing
+        run: |
+          echo "🔍 Testing for XSS vulnerabilities..."
+
+          # Test XSS in document upload
+          echo '<script>alert("xss")</script>' > xss-test.txt
+          curl -X POST -F "file=@xss-test.txt" \
+            http://localhost:3000/api/documents/upload || echo "XSS test completed"
+
+      - name: Authentication Testing
+        run: |
+          echo "🔍 Testing authentication mechanisms..."
+
+          # Test weak password acceptance
+          curl -X POST -H "Content-Type: application/json" \
+            -d '{"email":"test@test.com","password":"123"}' \
+            http://localhost:3000/api/auth/register || echo "Weak password test completed"
+
+          # Test session management
+          curl -X GET -H "Cookie: session=invalid-session" \
+            http://localhost:3000/api/user || echo "Session test completed"
+
+      - name: File Upload Security Testing
+        run: |
+          echo "🔍 Testing file upload security..."
+
+          # Test malicious file upload
+          echo '<?php system($_GET["cmd"]); ?>' > malicious.php
+          curl -X POST -F "file=@malicious.php" \
+            http://localhost:3000/api/documents/upload || echo "Malicious file test completed"
+
+          # Test oversized file upload
+          dd if=/dev/zero of=large-file.txt bs=1M count=100
+          curl -X POST -F "file=@large-file.txt" \
+            http://localhost:3000/api/documents/upload || echo "Large file test completed"
+
+  data-protection:
+    name: Data Protection & Privacy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: PII Detection Scan
+        run: |
+          echo "🔍 Scanning for hardcoded PII..."
+
+          # Check for hardcoded SSNs
+          grep -r "\b\d{3}-\d{2}-\d{4}\b" . --exclude-dir=node_modules || echo "No SSN patterns found"
+
+          # Check for hardcoded credit card numbers
+          grep -r "\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b" . --exclude-dir=node_modules || echo "No CC patterns found"
+
+          # Check for hardcoded email addresses (in code, not test files)
+          grep -r "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" server/ || echo "Email scan completed"
+
+      - name: Encryption Validation
+        run: |
+          echo "🔍 Validating encryption implementation..."
+
+          # Check for proper password hashing
+          grep -r "bcrypt\|scrypt\|argon2" server/ || echo "Review password hashing"
+
+          # Check for proper session encryption
+          grep -r "session.*secret" server/ || echo "Review session security"
+
+          # Check for database encryption at rest
+          grep -r "encrypt" drizzle.config.ts || echo "Review database encryption"
+
+      - name: Data Retention Policy Validation
+        run: |
+          echo "🔍 Validating data retention policies..."
+
+          # Check for automatic data cleanup
+          grep -r "cleanup\|retention\|expire" server/ || echo "Review data retention"
+
+          # Check for user data export capabilities
+          grep -r "export.*data" server/ || echo "Review data export capabilities"
+
+  incident-response:
+    name: Security Incident Response Testing
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Simulate Security Incident
+        run: |
+          echo "🚨 Simulating security incident response..."
+
+          # Test incident detection
+          echo "Testing intrusion detection systems..."
+
+          # Test incident notification systems
+          echo "Testing notification systems..."
+
+          # Test incident containment procedures
+          echo "Testing containment procedures..."
+
+          # Test incident recovery procedures
+          echo "Testing recovery procedures..."
+
+      - name: Backup and Recovery Testing
+        run: |
+          echo "🔄 Testing backup and recovery procedures..."
+
+          # Test database backup procedures
+          echo "Testing database backups..."
+
+          # Test application state recovery
+          echo "Testing application recovery..."
+
+          # Test disaster recovery procedures
+          echo "Testing disaster recovery..."
+
+      - name: Security Monitoring Alert Testing
+        run: |
+          echo "📊 Testing security monitoring and alerting..."
+
+          # Test log aggregation
+          echo "Testing log aggregation systems..."
+
+          # Test anomaly detection
+          echo "Testing anomaly detection systems..."
+
+          # Test alert escalation procedures
+          echo "Testing alert escalation..."
+
+  security-reporting:
+    name: Security Reporting
+    runs-on: ubuntu-latest
+    needs: [security-audit, compliance-check, penetration-testing, data-protection]
+    if: always()
+
+    steps:
+      - name: Download all security artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Generate comprehensive security report
+        run: |
+          echo "📋 Generating comprehensive security report..."
+
+          echo "# LegalEaseFile Security Assessment Report" > security-report.md
+          echo "Date: $(date)" >> security-report.md
+          echo "Commit: ${{ github.sha }}" >> security-report.md
+          echo "" >> security-report.md
+
+          echo "## Security Audit Results" >> security-report.md
+          echo "- Status: ${{ needs.security-audit.result }}" >> security-report.md
+          echo "" >> security-report.md
+
+          echo "## Compliance Check Results" >> security-report.md
+          echo "- Status: ${{ needs.compliance-check.result }}" >> security-report.md
+          echo "" >> security-report.md
+
+          echo "## Penetration Testing Results" >> security-report.md
+          echo "- Status: ${{ needs.penetration-testing.result }}" >> security-report.md
+          echo "" >> security-report.md
+
+          echo "## Data Protection Assessment" >> security-report.md
+          echo "- Status: ${{ needs.data-protection.result }}" >> security-report.md
+
+      - name: Upload security report
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-assessment-report-${{ github.run_number }}
+          path: security-report.md
+
+      - name: Notify security team
+        if: failure()
+        run: |
+          echo "🚨 SECURITY ALERT: Security checks failed!"
+          echo "Review the security assessment report immediately."
+
+          # In production, send alerts via:
+          # - Slack
+          # - Email
+          # - PagerDuty
+          # - Security incident management system

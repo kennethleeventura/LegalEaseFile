@@ -1,7 +1,7 @@
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Component, ReactNode } from "react";
+import React, { Component, ReactNode, Suspense } from "react";
 
 // Lazy load components with error handling
 const Navigation = React.lazy(() => import("@/components/layout/navigation").catch(() => ({ default: () => <div>Navigation unavailable</div> })));
@@ -12,6 +12,7 @@ const ProBonoSearch = React.lazy(() => import("@/pages/pro-bono-search").catch((
 const CaseManagement = React.lazy(() => import("@/pages/case-management").catch(() => ({ default: () => <div>Case Management unavailable</div> })));
 const MPCAssistant = React.lazy(() => import("@/pages/mpc-assistant").catch(() => ({ default: () => <div>MPC Assistant unavailable</div> })));
 const Subscribe = React.lazy(() => import("@/pages/subscribe").catch(() => ({ default: () => <div>Subscribe unavailable</div> })));
+const TemplateForm = React.lazy(() => import("@/pages/template-form").catch(() => ({ default: () => <div>Template Form unavailable</div> })));
 const NotFound = React.lazy(() => import("@/pages/not-found").catch(() => ({ default: () => <div>Page not found</div> })));
 const Landing = React.lazy(() => import("./pages/landing").catch(() => ({ default: () => <div>Landing unavailable</div> })));
 const Features = React.lazy(() => import("./pages/features").catch(() => ({ default: () => <div>Features unavailable</div> })));
@@ -19,8 +20,6 @@ const Pricing = React.lazy(() => import("./pages/pricing").catch(() => ({ defaul
 const About = React.lazy(() => import("./pages/about").catch(() => ({ default: () => <div>About unavailable</div> })));
 const Blog = React.lazy(() => import("./pages/blog").catch(() => ({ default: () => <div>Blog unavailable</div> })));
 const Auth = React.lazy(() => import("./pages/auth").catch(() => ({ default: () => <div>Auth unavailable</div> })));
-
-import React, { Suspense } from "react";
 
 // Error Boundary Component
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean; error?: Error }> {
@@ -67,28 +66,36 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
 
 function Router() {
   console.log("🎯 Router rendering - BULLETPROOF version");
-  
+
   try {
     return (
       <Suspense fallback={<div style={{ padding: "2rem", textAlign: "center" }}>Loading LegalEaseFile...</div>}>
         <Switch>
-          {/* Direct Filing Access - No Auth Required */}
-          <Route path="/" component={ProtectedRoute} />
-          <Route path="/file-document" component={ProtectedRoute} />
-          <Route path="/dashboard" component={ProtectedRoute} />
-          
+          {/* Landing Page First - Split Path for Customers */}
+          <Route path="/" component={Landing} />
+          <Route path="/landing" component={Landing} />
+
+          {/* Authentication */}
+          <Route path="/auth" component={Auth} />
+          <Route path="/signup" component={Auth} />
+          <Route path="/signin" component={Auth} />
+
           {/* Public Pages */}
           <Route path="/features" component={Features} />
           <Route path="/pricing" component={Pricing} />
           <Route path="/about" component={About} />
           <Route path="/blog" component={Blog} />
-          <Route path="/landing" component={Landing} />
+
+          {/* Protected Routes - Require Authentication */}
+          <Route path="/dashboard" component={ProtectedRoute} />
+          <Route path="/file-document" component={ProtectedRoute} />
+          <Route path="/template-form" component={ProtectedRoute} />
           <Route path="/emergency-filing" component={ProtectedRoute} />
           <Route path="/pro-bono-search" component={ProtectedRoute} />
           <Route path="/case-management" component={ProtectedRoute} />
           <Route path="/mpc-assistant" component={ProtectedRoute} />
           <Route path="/subscribe" component={ProtectedRoute} />
-          
+
           {/* 404 Page */}
           <Route component={NotFound} />
         </Switch>
@@ -107,17 +114,58 @@ function Router() {
 }
 
 function ProtectedRoute({ params }: { params?: any }) {
-  // Direct access to filing system - no authentication required
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    // Check for authentication - for now just simulate auth check
+    const checkAuth = async () => {
+      try {
+        // You can replace this with actual auth check
+        const hasAuth = localStorage.getItem('legalease_auth') === 'true';
+        console.log("Auth check:", hasAuth);
+        setIsAuthenticated(hasAuth);
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        setIsAuthenticated(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div style={{ padding: "2rem", textAlign: "center" }}>
+        <h1>LegalEaseFile</h1>
+        <p>Checking authentication...</p>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    // Redirect to auth page
+    window.location.href = "/auth";
+    return (
+      <div style={{ padding: "2rem", textAlign: "center" }}>
+        <h1>LegalEaseFile</h1>
+        <p>Redirecting to login...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Suspense fallback={<div style={{ padding: "2rem" }}>Loading navigation...</div>}>
         <Navigation />
       </Suspense>
-      <Suspense fallback={<div style={{ padding: "2rem" }}>Loading filing system...</div>}>
+      <Suspense fallback={<div style={{ padding: "2rem" }}>Loading application...</div>}>
         <Switch>
-          <Route path="/" component={FileDocument} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/file-document" component={FileDocument} />
+          <Route path="/template-form" component={TemplateForm} />
           <Route path="/emergency-filing" component={EmergencyFiling} />
           <Route path="/pro-bono-search" component={ProBonoSearch} />
           <Route path="/case-management" component={CaseManagement} />

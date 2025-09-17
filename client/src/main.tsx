@@ -1,8 +1,18 @@
 import { createRoot } from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App";
 import "./index.css";
 
-console.log("🚀 LegalEaseFile starting - comprehensive site");
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
+  },
+});
+
+console.log("🚀 LegalEaseFile LAUNCH READY - Full App Version");
 
 // Add error handling for the root element
 const rootElement = document.getElementById("root");
@@ -17,8 +27,12 @@ if (!rootElement) {
 
 try {
   const root = createRoot(rootElement!);
-  root.render(<App />);
-  console.log("✅ LegalEaseFile comprehensive app rendered successfully");
+  root.render(
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  );
+  console.log("✅ LegalEaseFile Full App rendered successfully - READY FOR LAUNCH");
 } catch (error) {
   console.error("❌ Failed to render app:", error);
   document.body.innerHTML = `

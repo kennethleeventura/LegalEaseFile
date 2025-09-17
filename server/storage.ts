@@ -37,6 +37,79 @@ memoryStorage.users.set('demo-user', {
   createdAt: new Date(),
 });
 
+// Add sample legal aid organizations to memory storage
+const sampleLegalAidOrgs: LegalAidOrganization[] = [
+  {
+    id: '1',
+    name: "Greater Boston Legal Services",
+    description: "Free civil legal assistance for low-income individuals and families",
+    website: "https://gbls.org",
+    phone: "(617) 371-1234",
+    email: "intake@gbls.org",
+    address: "197 Friend Street, Boston, MA 02114",
+    location: "boston",
+    practiceAreas: JSON.stringify(["housing", "family", "immigration", "benefits", "consumer"]),
+    availability: "immediate",
+    isEmergency: false,
+    servicesOffered: JSON.stringify(["Legal representation", "Self-help resources", "Community education"]),
+    eligibilityRequirements: "Low-income individuals and families",
+    createdAt: Date.now(),
+  },
+  {
+    id: '2',
+    name: "Community Legal Aid",
+    description: "Legal services for Central and Western Massachusetts",
+    website: "https://communitylegal.org",
+    phone: "(413) 781-7814",
+    email: "info@communitylegal.org",
+    address: "405 Main Street, Worcester, MA 01608",
+    location: "worcester",
+    practiceAreas: JSON.stringify(["family", "housing", "immigration", "benefits", "employment"]),
+    availability: "immediate",
+    isEmergency: true,
+    servicesOffered: JSON.stringify(["Legal representation", "Emergency assistance", "Self-help clinics"]),
+    eligibilityRequirements: "Low to moderate income",
+    createdAt: Date.now(),
+  },
+  {
+    id: '3',
+    name: "Northeast Legal Aid",
+    description: "Comprehensive legal services for Northeastern Massachusetts",
+    website: "https://northeastlegalaid.org",
+    phone: "(978) 458-1465",
+    email: "intake@northeastlegalaid.org",
+    address: "Lawrence, Lowell, Haverhill offices",
+    location: "statewide",
+    practiceAreas: JSON.stringify(["housing", "civil-rights", "benefits", "immigration"]),
+    availability: "immediate",
+    isEmergency: false,
+    servicesOffered: JSON.stringify(["Legal representation", "Benefits advocacy", "Housing assistance"]),
+    eligibilityRequirements: "125% of Federal Poverty Guidelines",
+    createdAt: Date.now(),
+  },
+  {
+    id: '4',
+    name: "REACH (Domestic Violence)",
+    description: "Emergency domestic violence legal assistance",
+    website: "https://reachma.org",
+    phone: "(800) 899-4000",
+    email: "legal@reachma.org",
+    address: "24-hour hotline service",
+    location: "statewide",
+    practiceAreas: JSON.stringify(["family", "civil-rights"]),
+    availability: "emergency",
+    isEmergency: true,
+    servicesOffered: JSON.stringify(["24/7 hotline", "Emergency legal assistance", "Safety planning"]),
+    eligibilityRequirements: "Domestic violence survivors",
+    createdAt: Date.now(),
+  },
+];
+
+// Initialize memory storage with legal aid organizations
+sampleLegalAidOrgs.forEach(org => {
+  memoryStorage.organizations.set(org.id, org);
+});
+
 // Add some sample document templates
 const sampleTemplates: DocumentTemplate[] = [
   {
@@ -44,10 +117,10 @@ const sampleTemplates: DocumentTemplate[] = [
     name: 'Motion for Temporary Restraining Order',
     category: 'emergency',
     description: 'Emergency motion for immediate court intervention',
-    templateContent: 'MOTION FOR TEMPORARY RESTRAINING ORDER\n\nTO THE HONORABLE COURT:\n\nNOW COMES the Plaintiff...',
-    requiredFields: ['plaintiff_name', 'defendant_name', 'case_number', 'emergency_grounds'],
+    template: JSON.stringify({}),
     isEmergency: true,
-    estimatedTime: 30,
+    estimatedTime: "30 minutes",
+    createdAt: Date.now(),
   },
   {
     id: '2', 
@@ -137,40 +210,183 @@ export class DatabaseStorage implements IStorage {
       const existingTemplates = await db.select().from(documentTemplates).limit(1);
       if (existingTemplates.length > 0) return;
 
-      // Initialize document templates
+      // Initialize document templates - matching exact schema fields
       const templates = [
+        // Barnstable County Probate Court Templates
+        {
+          name: "Petition for Probate of Will",
+          description: "Petition to probate a will in Barnstable County Probate Court",
+          category: "probate",
+          jurisdiction: "MA",
+          court_type: "state_probate",
+          isEmergency: false,
+          template: JSON.stringify({
+            sections: ["petitioner_information", "deceased_information", "will_information", "assets_overview", "prayer_for_relief"],
+            required_fields: ["petitioner_name", "deceased_name", "date_of_death", "domicile", "will_date", "assets_estimate"]
+          }),
+          rule_references: JSON.stringify(["Massachusetts General Laws Ch. 190B", "Probate Rule 6", "SJC Rule 3:09"]),
+          compliance_requirements: JSON.stringify({
+            filing_fee: 375,
+            required_documents: ["certified_death_certificate", "original_will", "filing_fee"],
+            notice_requirements: "Publication in local newspaper for 3 consecutive weeks",
+            page_limit: "No specific limit",
+            font_requirements: "12pt, Times New Roman or equivalent"
+          }),
+          estimatedTime: "45-60 minutes",
+          popularity_score: 95,
+          filing_fees: JSON.stringify({
+            base_fee: 375,
+            publication_fee: 150,
+            certified_copies: 8.00
+          }),
+          last_rule_update: Date.now(),
+        },
+        {
+          name: "Petition for Administration (Intestate)",
+          description: "Petition for administration when no will exists",
+          category: "probate",
+          jurisdiction: "MA",
+          court_type: "state_probate",
+          isEmergency: false,
+          template: JSON.stringify({
+            sections: ["petitioner_information", "deceased_information", "heirs_information", "assets_overview", "prayer_for_relief"],
+            required_fields: ["petitioner_name", "deceased_name", "date_of_death", "domicile", "heirs_list", "assets_estimate"]
+          }),
+          rule_references: JSON.stringify(["Massachusetts General Laws Ch. 190B §3-203", "Probate Rule 7"]),
+          compliance_requirements: JSON.stringify({
+            filing_fee: 375,
+            required_documents: ["certified_death_certificate", "affidavit_of_heirs", "filing_fee"],
+            notice_requirements: "Notice to all heirs and next of kin",
+            bond_requirements: "Bond may be required based on estate value"
+          }),
+          estimatedTime: "60-75 minutes",
+          popularity_score: 85,
+          filing_fees: JSON.stringify({
+            base_fee: 375,
+            bond_fee_varies: true,
+            publication_fee: 150
+          }),
+          last_rule_update: Date.now(),
+        },
+        {
+          name: "Emergency Petition for Temporary Administration",
+          description: "Emergency petition for immediate appointment of temporary administrator",
+          category: "emergency",
+          jurisdiction: "MA",
+          court_type: "state_probate",
+          isEmergency: true,
+          template: JSON.stringify({
+            sections: ["emergency_circumstances", "deceased_information", "immediate_need", "temporary_powers_requested", "notice_waiver"],
+            required_fields: ["emergency_nature", "deceased_name", "urgent_matters", "requested_powers"]
+          }),
+          rule_references: JSON.stringify(["Massachusetts General Laws Ch. 190B §3-614", "Probate Rule 6"]),
+          compliance_requirements: JSON.stringify({
+            filing_fee: 375,
+            emergency_fee: 100,
+            expedited_processing: "Same day or next business day",
+            notice_requirements: "Notice may be waived for emergency circumstances",
+            hearing_timeline: "Within 48-72 hours"
+          }),
+          estimatedTime: "30-45 minutes",
+          popularity_score: 70,
+          filing_fees: JSON.stringify({
+            base_fee: 375,
+            emergency_fee: 100,
+            expedited_service: 50
+          }),
+          last_rule_update: Date.now(),
+        },
+        {
+          name: "Petition for Guardianship of Minor",
+          description: "Petition for appointment of guardian for minor child",
+          category: "guardianship",
+          jurisdiction: "MA",
+          court_type: "state_probate",
+          isEmergency: false,
+          template: JSON.stringify({
+            sections: ["petitioner_information", "minor_information", "parents_information", "necessity_of_guardianship", "proposed_guardian_qualifications"],
+            required_fields: ["petitioner_name", "minor_name", "minor_dob", "parents_status", "guardianship_reason"]
+          }),
+          rule_references: JSON.stringify(["Massachusetts General Laws Ch. 190B §5-203", "Probate Rule 24"]),
+          compliance_requirements: JSON.stringify({
+            filing_fee: 220,
+            required_documents: ["birth_certificate", "consent_forms", "background_check"],
+            notice_requirements: "Notice to parents, relatives, and interested parties",
+            hearing_required: true,
+            guardian_training: "Required within 30 days of appointment"
+          }),
+          estimatedTime: "90-120 minutes",
+          popularity_score: 80,
+          filing_fees: JSON.stringify({
+            base_fee: 220,
+            background_check: 25,
+            certified_copies: 8.00
+          }),
+          last_rule_update: Date.now(),
+        },
         {
           name: "Motion for Summary Judgment",
           description: "Standard motion template with AI-guided completion",
           category: "motion",
+          jurisdiction: "FEDERAL",
+          court_type: "federal_district",
           isEmergency: false,
-          template: {
+          template: JSON.stringify({
             sections: ["introduction", "statement_of_facts", "legal_argument", "conclusion"],
             required_fields: ["case_number", "parties", "legal_basis"]
-          },
+          }),
+          rule_references: JSON.stringify(["Rule 56", "FRCP"]),
+          compliance_requirements: JSON.stringify({
+            page_limit: 25,
+            font_size: "12pt",
+            margins: "1 inch"
+          }),
           estimatedTime: "15-20 minutes",
+          popularity_score: 100,
+          filing_fees: JSON.stringify({ base_fee: 350 }),
+          last_rule_update: Date.now(),
         },
         {
           name: "Temporary Restraining Order",
           description: "Emergency TRO template with expedited filing guidance",
           category: "emergency",
+          jurisdiction: "FEDERAL",
+          court_type: "federal_district",
           isEmergency: true,
-          template: {
+          template: JSON.stringify({
             sections: ["emergency_nature", "irreparable_harm", "likelihood_success", "balance_hardships"],
             required_fields: ["case_number", "parties", "emergency_facts", "relief_sought"]
-          },
+          }),
+          rule_references: JSON.stringify(["Rule 65(b)", "FRCP"]),
+          compliance_requirements: JSON.stringify({
+            notice_requirements: "ex parte or minimal notice",
+            time_limit: "14 days maximum"
+          }),
           estimatedTime: "30-45 minutes",
+          popularity_score: 85,
+          filing_fees: JSON.stringify({ base_fee: 350, expedited_fee: 100 }),
+          last_rule_update: Date.now(),
         },
         {
           name: "Preliminary Injunction",
           description: "Motion template with Winter standard compliance",
           category: "emergency",
+          jurisdiction: "FEDERAL",
+          court_type: "federal_district",
           isEmergency: true,
-          template: {
+          template: JSON.stringify({
             sections: ["likelihood_success", "irreparable_harm", "balance_equities", "public_interest"],
             required_fields: ["case_number", "parties", "legal_standard", "factual_basis"]
-          },
+          }),
+          rule_references: JSON.stringify(["Rule 65(a)", "FRCP", "Winter v. Natural Resources Defense Council"]),
+          compliance_requirements: JSON.stringify({
+            standard: "Winter four-factor test",
+            notice_requirements: "full notice and hearing"
+          }),
           estimatedTime: "45-60 minutes",
+          popularity_score: 75,
+          filing_fees: JSON.stringify({ base_fee: 350 }),
+          last_rule_update: Date.now(),
         },
       ];
 
@@ -282,15 +498,32 @@ export class DatabaseStorage implements IStorage {
 
   // Document operations
   async getDocument(id: string): Promise<Document | undefined> {
+    if (!db) {
+      return memoryStorage.documents.get(id);
+    }
     const [document] = await db.select().from(documents).where(eq(documents.id, id));
     return document;
   }
 
   async getDocumentsByUser(userId: string): Promise<Document[]> {
+    if (!db) {
+      return Array.from(memoryStorage.documents.values()).filter(d => d.userId === userId);
+    }
     return await db.select().from(documents).where(eq(documents.userId, userId));
   }
 
   async createDocument(insertDocument: InsertDocument): Promise<Document> {
+    if (!db) {
+      const document: Document = {
+        id: randomUUID(),
+        ...insertDocument,
+        status: "uploaded",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      memoryStorage.documents.set(document.id, document);
+      return document;
+    }
     const [document] = await db
       .insert(documents)
       .values({
@@ -320,24 +553,39 @@ export class DatabaseStorage implements IStorage {
 
   // Document template operations
   async getDocumentTemplates(): Promise<DocumentTemplate[]> {
+    if (!db) {
+      return Array.from(memoryStorage.templates.values());
+    }
     return await db.select().from(documentTemplates);
   }
 
   async getDocumentTemplate(id: string): Promise<DocumentTemplate | undefined> {
+    if (!db) {
+      return memoryStorage.templates.get(id);
+    }
     const [template] = await db.select().from(documentTemplates).where(eq(documentTemplates.id, id));
     return template;
   }
 
   async getDocumentTemplatesByCategory(category: string): Promise<DocumentTemplate[]> {
+    if (!db) {
+      return Array.from(memoryStorage.templates.values()).filter(t => t.category === category);
+    }
     return await db.select().from(documentTemplates).where(eq(documentTemplates.category, category));
   }
 
   async getEmergencyTemplates(): Promise<DocumentTemplate[]> {
+    if (!db) {
+      return Array.from(memoryStorage.templates.values()).filter(t => t.isEmergency);
+    }
     return await db.select().from(documentTemplates).where(eq(documentTemplates.isEmergency, true));
   }
 
   // Legal aid organization operations
   async getLegalAidOrganizations(): Promise<LegalAidOrganization[]> {
+    if (!db) {
+      return Array.from(memoryStorage.organizations.values());
+    }
     return await db.select().from(legalAidOrganizations);
   }
 
@@ -347,6 +595,38 @@ export class DatabaseStorage implements IStorage {
     availability?: string;
     isEmergency?: boolean;
   }): Promise<LegalAidOrganization[]> {
+    if (!db) {
+      // Use memory storage when database is not available
+      let results = Array.from(memoryStorage.organizations.values());
+
+      // Apply filters
+      if (filters.location) {
+        results = results.filter(org =>
+          org.location.toLowerCase().includes(filters.location!.toLowerCase())
+        );
+      }
+
+      if (filters.availability) {
+        results = results.filter(org => org.availability === filters.availability);
+      }
+
+      if (filters.isEmergency !== undefined) {
+        results = results.filter(org => org.isEmergency === filters.isEmergency);
+      }
+
+      if (filters.practiceArea) {
+        results = results.filter(org => {
+          const practiceAreas = JSON.parse(org.practiceAreas || "[]");
+          return practiceAreas.some((area: string) =>
+            area.toLowerCase().includes(filters.practiceArea!.toLowerCase())
+          );
+        });
+      }
+
+      return results;
+    }
+
+    // Database query for when database is available
     let query = db.select().from(legalAidOrganizations);
     const conditions = [];
 
@@ -370,11 +650,12 @@ export class DatabaseStorage implements IStorage {
 
     // Filter by practice area in memory since it's an array field
     if (filters.practiceArea) {
-      return results.filter(org =>
-        org.practiceAreas.some(area => 
+      return results.filter(org => {
+        const practiceAreas = JSON.parse(org.practiceAreas || "[]");
+        return practiceAreas.some((area: string) =>
           area.toLowerCase().includes(filters.practiceArea!.toLowerCase())
-        )
-      );
+        );
+      });
     }
 
     return results;

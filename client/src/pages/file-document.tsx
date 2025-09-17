@@ -3,7 +3,7 @@ import { FileText, ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import FileUploadZone from "@/components/document/file-upload-zone";
 import DocumentTemplates from "@/components/document/document-templates";
 import EmergencyAlert from "@/components/legal/emergency-alert";
@@ -18,6 +18,7 @@ const FILING_STEPS = [
 ];
 
 export default function FileDocument() {
+  const [location, setLocation] = useLocation();
   const [currentStep, setCurrentStep] = useState(1);
   const [uploadedDocuments, setUploadedDocuments] = useState<any[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<DocumentTemplate | null>(null);
@@ -33,7 +34,15 @@ export default function FileDocument() {
   const handleTemplateSelect = (template: DocumentTemplate) => {
     setSelectedTemplate(template);
     console.log("Template selected for generation:", template);
-    // TODO: Navigate to template form
+
+    // Navigate to template form with template info
+    const templateParams = new URLSearchParams({
+      id: template.id,
+      name: encodeURIComponent(template.name),
+      category: template.category
+    });
+
+    setLocation(`/template-form?${templateParams.toString()}`);
   };
 
   const handleNextStep = () => {
