@@ -61,8 +61,8 @@ export default function Navigation() {
                   className="max-w-xs flex items-center text-sm rounded-full"
                   data-testid="user-menu-button"
                 >
-                  <div className="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center">
-                    <User className="text-primary-600 text-sm" />
+                  <div className="h-8 w-8 rounded-full border border-primary-300 flex items-center justify-center">
+                    <User className="text-sm bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
                   </div>
                   <span className="ml-2 text-gray-700 text-sm font-medium">John Smith</span>
                 </Button>

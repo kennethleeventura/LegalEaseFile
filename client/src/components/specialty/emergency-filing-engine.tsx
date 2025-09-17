@@ -411,19 +411,19 @@ export default function EmergencyFilingEngine() {
                     <SelectContent>
                       <SelectItem value="critical">
                         <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-red-500" />
+                          <div className="w-2 h-2 rounded-full border border-red-300" style={{background: 'linear-gradient(to right, rgb(239, 68, 68), rgb(251, 146, 60))'}} />
                           Critical (0-4 hours)
                         </div>
                       </SelectItem>
                       <SelectItem value="high">
                         <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-yellow-500" />
+                          <div className="w-2 h-2 rounded-full border border-yellow-300" style={{background: 'linear-gradient(to right, rgb(234, 179, 8), rgb(251, 146, 60))'}} />
                           High (4-24 hours)
                         </div>
                       </SelectItem>
                       <SelectItem value="medium">
                         <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-blue-500" />
+                          <div className="w-2 h-2 rounded-full border border-blue-300" style={{background: 'linear-gradient(to right, rgb(59, 130, 246), rgb(147, 51, 234))'}} />
                           Medium (1-3 days)
                         </div>
                       </SelectItem>

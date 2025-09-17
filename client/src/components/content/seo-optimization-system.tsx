@@ -519,8 +519,8 @@ export default function SEOOptimizationSystem() {
                 {competitors.map((competitor, index) => (
                   <div key={competitor.domain} className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="flex items-center gap-4">
-                      <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full">
-                        <span className="text-sm font-bold text-blue-600">#{index + 1}</span>
+                      <div className="flex items-center justify-center w-8 h-8 rounded-full border border-blue-300">
+                        <span className="text-sm font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>#{index + 1}</span>
                       </div>
                       <div>
                         <h4 className="font-semibold text-gray-900">{competitor.domain}</h4>

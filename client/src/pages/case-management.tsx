@@ -276,15 +276,15 @@ export default function CaseManagement() {
                 <div className="space-y-3">
                   <h3 className="font-semibold">Encryption Status</h3>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-blue-500"></div>
                     <span className="text-sm">Client data encrypted with AES-256</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-blue-500"></div>
                     <span className="text-sm">Document analysis results encrypted</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-blue-500"></div>
                     <span className="text-sm">Multi-party computation enabled</span>
                   </div>
                 </div>
@@ -292,15 +292,15 @@ export default function CaseManagement() {
                 <div className="space-y-3">
                   <h3 className="font-semibold">Airtable Integration</h3>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-blue-500"></div>
                     <span className="text-sm">API connection secured</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-blue-500"></div>
                     <span className="text-sm">Base permissions validated</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-blue-500"></div>
                     <span className="text-sm">Data synchronization active</span>
                   </div>
                 </div>

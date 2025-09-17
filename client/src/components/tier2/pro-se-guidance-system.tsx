@@ -366,7 +366,7 @@ export default function ProSeGuidanceSystem() {
                         <div className="space-y-2">
                           {result.nextSteps.map((step, index) => (
                             <div key={index} className="flex items-center space-x-2">
-                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">
+                              <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs text-transparent bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text border border-blue-300" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>
                                 {index + 1}
                               </div>
                               <span className="text-sm">{step}</span>

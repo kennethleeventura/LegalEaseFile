@@ -59,9 +59,7 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="h-12 w-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                  <Plus className="text-primary-600 text-xl" />
-                </div>
+                <Plus className="h-12 w-12 text-transparent bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">File New Document</h3>
@@ -87,9 +85,7 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="h-12 w-12 bg-red-100 rounded-lg flex items-center justify-center">
-                  <AlertTriangle className="text-red-600 text-xl" />
-                </div>
+                <AlertTriangle className="h-12 w-12 text-transparent bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Emergency Filing</h3>
@@ -116,9 +112,7 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <HandHeart className="text-blue-600 text-xl" />
-                </div>
+                <HandHeart className="h-12 w-12 text-transparent bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Pro Bono Legal Aid</h3>
@@ -178,9 +172,7 @@ export default function Dashboard() {
                 recentActivity.map((activity: any) => (
                   <div key={activity.id} className="flex items-start" data-testid={`activity-${activity.id}`}>
                     <div className="flex-shrink-0">
-                      <div className="h-8 w-8 bg-primary-100 rounded-full flex items-center justify-center">
-                        <Upload className="text-primary-600 text-sm" />
-                      </div>
+                      <Upload className="h-8 w-8 text-transparent bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
                     </div>
                     <div className="ml-3">
                       <p className="text-sm font-medium text-gray-900" data-testid="activity-title">

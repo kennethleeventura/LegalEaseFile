@@ -367,7 +367,7 @@ How can I assist you with your legal work today?`,
                   <Bot className="h-5 w-5 text-purple-500" />
                   <span className="font-semibold">MPC AI Assistant</span>
                   <div className="flex items-center gap-1">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                    <div className="w-2 h-2 rounded-full animate-pulse border border-green-300" style={{background: 'linear-gradient(to right, rgb(34, 197, 94), rgb(59, 130, 246))'}} />
                     <span className="text-xs text-gray-600">Online</span>
                   </div>
                 </div>

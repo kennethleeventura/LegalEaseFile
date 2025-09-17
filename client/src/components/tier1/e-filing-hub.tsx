@@ -330,14 +330,14 @@ export default function EFilingHub() {
                   <div className="flex items-center justify-between">
                     <span>Overall Compliance</span>
                     {complianceMutation.data.isCompliant ? (
-                      <Badge className="bg-green-100 text-green-800">
-                        <CheckCircle className="mr-1 h-3 w-3" />
-                        Compliant
+                      <Badge className="border border-green-300">
+                        <CheckCircle className="mr-1 h-3 w-3 bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
+                        <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>Compliant</span>
                       </Badge>
                     ) : (
-                      <Badge className="bg-red-100 text-red-800">
-                        <AlertCircle className="mr-1 h-3 w-3" />
-                        Issues Found
+                      <Badge className="border border-red-300">
+                        <AlertCircle className="mr-1 h-3 w-3 bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
+                        <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>Issues Found</span>
                       </Badge>
                     )}
                   </div>

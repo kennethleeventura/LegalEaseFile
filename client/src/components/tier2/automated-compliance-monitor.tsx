@@ -417,9 +417,9 @@ export default function AutomatedComplianceMonitor() {
                               <div className="flex space-x-2">
                                 <Badge variant="outline">{violation.category}</Badge>
                                 {violation.autoFixAvailable && (
-                                  <Badge className="bg-green-100 text-green-800">
-                                    <Wrench className="h-3 w-3 mr-1" />
-                                    Auto-fixable
+                                  <Badge className="border border-green-300">
+                                    <Wrench className="h-3 w-3 mr-1 bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
+                                    <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent" style={{WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>Auto-fixable</span>
                                   </Badge>
                                 )}
                               </div>
