@@ -325,15 +325,15 @@ const ComprehensiveLanding = () => {
         </header>
 
         {/* Split-Screen Hero Section */}
-        <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
-          <div className="w-full grid lg:grid-cols-2 min-h-screen">
+        <section className="relative h-screen flex items-center overflow-hidden">
+          <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2">
 
             {/* Left Side - Image Section with Compass Animation */}
             <motion.div
               initial="hidden"
-              animate={heroInView ? "visible" : "hidden"}
+              animate="visible"
               variants={slideInLeft}
-              className="relative bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 flex items-center justify-center p-8 lg:p-16"
+              className="relative bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 flex items-center justify-center h-full"
             >
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-10">
@@ -343,7 +343,7 @@ const ComprehensiveLanding = () => {
               </div>
 
               {/* Compass Animation Container */}
-              <div className="relative z-10 max-w-lg mx-auto">
+              <div className="relative z-10 w-full max-w-lg px-8">
                 <motion.div
                   animate={{
                     rotate: [0, 360],
@@ -353,7 +353,7 @@ const ComprehensiveLanding = () => {
                     rotate: { duration: 20, repeat: Infinity, ease: "linear" },
                     scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                   }}
-                  className="w-full max-w-md mx-auto"
+                  className="w-full"
                 >
                   <img
                     src="/assets/images/compass-animation.gif"
@@ -367,7 +367,7 @@ const ComprehensiveLanding = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.8 }}
-                  className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-full text-center"
+                  className="mt-8 text-center"
                 >
                   <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border">
                     <h3 className="text-2xl font-bold text-blue-600 mb-1">
@@ -384,16 +384,16 @@ const ComprehensiveLanding = () => {
             {/* Right Side - Copy + CTA Section */}
             <motion.div
               initial="hidden"
-              animate={heroInView ? "visible" : "hidden"}
+              animate="visible"
               variants={fadeInUp}
-              className="relative bg-white flex items-center p-8 lg:p-16"
+              className="relative bg-white flex items-center justify-center h-full p-8 lg:p-16"
             >
-              <div className="max-w-lg mx-auto space-y-8">
+              <div className="w-full max-w-lg space-y-6">
 
                 {/* Certification Badge */}
                 <motion.div variants={fadeInUp}>
                   <Badge
-                    className="mb-6 text-sm px-4 py-2"
+                    className="mb-4 text-sm px-4 py-2"
                     style={{
                       backgroundColor: colorTheme.gold[100],
                       color: colorTheme.gold[600],
@@ -408,7 +408,7 @@ const ComprehensiveLanding = () => {
                 {/* SEO-Optimized Headline */}
                 <motion.h1
                   variants={fadeInUp}
-                  className="text-4xl lg:text-5xl font-bold leading-tight text-gray-900"
+                  className="text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight text-gray-900"
                 >
                   AI-Powered Legal Filing for{" "}
                   <span className="text-blue-600">Pro Se Litigants</span>{" "}
@@ -418,14 +418,14 @@ const ComprehensiveLanding = () => {
                 {/* Subhead */}
                 <motion.p
                   variants={fadeInUp}
-                  className="text-2xl font-semibold text-gray-700"
+                  className="text-xl lg:text-2xl font-semibold text-gray-700"
                 >
                   Compliant. Simple. Court-Ready.
                 </motion.p>
 
                 <motion.p
                   variants={fadeInUp}
-                  className="text-lg text-gray-600 leading-relaxed"
+                  className="text-base lg:text-lg text-gray-600 leading-relaxed"
                 >
                   Massachusetts court forms, federal court filings, and self-representation help powered by AI legal research and case automation tools.
                 </motion.p>
@@ -433,43 +433,43 @@ const ComprehensiveLanding = () => {
                 {/* Dual CTA Buttons */}
                 <motion.div
                   variants={fadeInUp}
-                  className="space-y-4"
+                  className="space-y-3"
                 >
                   {/* For Individuals (Pro Se Litigants) */}
                   <Button
                     size="lg"
-                    className="w-full px-8 py-6 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="w-full px-6 py-5 text-base lg:text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                     onClick={() => window.location.href = "/file-document"}
                   >
-                    <Users className="mr-3 h-6 w-6" />
+                    <Users className="mr-3 h-5 w-5" />
                     File My Case - For Individuals
-                    <ArrowRight className="ml-3 h-5 w-5" />
+                    <ArrowRight className="ml-3 h-4 w-4" />
                   </Button>
 
                   {/* For Legal Professionals */}
                   <Button
                     variant="outline"
                     size="lg"
-                    className="w-full px-8 py-6 text-lg font-semibold border-2 border-amber-500 text-amber-600 hover:bg-amber-50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="w-full px-6 py-5 text-base lg:text-lg font-semibold border-2 border-amber-500 text-amber-600 hover:bg-amber-50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                     onClick={() => window.location.href = "/pricing"}
                   >
-                    <Scale className="mr-3 h-6 w-6" />
+                    <Scale className="mr-3 h-5 w-5" />
                     Grow My Practice - For Attorneys
-                    <ArrowRight className="ml-3 h-5 w-5" />
+                    <ArrowRight className="ml-3 h-4 w-4" />
                   </Button>
                 </motion.div>
 
                 {/* Trust Indicators */}
                 <motion.div
                   variants={fadeInUp}
-                  className="flex items-center justify-center space-x-8 text-sm text-gray-500 pt-6"
+                  className="flex items-center justify-center space-x-6 text-sm text-gray-500 pt-4"
                 >
                   <div className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
                     Secure & HIPAA Compliant
                   </div>
                   <div className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
                     14-Day Free Trial
                   </div>
                 </motion.div>
@@ -487,10 +487,168 @@ const ComprehensiveLanding = () => {
               </div>
             </motion.div>
           </div>
+        </section>
+
+        {/* Original Hero Section with Parallax */}
+        <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
+          <div
+            className="absolute inset-0 bg-gradient-to-br opacity-10"
+            style={{
+              background: `linear-gradient(135deg, ${colorTheme.primary[50]} 0%, ${colorTheme.gold[50]} 100%)`
+            }}
+          />
+
+          {/* Parallax Background Elements */}
+          <motion.div
+            className="absolute inset-0"
+            style={{ y: y1 }}
+          >
+            <div className="absolute top-20 left-10 w-20 h-20 bg-blue-200 rounded-full opacity-20" />
+            <div className="absolute top-40 right-20 w-32 h-32 bg-gold-200 rounded-full opacity-20" />
+            <div className="absolute bottom-40 left-1/4 w-16 h-16 bg-blue-300 rounded-full opacity-20" />
+          </motion.div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Hero Content */}
+              <motion.div
+                initial="hidden"
+                animate={heroInView ? "visible" : "hidden"}
+                variants={staggerContainer}
+                className="space-y-8"
+              >
+                <motion.div variants={fadeInUp}>
+                  <Badge
+                    className="mb-4"
+                    style={{
+                      backgroundColor: colorTheme.gold[100],
+                      color: colorTheme.gold[600],
+                      border: `1px solid ${colorTheme.gold[200]}`
+                    }}
+                  >
+                    <Award className="w-4 h-4 mr-1" />
+                    Massachusetts Federal District Court Certified
+                  </Badge>
+                </motion.div>
+
+                <motion.h1
+                  variants={fadeInUp}
+                  className="text-5xl lg:text-7xl font-bold leading-tight"
+                  style={{ color: colorTheme.gray[900] }}
+                >
+                  AI-Powered
+                  <span
+                    className="block"
+                    style={{ color: colorTheme.primary[600] }}
+                  >
+                    Legal Filing
+                  </span>
+                  Revolution
+                </motion.h1>
+
+                <motion.p
+                  variants={fadeInUp}
+                  className="text-xl text-gray-600 max-w-lg"
+                >
+                  Streamline document preparation, ensure CM/ECF compliance, and access emergency filing assistance with our comprehensive AI-powered legal platform.
+                </motion.p>
+
+                <motion.div
+                  variants={fadeInUp}
+                  className="flex flex-col sm:flex-row gap-4"
+                >
+                  <Button
+                    size="lg"
+                    className="px-8 py-4 text-lg"
+                    style={{ backgroundColor: colorTheme.primary[600] }}
+                    onClick={() => window.location.href = "/api/login"}
+                  >
+                    Start Free Trial
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="px-8 py-4 text-lg border-2"
+                    style={{
+                      borderColor: colorTheme.primary[600],
+                      color: colorTheme.primary[600]
+                    }}
+                  >
+                    Watch Demo
+                  </Button>
+                </motion.div>
+
+                <motion.div
+                  variants={fadeInUp}
+                  className="flex items-center space-x-6 text-sm text-gray-500"
+                >
+                  <div className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                    No Setup Fees
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                    14-Day Free Trial
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                    Cancel Anytime
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Hero Image/Demo */}
+              <motion.div
+                initial="hidden"
+                animate={heroInView ? "visible" : "hidden"}
+                variants={slideInLeft}
+                className="relative"
+              >
+                <div className="bg-white rounded-2xl shadow-2xl p-8 border">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-semibold text-gray-800">Document Analysis</h3>
+                      <Badge className="bg-green-100 text-green-800">Complete</Badge>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <Brain className="h-5 w-5 text-blue-600" />
+                        <span className="text-sm font-medium">AI Analysis Results</span>
+                      </div>
+                      <div className="space-y-2 text-sm text-gray-600">
+                        <div className="flex justify-between">
+                          <span>Document Type:</span>
+                          <span className="font-medium">Motion for Summary Judgment</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>CM/ECF Compliance:</span>
+                          <span className="text-green-600 font-medium">✓ Validated</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Filing Deadline:</span>
+                          <span className="font-medium">January 25, 2025</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating Elements */}
+                <motion.div
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  className="absolute -top-4 -right-4 bg-blue-600 text-white p-3 rounded-lg shadow-lg"
+                >
+                  <Zap className="h-6 w-6" />
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
 
           {/* Scroll Indicator */}
           <motion.div
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
