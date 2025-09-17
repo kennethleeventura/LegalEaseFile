@@ -373,23 +373,23 @@ export default function About() {
                 <CardContent>
                   <ul className="space-y-3 text-gray-700">
                     <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="h-5 w-5 gradient-green mr-3 mt-0.5 flex-shrink-0" />
                       AI-powered document generation and compliance checking
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="h-5 w-5 gradient-green mr-3 mt-0.5 flex-shrink-0" />
                       Affordable pricing that scales with your practice
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="h-5 w-5 gradient-green mr-3 mt-0.5 flex-shrink-0" />
                       Real-time rule updates and automatic compliance
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="h-5 w-5 gradient-green mr-3 mt-0.5 flex-shrink-0" />
                       Step-by-step guidance for self-represented litigants
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="h-5 w-5 gradient-green mr-3 mt-0.5 flex-shrink-0" />
                       Enterprise features at small firm prices
                     </li>
                   </ul>

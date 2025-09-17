@@ -97,9 +97,9 @@ export default function FileUploadZone({ onUploadComplete }: FileUploadZoneProps
           <div className="space-y-4">
             <div>
               {uploadMutation.isPending ? (
-                <Loader2 className="text-primary-600 text-4xl animate-spin mx-auto" data-testid="upload-spinner" />
+                <Loader2 className="gradient-icon text-4xl animate-spin mx-auto" data-testid="upload-spinner" />
               ) : (
-                <CloudUpload className="text-gray-400 text-4xl mx-auto" data-testid="upload-icon" />
+                <CloudUpload className="gradient-blue text-4xl mx-auto" data-testid="upload-icon" />
               )}
             </div>
             <div>
@@ -136,7 +136,7 @@ export default function FileUploadZone({ onUploadComplete }: FileUploadZoneProps
       {/* AI Analysis Results */}
       {analysisResult && (
         <Alert className="bg-primary-50 border border-primary-200" data-testid="analysis-results">
-          <FileText className="text-primary-600 h-5 w-5" />
+          <FileText className="gradient-icon h-5 w-5" />
           <AlertDescription>
             <div className="space-y-2">
               <div className="flex items-center mb-2">

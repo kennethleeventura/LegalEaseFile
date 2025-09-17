@@ -523,7 +523,7 @@ export default function ProSeGuidanceSystem() {
                       <div className="space-y-3">
                         {result.warningsAndTips.map((warning, index) => (
                           <div key={index} className="flex items-start space-x-2">
-                            <AlertTriangle className="h-4 w-4 text-amber-600 mt-0.5" />
+                            <AlertTriangle className="h-4 w-4 gradient-icon mt-0.5" />
                             <span className="text-sm">{warning}</span>
                           </div>
                         ))}
@@ -541,19 +541,19 @@ export default function ProSeGuidanceSystem() {
                     <CardContent>
                       <div className="space-y-3">
                         <div className="flex items-start space-x-2">
-                          <Star className="h-4 w-4 text-blue-600 mt-0.5" />
+                          <Star className="h-4 w-4 gradient-blue mt-0.5" />
                           <span className="text-sm">Organize all documents chronologically before going to court</span>
                         </div>
                         <div className="flex items-start space-x-2">
-                          <Star className="h-4 w-4 text-blue-600 mt-0.5" />
+                          <Star className="h-4 w-4 gradient-blue mt-0.5" />
                           <span className="text-sm">Practice your presentation and prepare for likely questions</span>
                         </div>
                         <div className="flex items-start space-x-2">
-                          <Star className="h-4 w-4 text-blue-600 mt-0.5" />
+                          <Star className="h-4 w-4 gradient-blue mt-0.5" />
                           <span className="text-sm">Arrive early to court and dress professionally</span>
                         </div>
                         <div className="flex items-start space-x-2">
-                          <Star className="h-4 w-4 text-blue-600 mt-0.5" />
+                          <Star className="h-4 w-4 gradient-blue mt-0.5" />
                           <span className="text-sm">Bring extra copies of all documents for the judge and opposing party</span>
                         </div>
                       </div>

@@ -189,7 +189,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="text-center py-6 text-gray-500">
-                  <Upload className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                  <Upload className="h-12 w-12 mx-auto mb-3 gradient-blue" />
                   <p>No recent activity</p>
                   <p className="text-sm">Start by uploading a document or creating a new filing</p>
                 </div>

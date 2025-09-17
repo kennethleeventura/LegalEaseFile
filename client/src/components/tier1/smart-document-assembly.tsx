@@ -355,25 +355,25 @@ export default function SmartDocumentAssembly() {
                 <div className="grid grid-cols-3 gap-4">
                   <div className="flex items-center space-x-2">
                     {assembledDocument.complianceChecks.formatting ? (
-                      <CheckCircle className="h-4 w-4 text-green-600" />
+                      <CheckCircle className="h-4 w-4 gradient-green" />
                     ) : (
-                      <AlertCircle className="h-4 w-4 text-red-600" />
+                      <AlertCircle className="h-4 w-4 gradient-red" />
                     )}
                     <span className="text-sm">Formatting</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     {assembledDocument.complianceChecks.jurisdiction ? (
-                      <CheckCircle className="h-4 w-4 text-green-600" />
+                      <CheckCircle className="h-4 w-4 gradient-green" />
                     ) : (
-                      <AlertCircle className="h-4 w-4 text-red-600" />
+                      <AlertCircle className="h-4 w-4 gradient-red" />
                     )}
                     <span className="text-sm">Jurisdiction</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     {assembledDocument.complianceChecks.completeness ? (
-                      <CheckCircle className="h-4 w-4 text-green-600" />
+                      <CheckCircle className="h-4 w-4 gradient-green" />
                     ) : (
-                      <AlertCircle className="h-4 w-4 text-red-600" />
+                      <AlertCircle className="h-4 w-4 gradient-red" />
                     )}
                     <span className="text-sm">Completeness</span>
                   </div>
