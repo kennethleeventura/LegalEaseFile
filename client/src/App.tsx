@@ -118,13 +118,13 @@ function ProtectedRoute({ params }: { params?: any }) {
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    // Check for authentication - for now just simulate auth check
+    // For development - auto-authenticate to test functionality quickly
     const checkAuth = async () => {
       try {
-        // You can replace this with actual auth check
-        const hasAuth = localStorage.getItem('legalease_auth') === 'true';
-        console.log("Auth check:", hasAuth);
-        setIsAuthenticated(hasAuth);
+        // Auto-authenticate for development
+        console.log("Development mode - auto-authenticating");
+        localStorage.setItem('legalease_auth', 'true');
+        setIsAuthenticated(true);
       } catch (error) {
         console.error("Auth check failed:", error);
         setIsAuthenticated(false);

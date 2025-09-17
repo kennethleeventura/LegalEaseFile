@@ -36,6 +36,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   await setupAuth(app);
 
   // Auth routes
+  app.get('/api/auth/check', (req: any, res) => {
+    // For development, check if session exists
+    if (process.env.NODE_ENV === 'development') {
+      if (req.session?.user) {
+        return res.json({ authenticated: true, user: req.session.user });
+      }
+    }
+
+    // For production, check user object
+    if (req.user && req.isAuthenticated && req.isAuthenticated()) {
+      return res.json({ authenticated: true, user: req.user });
+    }
+
+    res.status(401).json({ authenticated: false });
+  });
+
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user.claims.sub;
@@ -192,7 +208,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No file uploaded" });
       }
 
-      const userId = 'demo-user'; // Demo mode - no auth required
+      const userId = '5f81e496-d0de-4dd9-8812-93512b198423'; // Demo user ID - update to your actual demo user
 
       // Extract text content
       const textContent = DocumentProcessor.extractTextFromBuffer(

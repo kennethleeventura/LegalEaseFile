@@ -210,6 +210,16 @@ export class DatabaseStorage implements IStorage {
       const existingTemplates = await db.select().from(documentTemplates).limit(1);
       if (existingTemplates.length > 0) return;
 
+      // First, create demo user for development
+      await db.insert(users).values({
+        id: 'demo-user',
+        email: 'demo@legaleasefile.com',
+        firstName: 'Demo',
+        lastName: 'User',
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      }).onConflictDoNothing();
+
       // Initialize document templates - matching exact schema fields
       const templates = [
         // Barnstable County Probate Court Templates
@@ -489,7 +499,7 @@ export class DatabaseStorage implements IStorage {
         target: users.id,
         set: {
           ...userData,
-          updatedAt: new Date(),
+          updatedAt: Date.now(),
         },
       })
       .returning();

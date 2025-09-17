@@ -96,9 +96,23 @@ export async function setupAuth(app: Express) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Skip OIDC setup if REPL_ID is not available
-  if (!process.env.REPL_ID) {
-    console.warn("REPL_ID not configured - authentication will be disabled");
+  // For local development, skip OIDC and use simple auth
+  if (!process.env.REPL_ID || process.env.NODE_ENV === 'development' || process.env.REPL_ID === 'local-development') {
+    console.warn("Development mode - using simplified authentication");
+
+    // Simple local authentication routes
+    app.get("/api/login", (req, res) => {
+      // Set a simple session for development
+      req.session.user = { id: 'dev-user', email: 'developer@legalease.dev' };
+      res.redirect('/dashboard');
+    });
+
+    app.get("/api/logout", (req, res) => {
+      req.session.destroy(() => {
+        res.redirect('/');
+      });
+    });
+
     return;
   }
 
@@ -157,6 +171,14 @@ export async function setupAuth(app: Express) {
 }
 
 export const isAuthenticated: RequestHandler = async (req, res, next) => {
+  // For development mode, check session-based auth
+  if (process.env.NODE_ENV === 'development' || process.env.REPL_ID === 'local-development') {
+    if (req.session?.user) {
+      return next();
+    }
+    return res.status(401).json({ message: "Unauthorized - please login first" });
+  }
+
   const user = req.user as any;
 
   if (!req.isAuthenticated() || !user.expires_at) {
