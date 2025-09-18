@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Scale, Shield, Clock, Users, FileText, Zap, ArrowRight, Brain, Search, Lightbulb, ChevronDown } from "lucide-react";
-import { CompassLogo } from "@/components/CompassLogo";
 
 // DEPLOYMENT UPDATE: Force cache refresh v2.0
 export default function Landing() {
@@ -83,7 +82,7 @@ export default function Landing() {
             color: #FF5A5F;
             font-weight: 700;
           }
-          
+
           @supports (-webkit-background-clip: text) {
             .gradient-text {
               background: linear-gradient(135deg, #FF5A5F 0%, #E0F7FF 100%);
@@ -91,6 +90,60 @@ export default function Landing() {
               -webkit-text-fill-color: transparent;
               background-clip: text;
             }
+          }
+
+          .gradient-icon {
+            background: linear-gradient(135deg, #FF5A5F 0%, #E0F7FF 50%, #B3E5FC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
+          .split-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            transition: all 0.5s ease;
+          }
+
+          .split-hero:hover .hero-left {
+            grid-column: 1 / span 1;
+            width: 80%;
+          }
+
+          .split-hero:hover .hero-right {
+            grid-column: 2 / span 1;
+            width: 20%;
+          }
+
+          .hero-left {
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+          }
+
+          .hero-right {
+            transition: all 0.5s ease;
+            position: relative;
+          }
+
+          .hero-left:hover {
+            transform: scale(1.02);
+          }
+
+          .hero-right:hover {
+            transform: scale(1.05);
+          }
+
+          .nav-mini {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+          }
+
+          .split-hero:hover .nav-mini {
+            opacity: 1;
+            transform: translateY(0);
           }
           
           .coral-button {
@@ -222,16 +275,50 @@ export default function Landing() {
       {/* Hero Section - Split Screen with Clear Division */}
       <section ref={heroRef} className="relative pt-16 min-h-screen">
         <div className="absolute inset-0 bg-gradient-to-r from-white via-gray-50 to-blue-50"></div>
-        <div className="relative z-10 h-full flex items-center">
-          <div className="w-full grid grid-cols-1 lg:grid-cols-2 min-h-screen">
-            {/* Left Side - Text Content with distinct background */}
-            <div className="bg-white/95 backdrop-blur-sm px-8 lg:px-16 py-16 flex items-center">
+        <div className="relative z-10 h-full">
+          <div className="split-hero">
+            {/* Left Side - Animated Image */}
+            <div className="hero-left bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#FF5A5F]/20 to-transparent"></div>
+              <div className="relative z-10 text-center">
+                <img
+                  src="/assets/images/compass-courthouse.gif"
+                  alt="LegalEaseFile AI-Powered Legal Filing Animation"
+                  className="w-full max-w-lg mx-auto h-auto object-contain drop-shadow-2xl"
+                  style={{
+                    filter: 'drop-shadow(0 25px 50px rgba(255, 90, 95, 0.3))',
+                    animation: 'scale 6s ease-in-out infinite'
+                  }}
+                />
+
+                {/* Navigation buttons that appear on hover */}
+                <div className="nav-mini absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-4">
+                  <Button
+                    size="sm"
+                    onClick={() => window.location.href = "/dashboard"}
+                    className="bg-white/90 text-[#FF5A5F] hover:bg-white backdrop-blur-sm"
+                  >
+                    Dashboard
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => window.location.href = "/file-document"}
+                    className="bg-white/90 text-[#FF5A5F] hover:bg-white backdrop-blur-sm"
+                  >
+                    File Now
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - Text Content */}
+            <div className="hero-right bg-white/95 backdrop-blur-sm px-8 lg:px-16 py-16 flex items-center">
               <div className="w-full space-y-8">
                 <div>
                   <Badge className="mb-6 bg-[#FF5A5F]/10 text-[#FF5A5F] hover:bg-[#FF5A5F]/20 border-[#FF5A5F]/20">
                     AI-Powered Legal Filing Platform
                   </Badge>
-                  <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                  <h1 className="text-3xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
                     AI-Powered Legal Filing for <span className="text-[#FF5A5F]">Pro Se Litigants</span> & Small Law Firms
                   </h1>
                   <p className="text-xl text-gray-600 mb-4 leading-relaxed">
@@ -249,9 +336,9 @@ export default function Landing() {
                     onClick={() => window.location.href = "/file-document"}
                     className="coral-button w-full px-8 py-4 text-lg font-semibold"
                   >
-                    <Users className="mr-3 h-5 w-5" />
+                    <Users className="mr-3 h-5 w-5 gradient-icon" />
                     File My Case - For Individuals
-                    <ArrowRight className="ml-3 h-5 w-5" />
+                    <ArrowRight className="ml-3 h-5 w-5 gradient-icon" />
                   </Button>
 
                   {/* For Legal Professionals */}
@@ -261,97 +348,49 @@ export default function Landing() {
                     onClick={() => window.location.href = "/pricing"}
                     className="w-full border-2 border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white px-8 py-4 text-lg font-semibold"
                   >
-                    <Scale className="mr-3 h-5 w-5" />
+                    <Scale className="mr-3 h-5 w-5 gradient-icon" />
                     Grow My Practice - For Attorneys
-                    <ArrowRight className="ml-3 h-5 w-5" />
+                    <ArrowRight className="ml-3 h-5 w-5 gradient-icon" />
                   </Button>
                 </div>
 
                 {/* Trust Indicators */}
                 <div className="pt-8 space-y-3">
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F]" />
+                    <CheckCircle className="h-4 w-4 gradient-icon" />
                     <span className="font-semibold text-gray-900">50+ States Supported</span>
                     <span>• Federal Court Compatible</span>
                   </div>
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <Shield className="h-4 w-4 text-[#FF5A5F]" />
+                    <Shield className="h-4 w-4 gradient-icon" />
                     <span className="font-semibold text-gray-900">AES-256 Encrypted</span>
                     <span>• GDPR & HIPAA Compliant</span>
                   </div>
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <FileText className="h-4 w-4 text-[#FF5A5F]" />
+                    <FileText className="h-4 w-4 gradient-icon" />
                     <span className="font-semibold text-gray-900">200+ Templates</span>
                     <span>• AI-Powered Forms</span>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Right Side - Visual with distinct background */}
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 px-8 lg:px-16 py-16 flex items-center justify-center">
-              <div className="text-center">
-                {/* Main Visual - Placeholder for your image */}
-                <div className="mb-8">
-                  <div className="relative inline-block">
-                    <div
-                      className="w-72 h-72 mx-auto drop-shadow-2xl relative bg-white rounded-2xl border-4 border-gradient-to-r from-[#FF5A5F] to-[#8b5cf6] flex items-center justify-center"
-                      style={{
-                        animation: 'scale 4s ease-in-out infinite',
-                      }}
-                    >
-                      {/* Placeholder for your uploaded image */}
-                      <div className="text-6xl">⚖️</div>
-                      <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#FF5A5F]/10 rounded-2xl"></div>
-                    </div>
-
-                    {/* Tagline Overlay */}
-                    <div className="mt-6">
-                      <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border inline-block">
-                        <h3 className="text-xl font-bold text-[#FF5A5F] mb-1">
-                          Navigate the Courts with Confidence
-                        </h3>
-                        <p className="text-gray-600 text-sm">
-                          AI-powered legal guidance for every filing
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Feature Highlights with distinct icons */}
-                <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto">
-                  <Card className="tier-card bg-white/90 backdrop-blur-sm">
-                    <CardContent className="p-4 text-center">
-                      <FileText className="w-8 h-8 mx-auto mb-3 text-[#FF5A5F]" />
-                      <h3 className="font-semibold text-sm">Smart Documents</h3>
-                      <p className="text-xs text-gray-600">AI-generated forms</p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="tier-card bg-white/90 backdrop-blur-sm">
-                    <CardContent className="p-4 text-center">
-                      <Zap className="w-8 h-8 mx-auto mb-3 text-[#FF5A5F]" />
-                      <h3 className="font-semibold text-sm">Emergency Filing</h3>
-                      <p className="text-xs text-gray-600">TRO & injunctions</p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="tier-card bg-white/90 backdrop-blur-sm">
-                    <CardContent className="p-4 text-center">
-                      <Brain className="w-8 h-8 mx-auto mb-3 text-[#FF5A5F]" />
-                      <h3 className="font-semibold text-sm">AI Research</h3>
-                      <p className="text-xs text-gray-600">Case law analysis</p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="tier-card bg-white/90 backdrop-blur-sm">
-                    <CardContent className="p-4 text-center">
-                      <Shield className="w-8 h-8 mx-auto mb-3 text-[#FF5A5F]" />
-                      <h3 className="font-semibold text-sm">Secure Filing</h3>
-                      <p className="text-xs text-gray-600">Bank-grade security</p>
-                    </CardContent>
-                  </Card>
+                {/* Navigation buttons that appear on hover */}
+                <div className="nav-mini pt-4 flex space-x-3">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => window.location.href = "/emergency-filing"}
+                    className="border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white"
+                  >
+                    Emergency Filing
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => window.location.href = "/pro-bono-search"}
+                    className="border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white"
+                  >
+                    Find Legal Help
+                  </Button>
                 </div>
               </div>
             </div>
@@ -359,7 +398,7 @@ export default function Landing() {
 
           {/* Scroll Indicator */}
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <ChevronDown className="h-6 w-6 text-[#FF5A5F]" />
+            <ChevronDown className="h-6 w-6 gradient-icon" />
           </div>
         </div>
       </section>
@@ -380,7 +419,11 @@ export default function Landing() {
             {/* Starter Tier */}
             <Card className="tier-card tier-starter border-2 border-transparent hover:border-[#B3E5FC]">
               <CardHeader className="text-center pb-4">
-                <CompassLogo size="w-16 h-16" className="mx-auto mb-4" />
+                <img
+                  src="/assets/images/compass-courthouse.gif"
+                  alt="LegalEaseFile AI-Powered Legal Filing"
+                  className="w-16 h-16 mx-auto mb-4 object-contain"
+                />
                 <CardTitle className="text-2xl">Get Filing Fast</CardTitle>
                 <CardDescription className="text-lg">
                   No Hassle, No Guesswork
@@ -392,19 +435,19 @@ export default function Landing() {
                 </p>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     AI document engine for all 50 states + federal courts
                   </li>
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     Smart document assembly & auto-populated client info
                   </li>
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     One-click e-filing with compliance checks
                   </li>
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     Real-time rule updates & deadline tracking
                   </li>
                 </ul>
@@ -420,7 +463,11 @@ export default function Landing() {
                 <Badge className="bg-[#FF5A5F] text-white">Most Popular</Badge>
               </div>
               <CardHeader className="text-center pb-4">
-                <CompassLogo size="w-16 h-16" className="mx-auto mb-4" />
+                <img
+                  src="/assets/images/compass-courthouse.gif"
+                  alt="LegalEaseFile AI-Powered Legal Filing"
+                  className="w-16 h-16 mx-auto mb-4 object-contain"
+                />
                 <CardTitle className="text-2xl">Level Up Your Practice</CardTitle>
                 <CardDescription className="text-lg">
                   Work Smarter, Not Harder
@@ -432,19 +479,19 @@ export default function Landing() {
                 </p>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     AI Legal Strategy Advisor & compliance monitor
                   </li>
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     Evidence management & digital authentication
                   </li>
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     Pro Se guidance for clients you support
                   </li>
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     Predictive outcome modeling
                   </li>
                 </ul>
@@ -471,19 +518,19 @@ export default function Landing() {
                 </p>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     Advanced legal research & auto-briefs
                   </li>
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     Multi-party collaboration & secure client portals
                   </li>
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     Financial impact calculator & analytics dashboard
                   </li>
                   <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
                     Settlement optimization & ROI tracking
                   </li>
                 </ul>
@@ -512,7 +559,7 @@ export default function Landing() {
             <Card className="tier-card bg-white hover:shadow-xl">
               <CardContent className="p-6 text-center">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "60% 40% 40% 60%"}}>
-                  <Zap className="h-8 w-8" />
+                  <Zap className="h-8 w-8 gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Emergency Filing Engine</h3>
                 <p className="text-gray-600">
@@ -524,7 +571,7 @@ export default function Landing() {
             <Card className="tier-card bg-white hover:shadow-xl">
               <CardContent className="p-6 text-center">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "40% 60% 60% 40%"}}>
-                  <Users className="h-8 w-8" />
+                  <Users className="h-8 w-8 gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Pro Bono Directory</h3>
                 <p className="text-gray-600">
@@ -536,7 +583,7 @@ export default function Landing() {
             <Card className="tier-card bg-white hover:shadow-xl">
               <CardContent className="p-6 text-center">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "20% 80% 20% 80%"}}>
-                  <FileText className="h-8 w-8" />
+                  <FileText className="h-8 w-8 gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Smart Templates</h3>
                 <p className="text-gray-600">
@@ -548,7 +595,7 @@ export default function Landing() {
             <Card className="tier-card bg-white hover:shadow-xl">
               <CardContent className="p-6 text-center">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "80% 20% 80% 20%"}}>
-                  <Shield className="h-8 w-8" />
+                  <Shield className="h-8 w-8 gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">MPC AI Assistant</h3>
                 <p className="text-gray-600">
@@ -649,9 +696,9 @@ export default function Landing() {
               <CardContent>
                 <Button className="coral-button w-full mb-4" onClick={handleLogin}>Start Free Trial</Button>
                 <ul className="space-y-2 text-sm">
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />Core document assembly</li>
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />Basic e-filing integration</li>
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />Deadline tracking</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Core document assembly</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Basic e-filing integration</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Deadline tracking</li>
                 </ul>
               </CardContent>
             </Card>
@@ -671,9 +718,9 @@ export default function Landing() {
               <CardContent>
                 <Button className="coral-button w-full mb-4" onClick={handleLogin}>Start Free Trial</Button>
                 <ul className="space-y-2 text-sm">
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />Unlimited document assembly</li>
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />AI strategy recommendations</li>
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />Client portal & case management</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Unlimited document assembly</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />AI strategy recommendations</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Client portal & case management</li>
                 </ul>
               </CardContent>
             </Card>
@@ -690,9 +737,9 @@ export default function Landing() {
               <CardContent>
                 <Button className="coral-button w-full mb-4" onClick={handleLogin}>Start Free Trial</Button>
                 <ul className="space-y-2 text-sm">
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />Advanced AI research</li>
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />Evidence management</li>
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />Multi-user collaboration</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Advanced AI research</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Evidence management</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Multi-user collaboration</li>
                 </ul>
               </CardContent>
             </Card>
@@ -709,9 +756,9 @@ export default function Landing() {
               <CardContent>
                 <Button variant="outline" className="w-full mb-4 border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white">Contact Sales</Button>
                 <ul className="space-y-2 text-sm">
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />White-label options</li>
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />Custom integrations</li>
-                  <li className="flex items-center"><CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-2" />24/7 enterprise support</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />White-label options</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Custom integrations</li>
+                  <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />24/7 enterprise support</li>
                 </ul>
               </CardContent>
             </Card>
@@ -734,28 +781,28 @@ export default function Landing() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <Shield className="h-8 w-8" />
+                <Shield className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">AES-256 Encrypted</h3>
               <p className="text-sm text-gray-600">Bank-grade encryption for all data</p>
             </div>
             <div className="text-center">
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <CheckCircle className="h-8 w-8" />
+                <CheckCircle className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">GDPR Compliant</h3>
               <p className="text-sm text-gray-600">Full privacy protection</p>
             </div>
             <div className="text-center">
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <Users className="h-8 w-8" />
+                <Users className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">HIPAA Compliant</h3>
               <p className="text-sm text-gray-600">Healthcare data protection</p>
             </div>
             <div className="text-center">
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <FileText className="h-8 w-8" />
+                <FileText className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">Court Standards</h3>
               <p className="text-sm text-gray-600">Built for e-filing compliance</p>
@@ -793,7 +840,7 @@ export default function Landing() {
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <div className="geometric-icon w-8 h-8">
-                  <Scale className="h-4 w-4" />
+                  <Scale className="h-4 w-4 gradient-icon" />
                 </div>
                 <span className="text-lg font-semibold">LegalEaseFile</span>
               </div>

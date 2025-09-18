@@ -2,7 +2,6 @@ import { Link, useLocation } from "wouter";
 import { Scale, Bell, User, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { CompassLogo } from "@/components/CompassLogo";
 
 export default function Navigation() {
   const [location] = useLocation();
@@ -38,8 +37,17 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/dashboard" className="flex items-center" data-testid="logo-link">
-              {/* Placeholder for your new logo - replace with your uploaded logo */}
-              <div className="w-8 h-8 bg-[#FF5A5F] rounded flex items-center justify-center mr-3">
+              <img
+                src="/assets/images/compass-courthouse.gif"
+                alt="LegalEaseFile Logo"
+                className="w-8 h-8 mr-3 object-contain"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.nextElementSibling?.classList.remove('hidden');
+                }}
+              />
+              <div className="w-8 h-8 bg-[#FF5A5F] rounded flex items-center justify-center mr-3 hidden">
                 <span className="text-white font-bold text-xs">L</span>
               </div>
               <span className="text-xl font-bold text-gray-900">LegalEaseFile</span>
@@ -57,7 +65,7 @@ export default function Navigation() {
                 className="p-1 rounded-full text-gray-400 hover:text-gray-500"
                 data-testid="notifications-button"
               >
-                <Bell className="h-5 w-5" />
+                <Bell className="h-5 w-5 gradient-icon" />
               </Button>
               <div className="ml-3 relative">
                 <Button
@@ -66,7 +74,7 @@ export default function Navigation() {
                   data-testid="user-menu-button"
                 >
                   <div className="h-8 w-8 rounded-full border border-primary-300 flex items-center justify-center">
-                    <User className="h-4 w-4 gradient-purple" />
+                    <User className="h-4 w-4 gradient-icon" />
                   </div>
                   <span className="ml-2 text-gray-700 text-sm font-medium">John Smith</span>
                 </Button>
@@ -78,13 +86,23 @@ export default function Navigation() {
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="sm" data-testid="mobile-menu-button">
-                  <Menu className="h-6 w-6" />
+                  <Menu className="h-6 w-6 gradient-icon" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-64">
                 <div className="flex flex-col h-full">
                   <div className="flex items-center mb-8">
-                    <div className="w-6 h-6 bg-[#FF5A5F] rounded flex items-center justify-center mr-2">
+                    <img
+                      src="/assets/images/compass-courthouse.gif"
+                      alt="LegalEaseFile Logo"
+                      className="w-6 h-6 mr-2 object-contain"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        target.nextElementSibling?.classList.remove('hidden');
+                      }}
+                    />
+                    <div className="w-6 h-6 bg-[#FF5A5F] rounded flex items-center justify-center mr-2 hidden">
                       <span className="text-white font-bold text-xs">L</span>
                     </div>
                     <span className="text-lg font-bold text-gray-900">LegalEaseFile</span>

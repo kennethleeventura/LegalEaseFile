@@ -22,7 +22,7 @@ export default function FileUploadZone({ onUploadComplete }: FileUploadZoneProps
     mutationFn: async (file: File) => {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('userId', 'demo-user-id'); // In production, get from auth context
+      formData.append('userId', 'demo-user'); // Use the same demo user ID as server storage
       
       const response = await apiRequest('POST', '/api/documents/upload', formData);
       return response.json() as Promise<UploadResponse>;
@@ -99,7 +99,7 @@ export default function FileUploadZone({ onUploadComplete }: FileUploadZoneProps
               {uploadMutation.isPending ? (
                 <Loader2 className="gradient-icon text-4xl animate-spin mx-auto" data-testid="upload-spinner" />
               ) : (
-                <CloudUpload className="gradient-blue text-4xl mx-auto" data-testid="upload-icon" />
+                <CloudUpload className="gradient-icon text-4xl mx-auto" data-testid="upload-icon" />
               )}
             </div>
             <div>
@@ -124,7 +124,7 @@ export default function FileUploadZone({ onUploadComplete }: FileUploadZoneProps
                 data-testid="upload-button"
               >
                 <label htmlFor="file-upload" className="cursor-pointer">
-                  <CloudUpload className="mr-2 h-4 w-4" />
+                  <CloudUpload className="mr-2 h-4 w-4 gradient-icon" />
                   {uploadMutation.isPending ? "Uploading..." : "Choose Files"}
                 </label>
               </Button>

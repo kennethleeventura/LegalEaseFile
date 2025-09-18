@@ -208,7 +208,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No file uploaded" });
       }
 
-      const userId = '5f81e496-d0de-4dd9-8812-93512b198423'; // Demo user ID - update to your actual demo user
+      const userId = 'demo-user'; // Use the demo user that exists in memory storage
 
       // Extract text content
       const textContent = DocumentProcessor.extractTextFromBuffer(
