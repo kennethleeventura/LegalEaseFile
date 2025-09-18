@@ -358,7 +358,7 @@ export default function Landing() {
                 <div className="pt-8 space-y-3">
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
                     <CheckCircle className="h-4 w-4 gradient-icon" />
-                    <span className="font-semibold text-gray-900">50+ States Supported</span>
+                    <span className="font-semibold text-gray-900">4 States Supported</span>
                     <span>• Federal Court Compatible</span>
                   </div>
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -368,7 +368,7 @@ export default function Landing() {
                   </div>
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
                     <FileText className="h-4 w-4 gradient-icon" />
-                    <span className="font-semibold text-gray-900">200+ Templates</span>
+                    <span className="font-semibold text-gray-900">Essential Templates</span>
                     <span>• AI-Powered Forms</span>
                   </div>
                 </div>
@@ -436,7 +436,7 @@ export default function Landing() {
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-center text-sm">
                     <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    AI document engine for all 50 states + federal courts
+                    AI document engine for CA, NY, TX, FL + federal courts
                   </li>
                   <li className="flex items-center text-sm">
                     <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />

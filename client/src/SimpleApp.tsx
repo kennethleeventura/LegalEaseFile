@@ -625,7 +625,7 @@ function SimpleApp() {
                   </div>
                   <p className="text-[#616161] mb-4">No Hassle, No Guesswork</p>
                   <ul className="space-y-2 text-sm text-[#616161] mb-6">
-                    <li className="flex items-center gap-2"><span>✅</span> AI document engine (50 states + federal)</li>
+                    <li className="flex items-center gap-2"><span>✅</span> AI document engine (CA, NY, TX, FL + federal)</li>
                     <li className="flex items-center gap-2"><span>✅</span> Smart doc assembly & auto-populated info</li>
                     <li className="flex items-center gap-2"><span>✅</span> One-click e-filing & compliance checks</li>
                   </ul>

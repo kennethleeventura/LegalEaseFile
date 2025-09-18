@@ -439,7 +439,7 @@ export default function Pricing() {
                 <CheckCircle className="h-8 w-8" />
               </div>
               <h3 className="font-semibold mb-2">Court rule & jurisdiction compliance checks</h3>
-              <p className="text-sm text-gray-600">Automated validation for all 50 states + federal courts</p>
+              <p className="text-sm text-gray-600">Automated validation for CA, NY, TX, FL + federal courts</p>
             </div>
             
             <div className="text-center">

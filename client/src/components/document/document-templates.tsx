@@ -130,7 +130,7 @@ export default function DocumentTemplates({ onSelectTemplate }: DocumentTemplate
         <CardHeader>
           <CardTitle>Complete Template Library</CardTitle>
           <CardDescription>
-            AI-powered document generation with 100+ jurisdiction-specific templates
+            AI-powered document generation with essential legal templates
           </CardDescription>
         </CardHeader>
         <CardContent>

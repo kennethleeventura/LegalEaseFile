@@ -197,14 +197,14 @@ export default function Features() {
                 </div>
                 <CardTitle className="text-2xl">Jurisdiction-Specific Document Engine</CardTitle>
                 <CardDescription>
-                  AI-powered forms for all 50 states + federal courts with real-time compliance
+                  AI-powered forms for CA, NY, TX, FL + federal courts with real-time compliance
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
                   <li className="flex items-center text-sm">
                     <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />
-                    AI-powered forms for all 50 states + federal courts
+                    AI-powered forms for CA, NY, TX, FL + federal courts
                   </li>
                   <li className="flex items-center text-sm">
                     <CheckCircle className="h-4 w-4 text-[#FF5A5F] mr-3 flex-shrink-0" />

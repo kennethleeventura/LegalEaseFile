@@ -251,13 +251,26 @@ export default function CaseManagement() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8">
-                <Database className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <h3 className="text-lg font-medium mb-2">Case Search Coming Soon</h3>
-                <p className="text-gray-600">
-                  Advanced search functionality with MPC decryption will be available here.
-                  Cases are securely stored in your connected Airtable database.
-                </p>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-4">
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      placeholder="Search cases by client name, case number, or keywords..."
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#FF5A5F] focus:border-transparent"
+                    />
+                  </div>
+                  <Button className="coral-button">
+                    <Search className="h-4 w-4 mr-2" />
+                    Search
+                  </Button>
+                </div>
+                <div className="text-center py-8">
+                  <Database className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+                  <p className="text-gray-600">
+                    No cases found. Upload documents or create new cases to get started.
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
