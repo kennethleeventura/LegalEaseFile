@@ -198,7 +198,10 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <CompassLogo size="w-10 h-10" />
+              {/* Placeholder for your new logo - replace with your uploaded logo */}
+              <div className="w-10 h-10 bg-[#FF5A5F] rounded flex items-center justify-center">
+                <span className="text-white font-bold text-sm">L</span>
+              </div>
               <h1 className="text-xl font-bold gradient-text">LegalEaseFile</h1>
             </div>
             
@@ -216,106 +219,92 @@ export default function Landing() {
         </div>
       </header>
 
-      {/* Hero Section - Split Screen */}
-      <section ref={heroRef} className="relative pt-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="split-screen">
-            {/* Left Side - Content */}
-            <div className="space-y-8 scroll-section">
-              <div>
-                <Badge className="mb-4 bg-[#FF5A5F]/10 text-[#FF5A5F] hover:bg-[#FF5A5F]/20 border-[#FF5A5F]/20">
-                  AI-Powered Legal Filing Platform
-                </Badge>
-                <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-                  AI-Powered Legal Filing for <span className="text-[#FF5A5F]">Pro Se Litigants</span> & Small Law Firms
-                </h1>
-                <p className="text-xl text-gray-600 mb-4 leading-relaxed">
-                  <span className="font-semibold">Compliant. Simple. Court-Ready.</span>
-                </p>
-                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                  Massachusetts court forms, federal court filings, and self-representation help powered by AI legal research and case automation tools.
-                </p>
-              </div>
-              
-              <div className="space-y-4">
-                {/* For Individuals (Pro Se Litigants) */}
-                <Button
-                  size="lg"
-                  onClick={() => window.location.href = "/file-document"}
-                  className="coral-button w-full px-8 py-4 text-lg font-semibold"
-                >
-                  <Users className="mr-3 h-5 w-5" />
-                  File My Case - For Individuals
-                  <ArrowRight className="ml-3 h-5 w-5" />
-                </Button>
+      {/* Hero Section - Split Screen with Clear Division */}
+      <section ref={heroRef} className="relative pt-16 min-h-screen">
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-gray-50 to-blue-50"></div>
+        <div className="relative z-10 h-full flex items-center">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-2 min-h-screen">
+            {/* Left Side - Text Content with distinct background */}
+            <div className="bg-white/95 backdrop-blur-sm px-8 lg:px-16 py-16 flex items-center">
+              <div className="w-full space-y-8">
+                <div>
+                  <Badge className="mb-6 bg-[#FF5A5F]/10 text-[#FF5A5F] hover:bg-[#FF5A5F]/20 border-[#FF5A5F]/20">
+                    AI-Powered Legal Filing Platform
+                  </Badge>
+                  <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                    AI-Powered Legal Filing for <span className="text-[#FF5A5F]">Pro Se Litigants</span> & Small Law Firms
+                  </h1>
+                  <p className="text-xl text-gray-600 mb-4 leading-relaxed">
+                    <span className="font-semibold">Compliant. Simple. Court-Ready.</span>
+                  </p>
+                  <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                    Massachusetts court forms, federal court filings, and self-representation help powered by AI legal research and case automation tools.
+                  </p>
+                </div>
 
-                {/* For Legal Professionals */}
-                <Button
-                  size="lg"
-                  variant="outline"
-                  onClick={() => window.location.href = "/pricing"}
-                  className="w-full border-2 border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white px-8 py-4 text-lg font-semibold"
-                >
-                  <Scale className="mr-3 h-5 w-5" />
-                  Grow My Practice - For Attorneys
-                  <ArrowRight className="ml-3 h-5 w-5" />
-                </Button>
-              </div>
-              
-              {/* Trust Indicators */}
-              <div className="flex items-center space-x-6 pt-8">
-                <div className="text-sm text-gray-500">
-                  <div className="font-semibold text-gray-900">50+ States Supported</div>
-                  <div>Federal Court Compatible</div>
+                <div className="space-y-4">
+                  {/* For Individuals (Pro Se Litigants) */}
+                  <Button
+                    size="lg"
+                    onClick={() => window.location.href = "/file-document"}
+                    className="coral-button w-full px-8 py-4 text-lg font-semibold"
+                  >
+                    <Users className="mr-3 h-5 w-5" />
+                    File My Case - For Individuals
+                    <ArrowRight className="ml-3 h-5 w-5" />
+                  </Button>
+
+                  {/* For Legal Professionals */}
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    onClick={() => window.location.href = "/pricing"}
+                    className="w-full border-2 border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white px-8 py-4 text-lg font-semibold"
+                  >
+                    <Scale className="mr-3 h-5 w-5" />
+                    Grow My Practice - For Attorneys
+                    <ArrowRight className="ml-3 h-5 w-5" />
+                  </Button>
                 </div>
-                <div className="text-sm text-gray-500">
-                  <div className="font-semibold text-gray-900">AES-256 Encrypted</div>
-                  <div>GDPR & HIPAA Compliant</div>
-                </div>
-                <div className="text-sm text-gray-500">
-                  <div className="font-semibold text-gray-900">200+ Templates</div>
-                  <div>AI-Powered Forms</div>
+
+                {/* Trust Indicators */}
+                <div className="pt-8 space-y-3">
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <CheckCircle className="h-4 w-4 text-[#FF5A5F]" />
+                    <span className="font-semibold text-gray-900">50+ States Supported</span>
+                    <span>• Federal Court Compatible</span>
+                  </div>
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <Shield className="h-4 w-4 text-[#FF5A5F]" />
+                    <span className="font-semibold text-gray-900">AES-256 Encrypted</span>
+                    <span>• GDPR & HIPAA Compliant</span>
+                  </div>
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <FileText className="h-4 w-4 text-[#FF5A5F]" />
+                    <span className="font-semibold text-gray-900">200+ Templates</span>
+                    <span>• AI-Powered Forms</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Side - Visual with Compass Animation */}
-            <div className="relative scroll-section parallax" data-speed="0.3">
-              <div className="relative z-10">
-                {/* Compass Animation */}
-                <div className="mb-8 text-center">
+            {/* Right Side - Visual with distinct background */}
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 px-8 lg:px-16 py-16 flex items-center justify-center">
+              <div className="text-center">
+                {/* Main Visual - Placeholder for your image */}
+                <div className="mb-8">
                   <div className="relative inline-block">
                     <div
-                      className="w-64 h-64 mx-auto drop-shadow-2xl relative"
+                      className="w-72 h-72 mx-auto drop-shadow-2xl relative bg-white rounded-2xl border-4 border-gradient-to-r from-[#FF5A5F] to-[#8b5cf6] flex items-center justify-center"
                       style={{
-                        animation: 'rotate 20s linear infinite, scale 4s ease-in-out infinite',
+                        animation: 'scale 4s ease-in-out infinite',
                       }}
                     >
-                      {/* CSS Compass */}
-                      <div className="w-full h-full rounded-full border-8 border-gradient-to-r from-[#FF5A5F] via-[#3b82f6] to-[#8b5cf6] bg-gradient-to-br from-red-50 to-purple-50 relative overflow-hidden">
-                        {/* Outer ring */}
-                        <div className="absolute inset-4 rounded-full border-4 border-gray-300"></div>
-
-                        {/* Compass needle */}
-                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                          <div className="w-1 h-20 bg-gradient-to-t from-[#FF5A5F] to-[#3b82f6] rounded-full transform -translate-y-8"></div>
-                          <div className="w-4 h-4 bg-gradient-to-br from-[#FF5A5F] to-[#8b5cf6] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-                        </div>
-
-                        {/* Cardinal directions */}
-                        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-lg font-bold gradient-icon">N</div>
-                        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-lg font-bold gradient-icon">S</div>
-                        <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-lg font-bold gradient-icon">E</div>
-                        <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-lg font-bold gradient-icon">W</div>
-
-                        {/* Scale icon in center */}
-                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-6">
-                          <div className="w-8 h-6 bg-white rounded border border-gray-300 flex items-center justify-center">
-                            <div className="text-xs text-gray-600">⚖️</div>
-                          </div>
-                        </div>
-                      </div>
+                      {/* Placeholder for your uploaded image */}
+                      <div className="text-6xl">⚖️</div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#FF5A5F]/10 rounded-2xl"></div>
                     </div>
+
                     {/* Tagline Overlay */}
                     <div className="mt-6">
                       <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border inline-block">
@@ -329,54 +318,47 @@ export default function Landing() {
                     </div>
                   </div>
                 </div>
-                
-                {/* Feature Highlights */}
-                <div className="grid grid-cols-2 gap-4">
+
+                {/* Feature Highlights with distinct icons */}
+                <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto">
                   <Card className="tier-card bg-white/90 backdrop-blur-sm">
                     <CardContent className="p-4 text-center">
-                      <CompassLogo size="w-12 h-12" className="mx-auto mb-3" />
-                      <h3 className="font-semibold">Smart Documents</h3>
-                      <p className="text-sm text-gray-600">AI-generated forms</p>
+                      <FileText className="w-8 h-8 mx-auto mb-3 text-[#FF5A5F]" />
+                      <h3 className="font-semibold text-sm">Smart Documents</h3>
+                      <p className="text-xs text-gray-600">AI-generated forms</p>
                     </CardContent>
                   </Card>
-                  
+
                   <Card className="tier-card bg-white/90 backdrop-blur-sm">
                     <CardContent className="p-4 text-center">
-                      <CompassLogo size="w-12 h-12" className="mx-auto mb-3" />
-                      <h3 className="font-semibold">Emergency Filing</h3>
-                      <p className="text-sm text-gray-600">TRO & injunctions</p>
+                      <Zap className="w-8 h-8 mx-auto mb-3 text-[#FF5A5F]" />
+                      <h3 className="font-semibold text-sm">Emergency Filing</h3>
+                      <p className="text-xs text-gray-600">TRO & injunctions</p>
                     </CardContent>
                   </Card>
-                  
+
                   <Card className="tier-card bg-white/90 backdrop-blur-sm">
                     <CardContent className="p-4 text-center">
-                      <CompassLogo size="w-12 h-12" className="mx-auto mb-3" />
-                      <h3 className="font-semibold">AI Research</h3>
-                      <p className="text-sm text-gray-600">Case law analysis</p>
+                      <Brain className="w-8 h-8 mx-auto mb-3 text-[#FF5A5F]" />
+                      <h3 className="font-semibold text-sm">AI Research</h3>
+                      <p className="text-xs text-gray-600">Case law analysis</p>
                     </CardContent>
                   </Card>
-                  
+
                   <Card className="tier-card bg-white/90 backdrop-blur-sm">
                     <CardContent className="p-4 text-center">
-                      <CompassLogo size="w-12 h-12" className="mx-auto mb-3" />
-                      <h3 className="font-semibold">Secure Filing</h3>
-                      <p className="text-sm text-gray-600">Bank-grade security</p>
+                      <Shield className="w-8 h-8 mx-auto mb-3 text-[#FF5A5F]" />
+                      <h3 className="font-semibold text-sm">Secure Filing</h3>
+                      <p className="text-xs text-gray-600">Bank-grade security</p>
                     </CardContent>
                   </Card>
                 </div>
               </div>
-              
-              {/* Background geometric shapes */}
-              <div className="absolute inset-0 overflow-hidden -z-10">
-                <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-br from-[#FF5A5F]/20 to-transparent rounded-full blur-xl"></div>
-                <div className="absolute bottom-10 left-10 w-24 h-24 bg-gradient-to-br from-[#E0F7FF]/40 to-transparent rounded-full blur-lg"></div>
-                <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-gradient-to-br from-[#80CBC4]/30 to-transparent rounded-full blur-md"></div>
-              </div>
             </div>
           </div>
-          
+
           {/* Scroll Indicator */}
-          <div className="scroll-indicator">
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
             <ChevronDown className="h-6 w-6 text-[#FF5A5F]" />
           </div>
         </div>

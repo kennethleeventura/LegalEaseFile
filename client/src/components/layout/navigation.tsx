@@ -38,7 +38,10 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/dashboard" className="flex items-center" data-testid="logo-link">
-              <CompassLogo size="w-8 h-8" className="mr-3" />
+              {/* Placeholder for your new logo - replace with your uploaded logo */}
+              <div className="w-8 h-8 bg-[#FF5A5F] rounded flex items-center justify-center mr-3">
+                <span className="text-white font-bold text-xs">L</span>
+              </div>
               <span className="text-xl font-bold text-gray-900">LegalEaseFile</span>
             </Link>
             <div className="ml-10">
@@ -81,8 +84,10 @@ export default function Navigation() {
               <SheetContent side="right" className="w-64">
                 <div className="flex flex-col h-full">
                   <div className="flex items-center mb-8">
-                    <Scale className="text-primary-600 text-xl mr-2" />
-                    <span className="text-lg font-bold text-gray-900">LegalFile AI</span>
+                    <div className="w-6 h-6 bg-[#FF5A5F] rounded flex items-center justify-center mr-2">
+                      <span className="text-white font-bold text-xs">L</span>
+                    </div>
+                    <span className="text-lg font-bold text-gray-900">LegalEaseFile</span>
                   </div>
                   <NavLinks mobile />
                 </div>
