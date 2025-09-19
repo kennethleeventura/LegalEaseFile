@@ -104,7 +104,7 @@ export default function DocumentTemplates({ onSelectTemplate }: DocumentTemplate
               <Card key={template.id} className="hover:shadow-lg transition-shadow cursor-pointer">
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-2">
-                    <FileText className="h-5 w-5 text-blue-600 mt-1" />
+                    <FileText className="h-5 w-5 mt-1 gradient-icon" />
                     <Badge variant="outline" className="text-xs">
                       {template.timeToComplete}
                     </Badge>
@@ -138,7 +138,7 @@ export default function DocumentTemplates({ onSelectTemplate }: DocumentTemplate
           <div className="mb-6 space-y-4">
             <div className="flex items-center space-x-4">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 gradient-icon" />
                 <Input
                   placeholder="Search templates, forms, or legal procedures..."
                   className="pl-10"
@@ -146,7 +146,7 @@ export default function DocumentTemplates({ onSelectTemplate }: DocumentTemplate
                   onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
                 />
               </div>
-              <Filter className="text-gray-400 h-5 w-5" />
+              <Filter className="h-5 w-5 gradient-icon" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -207,18 +207,18 @@ export default function DocumentTemplates({ onSelectTemplate }: DocumentTemplate
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center space-x-2">
-                      <AlertTriangle className="h-5 w-5 text-red-600" />
+                      <AlertTriangle className="h-5 w-5 gradient-icon" />
                       <Badge className="bg-red-100 text-red-800 hover:bg-red-200">
                         Emergency
                       </Badge>
                     </div>
-                    <Zap className="h-4 w-4 text-red-600" />
+                    <Zap className="h-4 w-4 gradient-icon" />
                   </div>
                   <h3 className="font-semibold text-lg mb-2">{template.title}</h3>
                   <p className="text-gray-600 mb-4">{template.description}</p>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center text-sm text-gray-500">
-                      <Clock className="h-4 w-4 mr-1" />
+                      <Clock className="h-4 w-4 mr-1 gradient-icon" />
                       {template.timeToComplete}
                     </div>
                     <Badge variant="outline">
@@ -229,7 +229,7 @@ export default function DocumentTemplates({ onSelectTemplate }: DocumentTemplate
                     className="w-full bg-red-600 hover:bg-red-700"
                     onClick={() => onSelectTemplate(template)}
                   >
-                    <Download className="h-4 w-4 mr-2" />
+                    <Download className="h-4 w-4 mr-2 gradient-icon" />
                     Emergency Filing
                   </Button>
                 </CardContent>
@@ -241,7 +241,7 @@ export default function DocumentTemplates({ onSelectTemplate }: DocumentTemplate
               <Card key={template.id} className="hover:shadow-lg transition-shadow cursor-pointer">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
-                    <FileText className="h-6 w-6 text-blue-600" />
+                    <FileText className="h-6 w-6 gradient-icon" />
                     {template.isPopular && (
                       <Badge className="bg-blue-100 text-blue-800">
                         Popular
@@ -252,7 +252,7 @@ export default function DocumentTemplates({ onSelectTemplate }: DocumentTemplate
                   <p className="text-gray-600 mb-4">{template.description}</p>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center text-sm text-gray-500">
-                      <Clock className="h-4 w-4 mr-1" />
+                      <Clock className="h-4 w-4 mr-1 gradient-icon" />
                       {template.timeToComplete}
                     </div>
                     <Badge variant="outline">
@@ -271,7 +271,7 @@ export default function DocumentTemplates({ onSelectTemplate }: DocumentTemplate
                     variant="outline"
                     onClick={() => onSelectTemplate(template)}
                   >
-                    <Download className="h-4 w-4 mr-2" />
+                    <Download className="h-4 w-4 mr-2 gradient-icon" />
                     Use Template
                   </Button>
                 </CardContent>

@@ -189,7 +189,7 @@ export default function ProBonoDirectory() {
         <div className="space-y-4">
           {/* Emergency Contacts */}
           <Alert className="bg-error-50 border border-error-200" data-testid="emergency-contacts">
-            <Phone className="text-error-600 h-5 w-5" />
+            <Phone className="h-5 w-5 gradient-icon" />
             <AlertDescription>
               <div className="flex items-center mb-3">
                 <h3 className="font-medium text-error-900">Emergency Legal Assistance</h3>
@@ -263,12 +263,12 @@ export default function ProBonoDirectory() {
                       </div>
                       <div className="mt-3 space-y-1 text-sm text-gray-600">
                         <div className="flex items-center">
-                          <MapPin className="mr-1 h-3 w-3" />
+                          <MapPin className="mr-1 h-3 w-3 gradient-icon" />
                           <span data-testid="org-location">{org.location}</span>
                         </div>
                         {org.website && (
                           <div className="flex items-center">
-                            <Globe className="mr-1 h-3 w-3" />
+                            <Globe className="mr-1 h-3 w-3 gradient-icon" />
                             <a
                               href={org.website}
                               target="_blank"
@@ -282,7 +282,7 @@ export default function ProBonoDirectory() {
                         )}
                         {org.phone && (
                           <div className="flex items-center">
-                            <Phone className="mr-1 h-3 w-3" />
+                            <Phone className="mr-1 h-3 w-3 gradient-icon" />
                             <a
                               href={`tel:${org.phone}`}
                               className="text-primary-600 hover:text-primary-700"
@@ -315,7 +315,7 @@ export default function ProBonoDirectory() {
 
           {/* Mass Legal Resource Finder Integration */}
           <Alert className="bg-success-50 border border-success-200" data-testid="mass-legal-finder">
-            <ExternalLink className="text-success-600 h-5 w-5" />
+            <ExternalLink className="h-5 w-5 gradient-icon" />
             <AlertDescription>
               <div className="flex items-center">
                 <div className="ml-3">
@@ -331,7 +331,7 @@ export default function ProBonoDirectory() {
                     data-testid="masslrf-link"
                   >
                     Visit masslrf.org
-                    <ExternalLink className="ml-1 h-3 w-3" />
+                    <ExternalLink className="ml-1 h-3 w-3 gradient-icon" />
                   </a>
                 </div>
               </div>

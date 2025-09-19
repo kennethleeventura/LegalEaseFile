@@ -68,13 +68,13 @@ export default function FileDocument() {
         <div className="flex items-center mb-4">
           <Link href="/">
             <Button variant="ghost" size="sm" data-testid="back-to-dashboard">
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              <ArrowLeft className="mr-2 h-4 w-4 gradient-icon" />
               Back to Dashboard
             </Button>
           </Link>
         </div>
         <div className="flex items-center mb-4">
-          <FileText className="text-primary-600 text-3xl mr-3" />
+          <FileText className="text-3xl mr-3 gradient-icon" />
           <div>
             <h1 className="text-3xl font-bold text-gray-900">File New Document</h1>
             <p className="text-lg text-gray-600">
@@ -111,7 +111,7 @@ export default function FileDocument() {
                     }`}
                     data-testid={`step-${step.id}`}
                   >
-                    {step.id < currentStep ? <Check className="h-4 w-4" /> : step.id}
+                    {step.id < currentStep ? <Check className="h-4 w-4 gradient-icon" /> : step.id}
                   </div>
                   <p className="text-xs font-medium">{step.name}</p>
                   <p className="text-xs text-gray-500 mt-1">{step.description}</p>
@@ -242,7 +242,7 @@ export default function FileDocument() {
           disabled={currentStep === 1}
           data-testid="prev-step-button"
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className="mr-2 h-4 w-4 gradient-icon" />
           Previous
         </Button>
         <Button
@@ -251,7 +251,7 @@ export default function FileDocument() {
           data-testid="next-step-button"
         >
           Next
-          <ArrowRight className="ml-2 h-4 w-4" />
+          <ArrowRight className="ml-2 h-4 w-4 gradient-icon" />
         </Button>
       </div>
     </main>

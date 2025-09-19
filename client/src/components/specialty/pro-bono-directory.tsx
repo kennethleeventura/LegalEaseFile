@@ -182,12 +182,12 @@ export default function ProBonoDirectory() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'attorney': return <UserCheck className="h-4 w-4" />;
-      case 'law-firm': return <Scale className="h-4 w-4" />;
-      case 'legal-aid': return <Heart className="h-4 w-4" />;
-      case 'clinic': return <Users className="h-4 w-4" />;
-      case 'nonprofit': return <Gavel className="h-4 w-4" />;
-      default: return <UserCheck className="h-4 w-4" />;
+      case 'attorney': return <UserCheck className="h-4 w-4 gradient-icon" />;
+      case 'law-firm': return <Scale className="h-4 w-4 gradient-icon" />;
+      case 'legal-aid': return <Heart className="h-4 w-4 gradient-icon" />;
+      case 'clinic': return <Users className="h-4 w-4 gradient-icon" />;
+      case 'nonprofit': return <Gavel className="h-4 w-4 gradient-icon" />;
+      default: return <UserCheck className="h-4 w-4 gradient-icon" />;
     }
   };
 
@@ -215,11 +215,11 @@ export default function ProBonoDirectory() {
         </div>
         <div className="flex gap-2">
           <Button variant="outline" className="border-green-500 text-green-600">
-            <Heart className="mr-2 h-4 w-4" />
+            <Heart className="mr-2 h-4 w-4 gradient-icon" />
             Volunteer Attorney
           </Button>
           <Button className="bg-gradient-to-r from-green-500 to-blue-500">
-            <Users className="mr-2 h-4 w-4" />
+            <Users className="mr-2 h-4 w-4 gradient-icon" />
             Request Pro Bono Help
           </Button>
         </div>
@@ -233,7 +233,7 @@ export default function ProBonoDirectory() {
                 <p className="text-sm font-medium text-gray-600">Total Providers</p>
                 <p className="text-2xl font-bold text-gray-900">{totalProviders}</p>
               </div>
-              <Users className="h-8 w-8 text-green-500" />
+              <Users className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -245,7 +245,7 @@ export default function ProBonoDirectory() {
                 <p className="text-sm font-medium text-gray-600">Available Now</p>
                 <p className="text-2xl font-bold text-gray-900">{availableProviders}</p>
               </div>
-              <UserCheck className="h-8 w-8 text-blue-500" />
+              <UserCheck className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -257,7 +257,7 @@ export default function ProBonoDirectory() {
                 <p className="text-sm font-medium text-gray-600">Avg Wait Time</p>
                 <p className="text-2xl font-bold text-gray-900">{avgWaitTime} days</p>
               </div>
-              <Clock className="h-8 w-8 text-yellow-500" />
+              <Clock className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -269,7 +269,7 @@ export default function ProBonoDirectory() {
                 <p className="text-sm font-medium text-gray-600">Hours/Week</p>
                 <p className="text-2xl font-bold text-gray-900">{totalHours}</p>
               </div>
-              <Heart className="h-8 w-8 text-red-500" />
+              <Heart className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -294,7 +294,7 @@ export default function ProBonoDirectory() {
                 <div className="flex-1">
                   <Label htmlFor="search">Search Providers</Label>
                   <div className="relative">
-                    <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Search className="absolute left-3 top-3 h-4 w-4 gradient-icon" />
                     <Input
                       id="search"
                       placeholder="Search by name, specialty, or location..."
@@ -380,25 +380,25 @@ export default function ProBonoDirectory() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
                           <div className="space-y-1">
                             <p className="flex items-center gap-2">
-                              <MapPin className="h-4 w-4" />
+                              <MapPin className="h-4 w-4 gradient-icon" />
                               {provider.location.city}, {provider.location.state}
                             </p>
                             <p className="flex items-center gap-2">
-                              <Phone className="h-4 w-4" />
+                              <Phone className="h-4 w-4 gradient-icon" />
                               {provider.contact.phone}
                             </p>
                             <p className="flex items-center gap-2">
-                              <Mail className="h-4 w-4" />
+                              <Mail className="h-4 w-4 gradient-icon" />
                               {provider.contact.email}
                             </p>
                           </div>
                           <div className="space-y-1">
                             <p className="flex items-center gap-2">
-                              <Clock className="h-4 w-4" />
+                              <Clock className="h-4 w-4 gradient-icon" />
                               Wait time: {provider.availability.waitTime} days
                             </p>
                             <p className="flex items-center gap-2">
-                              <Calendar className="h-4 w-4" />
+                              <Calendar className="h-4 w-4 gradient-icon" />
                               Next available: {new Date(provider.availability.nextAvailable).toLocaleDateString()}
                             </p>
                             <p className="text-xs">
@@ -416,12 +416,12 @@ export default function ProBonoDirectory() {
 
                       <div className="flex flex-col gap-2">
                         <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                          <Phone className="h-4 w-4" />
+                          <Phone className="h-4 w-4 gradient-icon" />
                           Contact
                         </Button>
                         {provider.contact.website && (
                           <Button size="sm" variant="outline">
-                            <Globe className="h-4 w-4" />
+                            <Globe className="h-4 w-4 gradient-icon" />
                             Website
                           </Button>
                         )}
@@ -540,11 +540,11 @@ export default function ProBonoDirectory() {
 
               <div className="flex gap-4">
                 <Button onClick={checkEligibility} disabled={loading} className="flex-1">
-                  <Filter className="mr-2 h-4 w-4" />
+                  <Filter className="mr-2 h-4 w-4 gradient-icon" />
                   Check Eligibility
                 </Button>
                 <Button onClick={submitProBonoRequest} disabled={loading} className="flex-1 bg-green-600 hover:bg-green-700">
-                  <Heart className="mr-2 h-4 w-4" />
+                  <Heart className="mr-2 h-4 w-4 gradient-icon" />
                   Submit Request
                 </Button>
               </div>
@@ -572,11 +572,11 @@ export default function ProBonoDirectory() {
             <CardContent className="space-y-4">
               {requests.length === 0 ? (
                 <div className="text-center py-8">
-                  <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <Users className="h-12 w-12 mx-auto mb-4 gradient-icon" />
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">No Requests Yet</h3>
                   <p className="text-gray-600 mb-4">Submit your first pro bono request to get started</p>
                   <Button className="bg-green-600 hover:bg-green-700">
-                    <Heart className="mr-2 h-4 w-4" />
+                    <Heart className="mr-2 h-4 w-4 gradient-icon" />
                     Submit Request
                   </Button>
                 </div>
@@ -617,7 +617,7 @@ export default function ProBonoDirectory() {
                           </Button>
                           {request.status === 'matched' && (
                             <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                              <Phone className="h-4 w-4" />
+                              <Phone className="h-4 w-4 gradient-icon" />
                             </Button>
                           )}
                         </div>
@@ -681,11 +681,11 @@ export default function ProBonoDirectory() {
 
               <div className="flex gap-4">
                 <Button className="flex-1 bg-green-600 hover:bg-green-700">
-                  <Heart className="mr-2 h-4 w-4" />
+                  <Heart className="mr-2 h-4 w-4 gradient-icon" />
                   Apply to Volunteer
                 </Button>
                 <Button variant="outline" className="flex-1">
-                  <Calendar className="mr-2 h-4 w-4" />
+                  <Calendar className="mr-2 h-4 w-4 gradient-icon" />
                   Attend Info Session
                 </Button>
               </div>

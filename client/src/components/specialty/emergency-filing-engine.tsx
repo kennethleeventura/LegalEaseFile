@@ -204,11 +204,11 @@ export default function EmergencyFilingEngine() {
         </div>
         <div className="flex gap-2">
           <Button variant="outline" className="border-yellow-500 text-yellow-600">
-            <Phone className="mr-2 h-4 w-4" />
+            <Phone className="mr-2 h-4 w-4 gradient-icon" />
             Emergency Hotline
           </Button>
           <Button className="bg-gradient-to-r from-red-500 to-orange-500">
-            <Zap className="mr-2 h-4 w-4" />
+            <Zap className="mr-2 h-4 w-4 gradient-icon" />
             New Emergency Filing
           </Button>
         </div>
@@ -222,7 +222,7 @@ export default function EmergencyFilingEngine() {
                 <p className="text-sm font-medium text-gray-600">Critical Filings</p>
                 <p className="text-2xl font-bold text-gray-900">{criticalFilings.length}</p>
               </div>
-              <AlertTriangle className="h-8 w-8 text-red-500" />
+              <AlertTriangle className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -234,7 +234,7 @@ export default function EmergencyFilingEngine() {
                 <p className="text-sm font-medium text-gray-600">Active Filings</p>
                 <p className="text-2xl font-bold text-gray-900">{activeFilings.length}</p>
               </div>
-              <Clock className="h-8 w-8 text-yellow-500" />
+              <Clock className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -246,7 +246,7 @@ export default function EmergencyFilingEngine() {
                 <p className="text-sm font-medium text-gray-600">Completed</p>
                 <p className="text-2xl font-bold text-gray-900">{completedFilings.length}</p>
               </div>
-              <CheckCircle className="h-8 w-8 text-green-500" />
+              <CheckCircle className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -258,7 +258,7 @@ export default function EmergencyFilingEngine() {
                 <p className="text-sm font-medium text-gray-600">Avg Response</p>
                 <p className="text-2xl font-bold text-gray-900">47min</p>
               </div>
-              <Zap className="h-8 w-8 text-blue-500" />
+              <Zap className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -279,7 +279,7 @@ export default function EmergencyFilingEngine() {
               <Card className="border-red-500 border-2">
                 <CardHeader className="bg-red-50">
                   <CardTitle className="text-red-800 flex items-center gap-2">
-                    <AlertTriangle className="h-5 w-5" />
+                    <AlertTriangle className="h-4 w-4 gradient-icon" />
                     Critical Filings - Immediate Attention Required
                   </CardTitle>
                 </CardHeader>
@@ -290,25 +290,25 @@ export default function EmergencyFilingEngine() {
                         <div className="flex items-center gap-2 mb-1">
                           <h4 className="font-semibold text-red-900">{filing.title}</h4>
                           <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs text-white ${getUrgencyColor(filing.urgency)}`}>
-                            <AlertTriangle className="h-3 w-3" />
+                            <AlertTriangle className="h-4 w-4 gradient-icon" />
                             {filing.urgency.toUpperCase()}
                           </div>
                         </div>
                         <p className="text-sm text-red-700 mb-2">{filing.description}</p>
                         <div className="flex items-center gap-4 text-sm text-red-600">
                           <span className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
+                            <Clock className="h-4 w-4 gradient-icon" />
                             {getTimeRemaining(filing.filingDeadline)} remaining
                           </span>
                           <span className="flex items-center gap-1">
-                            <Scale className="h-4 w-4" />
+                            <Scale className="h-4 w-4 gradient-icon" />
                             {filing.court}
                           </span>
                         </div>
                       </div>
                       <div className="flex gap-2">
                         <Button size="sm" className="bg-red-600 hover:bg-red-700" onClick={() => expediteFiling(filing.id)}>
-                          <Zap className="h-4 w-4" />
+                          <Zap className="h-4 w-4 gradient-icon" />
                           EXPEDITE
                         </Button>
                       </div>
@@ -342,29 +342,29 @@ export default function EmergencyFilingEngine() {
                           <p className="text-sm text-gray-600 mb-2">{filing.description}</p>
                           <div className="flex items-center gap-4 text-sm text-gray-500">
                             <span className="flex items-center gap-1">
-                              <MapPin className="h-4 w-4" />
+                              <MapPin className="h-4 w-4 gradient-icon" />
                               {filing.jurisdiction}
                             </span>
                             <span className="flex items-center gap-1">
-                              <Scale className="h-4 w-4" />
+                              <Scale className="h-4 w-4 gradient-icon" />
                               {filing.court}
                             </span>
                             <span className="flex items-center gap-1">
-                              <Clock className="h-4 w-4" />
+                              <Clock className="h-4 w-4 gradient-icon" />
                               Due: {getTimeRemaining(filing.filingDeadline)}
                             </span>
                             <span className="flex items-center gap-1">
-                              <Calendar className="h-4 w-4" />
+                              <Calendar className="h-4 w-4 gradient-icon" />
                               Created: {new Date(filing.createdAt).toLocaleDateString()}
                             </span>
                           </div>
                         </div>
                         <div className="flex gap-2">
                           <Button size="sm" variant="outline">
-                            <FileText className="h-4 w-4" />
+                            <FileText className="h-4 w-4 gradient-icon" />
                           </Button>
                           <Button size="sm" variant="outline">
-                            <RefreshCw className="h-4 w-4" />
+                            <RefreshCw className="h-4 w-4 gradient-icon" />
                           </Button>
                         </div>
                       </div>
@@ -505,7 +505,7 @@ export default function EmergencyFilingEngine() {
               </div>
 
               <Button onClick={createEmergencyFiling} disabled={loading || !newFiling.title || !newFiling.description} className="w-full bg-red-600 hover:bg-red-700">
-                <Zap className="mr-2 h-4 w-4" />
+                <Zap className="mr-2 h-4 w-4 gradient-icon" />
                 Create Emergency Filing
               </Button>
             </CardContent>
@@ -601,11 +601,11 @@ export default function EmergencyFilingEngine() {
                         </div>
                         <div className="mt-3 flex gap-2">
                           <Button size="sm" variant="outline">
-                            <Phone className="h-4 w-4" />
+                            <Phone className="h-4 w-4 gradient-icon" />
                             Call
                           </Button>
                           <Button size="sm" variant="outline">
-                            <Globe className="h-4 w-4" />
+                            <Globe className="h-4 w-4 gradient-icon" />
                             E-File
                           </Button>
                         </div>
@@ -622,7 +622,7 @@ export default function EmergencyFilingEngine() {
           <Card>
             <CardHeader>
               <CardTitle className="text-red-600 flex items-center gap-2">
-                <Phone className="h-5 w-5" />
+                <Phone className="h-4 w-4 gradient-icon" />
                 24/7 Emergency Legal Hotline
               </CardTitle>
               <CardDescription>Immediate assistance for time-critical legal matters</CardDescription>
@@ -639,7 +639,7 @@ export default function EmergencyFilingEngine() {
                     <li>• Business closure prevention</li>
                   </ul>
                   <Button className="w-full mt-4 bg-red-600 hover:bg-red-700">
-                    <Phone className="mr-2 h-4 w-4" />
+                    <Phone className="mr-2 h-4 w-4 gradient-icon" />
                     Call Emergency Hotline
                   </Button>
                 </div>
@@ -654,7 +654,7 @@ export default function EmergencyFilingEngine() {
                     <li>• Real-time legal guidance</li>
                   </ul>
                   <Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700">
-                    <User className="mr-2 h-4 w-4" />
+                    <User className="mr-2 h-4 w-4 gradient-icon" />
                     Request Attorney Callback
                   </Button>
                 </div>

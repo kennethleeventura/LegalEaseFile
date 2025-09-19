@@ -61,11 +61,11 @@ export default function MPCAIAssistant() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const aiModes = [
-    { value: 'general', label: 'General Legal Assistant', icon: <Bot className="h-4 w-4" /> },
-    { value: 'research', label: 'Legal Research', icon: <Search className="h-4 w-4" /> },
-    { value: 'drafting', label: 'Document Drafting', icon: <FileText className="h-4 w-4" /> },
-    { value: 'analysis', label: 'Case Analysis', icon: <Brain className="h-4 w-4" /> },
-    { value: 'strategy', label: 'Legal Strategy', icon: <Lightbulb className="h-4 w-4" /> }
+    { value: 'general', label: 'General Legal Assistant', icon: <Bot className="h-4 w-4 gradient-icon" /> },
+    { value: 'research', label: 'Legal Research', icon: <Search className="h-4 w-4 gradient-icon" /> },
+    { value: 'drafting', label: 'Document Drafting', icon: <FileText className="h-4 w-4 gradient-icon" /> },
+    { value: 'analysis', label: 'Case Analysis', icon: <Brain className="h-4 w-4 gradient-icon" /> },
+    { value: 'strategy', label: 'Legal Strategy', icon: <Lightbulb className="h-4 w-4 gradient-icon" /> }
   ];
 
   const quickPrompts = [
@@ -257,11 +257,11 @@ How can I assist you with your legal work today?`,
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={newConversation}>
-            <MessageCircle className="mr-2 h-4 w-4" />
+            <MessageCircle className="mr-2 h-4 w-4 gradient-icon" />
             New Chat
           </Button>
           <Button className="bg-gradient-to-r from-purple-500 to-blue-500">
-            <Settings className="mr-2 h-4 w-4" />
+            <Settings className="mr-2 h-4 w-4 gradient-icon" />
             Configure AI
           </Button>
         </div>
@@ -275,7 +275,7 @@ How can I assist you with your legal work today?`,
                 <p className="text-sm font-medium text-gray-600">AI Confidence</p>
                 <p className="text-2xl font-bold text-gray-900">94%</p>
               </div>
-              <Brain className="h-8 w-8 text-purple-500" />
+              <Brain className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -287,7 +287,7 @@ How can I assist you with your legal work today?`,
                 <p className="text-sm font-medium text-gray-600">Conversations</p>
                 <p className="text-2xl font-bold text-gray-900">{threads.length}</p>
               </div>
-              <MessageCircle className="h-8 w-8 text-blue-500" />
+              <MessageCircle className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -299,7 +299,7 @@ How can I assist you with your legal work today?`,
                 <p className="text-sm font-medium text-gray-600">Documents Analyzed</p>
                 <p className="text-2xl font-bold text-gray-900">1,247</p>
               </div>
-              <FileText className="h-8 w-8 text-green-500" />
+              <FileText className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -311,7 +311,7 @@ How can I assist you with your legal work today?`,
                 <p className="text-sm font-medium text-gray-600">Time Saved</p>
                 <p className="text-2xl font-bold text-gray-900">247hrs</p>
               </div>
-              <Lightbulb className="h-8 w-8 text-yellow-500" />
+              <Lightbulb className="h-8 w-8 gradient-icon" />
             </div>
           </CardContent>
         </Card>
@@ -349,7 +349,7 @@ How can I assist you with your legal work today?`,
                         </div>
                       </div>
                       {thread.starred && (
-                        <Star className="h-3 w-3 text-yellow-500 fill-current" />
+                        <Star className="h-3 w-3 fill-current gradient-icon" />
                       )}
                     </div>
                   </div>
@@ -364,7 +364,7 @@ How can I assist you with your legal work today?`,
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Bot className="h-5 w-5 text-purple-500" />
+                  <Bot className="h-5 w-5 gradient-icon" />
                   <span className="font-semibold">MPC AI Assistant</span>
                   <div className="flex items-center gap-1">
                     <div className="w-2 h-2 rounded-full animate-pulse border border-green-300" style={{background: 'linear-gradient(to right, rgb(34, 197, 94), rgb(59, 130, 246))'}} />
@@ -407,7 +407,7 @@ How can I assist you with your legal work today?`,
                             onClick={() => copyToClipboard(message.content)}
                             className="h-6 px-2"
                           >
-                            <Copy className="h-3 w-3" />
+                            <Copy className="h-3 w-3 gradient-icon" />
                           </Button>
                           <Button
                             size="sm"
@@ -415,7 +415,7 @@ How can I assist you with your legal work today?`,
                             onClick={() => speakMessage(message.content)}
                             className="h-6 px-2"
                           >
-                            {isSpeaking ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
+                            {isSpeaking ? <VolumeX className="h-3 w-3 gradient-icon" /> : <Volume2 className="h-3 w-3 gradient-icon" />}
                           </Button>
                           <div className="flex gap-1 ml-auto">
                             <Button
@@ -485,7 +485,7 @@ How can I assist you with your legal work today?`,
                         onClick={isListening ? undefined : startVoiceInput}
                         className={`h-8 w-8 p-0 ${isListening ? 'text-red-500' : 'text-gray-400'}`}
                       >
-                        {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                        {isListening ? <MicOff className="h-4 w-4 gradient-icon" /> : <Mic className="h-4 w-4 gradient-icon" />}
                       </Button>
                       <Button
                         size="sm"
@@ -493,7 +493,7 @@ How can I assist you with your legal work today?`,
                         disabled={!input.trim() || isLoading}
                         className="h-8 w-8 p-0 bg-purple-500 hover:bg-purple-600"
                       >
-                        <Send className="h-4 w-4" />
+                        <Send className="h-4 w-4 gradient-icon" />
                       </Button>
                     </div>
                   </div>

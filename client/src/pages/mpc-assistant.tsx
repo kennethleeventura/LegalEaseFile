@@ -136,14 +136,14 @@ export default function MPCAssistant() {
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Brain className="h-8 w-8 text-purple-600" />
+          <Brain className="h-8 w-8 gradient-icon" />
           <div>
             <h1 className="text-3xl font-bold">MPC AI Assistant</h1>
             <p className="text-gray-600">Pull from existing case database to auto-populate forms and create exhibit lists</p>
           </div>
         </div>
         <Badge variant="outline" className="text-purple-600 border-purple-600">
-          <Zap className="w-3 h-3 mr-1" />
+          <Zap className="w-3 h-3 mr-1 gradient-icon" />
           AI Powered
         </Badge>
       </div>
@@ -151,19 +151,19 @@ export default function MPCAssistant() {
       <Tabs defaultValue="exhibits" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="exhibits" data-testid="tab-exhibits">
-            <FileText className="w-4 h-4 mr-2" />
+            <FileText className="w-4 h-4 mr-2 gradient-icon" />
             Exhibit Lists
           </TabsTrigger>
           <TabsTrigger value="forms" data-testid="tab-forms">
-            <Search className="w-4 h-4 mr-2" />
+            <Search className="w-4 h-4 mr-2 gradient-icon" />
             Auto-Populate Forms
           </TabsTrigger>
           <TabsTrigger value="insights" data-testid="tab-insights">
-            <Lightbulb className="w-4 h-4 mr-2" />
+            <Lightbulb className="w-4 h-4 mr-2 gradient-icon" />
             Case Insights
           </TabsTrigger>
           <TabsTrigger value="templates" data-testid="tab-templates">
-            <Brain className="w-4 h-4 mr-2" />
+            <Brain className="w-4 h-4 mr-2 gradient-icon" />
             Smart Templates
           </TabsTrigger>
         </TabsList>

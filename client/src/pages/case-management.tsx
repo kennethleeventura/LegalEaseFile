@@ -91,11 +91,11 @@ export default function CaseManagement() {
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Shield className="h-6 w-6 text-blue-600" />
+          <Shield className="h-6 w-6 gradient-icon" />
           <h1 className="text-2xl font-bold">Secure Case Management (MPC)</h1>
         </div>
         <Badge variant="outline" className="text-green-600 border-green-600">
-          <Database className="w-3 h-3 mr-1" />
+          <Database className="w-3 h-3 mr-1 gradient-icon" />
           Airtable Connected
         </Badge>
       </div>
@@ -103,15 +103,15 @@ export default function CaseManagement() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="create" data-testid="tab-create">
-            <Plus className="w-4 h-4 mr-2" />
+            <Plus className="w-4 h-4 mr-2 gradient-icon" />
             Create Case
           </TabsTrigger>
           <TabsTrigger value="search" data-testid="tab-search">
-            <Search className="w-4 h-4 mr-2" />
+            <Search className="w-4 h-4 mr-2 gradient-icon" />
             Search Cases
           </TabsTrigger>
           <TabsTrigger value="settings" data-testid="tab-settings">
-            <Shield className="w-4 h-4 mr-2" />
+            <Shield className="w-4 h-4 mr-2 gradient-icon" />
             MPC Settings
           </TabsTrigger>
         </TabsList>
@@ -120,7 +120,7 @@ export default function CaseManagement() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Plus className="w-5 h-5" />
+                <Plus className="w-5 h-5 gradient-icon" />
                 Create New Case with MPC Encryption
               </CardTitle>
             </CardHeader>
@@ -218,7 +218,7 @@ export default function CaseManagement() {
               
               <div className="p-4 bg-blue-50 rounded-lg">
                 <div className="flex items-center gap-2 mb-2">
-                  <Shield className="w-4 h-4 text-blue-600" />
+                  <Shield className="w-4 h-4 gradient-icon" />
                   <span className="font-medium text-blue-800">MPC Security Features</span>
                 </div>
                 <ul className="text-sm text-blue-700 space-y-1">
@@ -235,7 +235,7 @@ export default function CaseManagement() {
                 data-testid="button-create-case"
                 className="w-full"
               >
-                <Plus className="w-4 h-4 mr-2" />
+                <Plus className="w-4 h-4 mr-2 gradient-icon" />
                 {createCaseMutation.isPending ? "Creating Secure Case..." : "Create Encrypted Case in Airtable"}
               </Button>
             </CardContent>
@@ -246,7 +246,7 @@ export default function CaseManagement() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Search className="w-5 h-5" />
+                <Search className="w-5 h-5 gradient-icon" />
                 Search Encrypted Cases
               </CardTitle>
             </CardHeader>
@@ -261,12 +261,12 @@ export default function CaseManagement() {
                     />
                   </div>
                   <Button className="coral-button">
-                    <Search className="h-4 w-4 mr-2" />
+                    <Search className="h-4 w-4 mr-2 gradient-icon" />
                     Search
                   </Button>
                 </div>
                 <div className="text-center py-8">
-                  <Database className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+                  <Database className="w-12 h-12 mx-auto mb-4 gradient-icon" />
                   <p className="text-gray-600">
                     No cases found. Upload documents or create new cases to get started.
                   </p>
@@ -280,7 +280,7 @@ export default function CaseManagement() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Shield className="w-5 h-5" />
+                <Shield className="w-5 h-5 gradient-icon" />
                 MPC Security Settings
               </CardTitle>
             </CardHeader>

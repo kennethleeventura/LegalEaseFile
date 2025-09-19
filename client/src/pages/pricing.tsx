@@ -77,6 +77,13 @@ export default function Pricing() {
             box-shadow: 0 10px 25px rgba(255, 90, 95, 0.3);
             color: white;
           }
+
+          .gradient-icon {
+            background: linear-gradient(135deg, #FF5A5F 0%, #E0F7FF 50%, #B3E5FC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
           
           .pricing-card {
             transition: all 0.3s ease;
@@ -118,7 +125,7 @@ export default function Pricing() {
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-3">
               <div className="geometric-icon w-10 h-10">
-                <Scale className="h-5 w-5" />
+                <Scale className="h-5 w-5 gradient-icon" />
               </div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-[#FF5A5F] to-[#E0F7FF] bg-clip-text text-transparent">LegalEaseFile</h1>
             </Link>
@@ -174,7 +181,7 @@ export default function Pricing() {
             <Card className="pricing-card bg-white">
               <CardHeader className="text-center pb-8">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "50% 10% 50% 10%"}}>
-                  <FileText className="h-8 w-8" />
+                  <FileText className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl font-bold">Starter – $29/month</CardTitle>
                 <CardDescription className="text-lg mt-2">
@@ -221,7 +228,7 @@ export default function Pricing() {
               </div>
               <CardHeader className="text-center pb-8 pt-6">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "10% 50% 10% 50%"}}>
-                  <Users className="h-8 w-8" />
+                  <Users className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl font-bold">Professional – $89/month</CardTitle>
                 <CardDescription className="text-lg mt-2">
@@ -266,7 +273,7 @@ export default function Pricing() {
             <Card className="pricing-card bg-white">
               <CardHeader className="text-center pb-8">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "70% 30% 30% 70%"}}>
-                  <Zap className="h-8 w-8" />
+                  <Zap className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl font-bold">Small Firm Pro – $159/user/month</CardTitle>
                 <CardDescription className="text-lg mt-2">
@@ -310,7 +317,7 @@ export default function Pricing() {
             <Card className="pricing-card bg-white">
               <CardHeader className="text-center pb-8">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "30% 70% 30% 70%"}}>
-                  <Shield className="h-8 w-8" />
+                  <Shield className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl font-bold">Enterprise – Custom Pricing</CardTitle>
                 <CardDescription className="text-lg mt-2">
@@ -360,7 +367,7 @@ export default function Pricing() {
           <Card className="pricing-card bg-white border-2 border-blue-200">
             <CardHeader className="text-center">
               <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "40% 60% 60% 40%"}}>
-                <Users className="h-8 w-8" />
+                <Users className="h-8 w-8 gradient-icon" />
               </div>
               <CardTitle className="text-3xl font-bold">Legal Aid – $39/month (flat rate)</CardTitle>
               <CardDescription className="text-lg mt-2">
@@ -428,7 +435,7 @@ export default function Pricing() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <Shield className="h-8 w-8" />
+                <Shield className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">Secure AES-256 encryption</h3>
               <p className="text-sm text-gray-600">Bank-grade security for all your legal documents</p>
@@ -436,7 +443,7 @@ export default function Pricing() {
             
             <div className="text-center">
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <CheckCircle className="h-8 w-8" />
+                <CheckCircle className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">Court rule & jurisdiction compliance checks</h3>
               <p className="text-sm text-gray-600">Automated validation for CA, NY, TX, FL + federal courts</p>
@@ -444,7 +451,7 @@ export default function Pricing() {
             
             <div className="text-center">
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <FileText className="h-8 w-8" />
+                <FileText className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">Smart templates & guided completion</h3>
               <p className="text-sm text-gray-600">AI-powered forms with step-by-step guidance</p>
@@ -452,7 +459,7 @@ export default function Pricing() {
             
             <div className="text-center">
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <Zap className="h-8 w-8" />
+                <Zap className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">Filing requirement validation</h3>
               <p className="text-sm text-gray-600">Automatic checks for completeness and accuracy</p>
@@ -460,7 +467,7 @@ export default function Pricing() {
             
             <div className="text-center">
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <Clock className="h-8 w-8" />
+                <Clock className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">Automatic updates with real-time rule changes</h3>
               <p className="text-sm text-gray-600">Stay current with evolving court requirements</p>
@@ -468,7 +475,7 @@ export default function Pricing() {
             
             <div className="text-center">
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <Users className="h-8 w-8" />
+                <Users className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">24/7 customer support</h3>
               <p className="text-sm text-gray-600">Get help when you need it most</p>
@@ -626,7 +633,7 @@ export default function Pricing() {
             className="bg-white text-[#FF5A5F] hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
           >
             👉 Start Free & Upgrade Anytime
-            <ArrowRight className="ml-2 h-5 w-5" />
+            <ArrowRight className="ml-2 h-5 w-5 gradient-icon" />
           </Button>
           <p className="text-sm mt-4 opacity-75">Join thousands of legal professionals who trust LegalEaseFile</p>
         </div>
@@ -639,7 +646,7 @@ export default function Pricing() {
             <div>
               <Link href="/" className="flex items-center space-x-3 mb-4">
                 <div className="geometric-icon w-8 h-8">
-                  <Scale className="h-4 w-4" />
+                  <Scale className="h-4 w-4 gradient-icon" />
                 </div>
                 <span className="text-lg font-semibold">LegalEaseFile</span>
               </Link>

@@ -95,7 +95,7 @@ export default function EmergencyFiling() {
     <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" data-testid="emergency-filing-page">
       {/* Emergency Warning Banner */}
       <Alert className="mb-6 bg-error-50 border-l-4 border-error-500 shadow-sm" data-testid="emergency-warning">
-        <AlertTriangle className="text-error-500 h-5 w-5" />
+        <AlertTriangle className="h-5 w-5 gradient-icon" />
         <AlertDescription className="text-error-700">
           <strong>Emergency Filing Notice:</strong> Emergency filings require immediate attention and have specific deadlines.
           For TRO requests, contact the court directly at{" "}
@@ -108,13 +108,13 @@ export default function EmergencyFiling() {
         <div className="flex items-center mb-4">
           <Link href="/">
             <Button variant="ghost" size="sm" data-testid="back-to-dashboard">
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              <ArrowLeft className="mr-2 h-4 w-4 gradient-icon" />
               Back to Dashboard
             </Button>
           </Link>
         </div>
         <div className="flex items-center mb-4">
-          <AlertTriangle className="text-error-600 text-3xl mr-3" />
+          <AlertTriangle className="text-3xl mr-3 gradient-icon" />
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Emergency Filing</h1>
             <p className="text-lg text-gray-600">
@@ -255,9 +255,9 @@ export default function EmergencyFiling() {
                       data-testid="validation-result"
                     >
                       {validationResult.isValid ? (
-                        <CheckCircle className="text-success-600 h-5 w-5" />
+                        <CheckCircle className="h-5 w-5 gradient-icon" />
                       ) : (
-                        <XCircle className="text-error-600 h-5 w-5" />
+                        <XCircle className="h-5 w-5 gradient-icon" />
                       )}
                       <AlertDescription>
                         <h4 className={`font-medium mb-2 ${validationResult.isValid ? "text-success-900" : "text-error-900"}`}>
@@ -297,7 +297,7 @@ export default function EmergencyFiling() {
           <Card className="sticky top-6" data-testid="emergency-guide">
             <CardHeader>
               <CardTitle className="flex items-center">
-                <Clock className="mr-2 h-5 w-5" />
+                <Clock className="mr-2 h-5 w-5 gradient-icon" />
                 Emergency Filing Guide
               </CardTitle>
             </CardHeader>
@@ -348,7 +348,7 @@ export default function EmergencyFiling() {
                 <div className="border-t pt-4">
                   <h4 className="font-medium text-gray-900 mb-2">Filing Timeline</h4>
                   <Alert className="bg-warning-50 border-warning-200">
-                    <Clock className="text-warning-600 h-4 w-4" />
+                    <Clock className="h-4 w-4 gradient-icon" />
                     <AlertDescription className="text-warning-700">
                       <strong>{selectedEmergencyType.label}:</strong>
                       <br />

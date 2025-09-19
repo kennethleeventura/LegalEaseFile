@@ -96,6 +96,13 @@ export default function Features() {
             background: linear-gradient(135deg, #EDE7F6 0%, #7E57C2 100%);
           }
           
+          .gradient-icon {
+            background: linear-gradient(135deg, #FF5A5F 0%, #E0F7FF 50%, #B3E5FC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
           .geometric-icon {
             width: 60px;
             height: 60px;
@@ -107,7 +114,7 @@ export default function Features() {
             color: white;
             transition: all 0.3s ease;
           }
-          
+
           .geometric-icon:hover {
             transform: scale(1.1) rotate(5deg);
           }
@@ -120,7 +127,7 @@ export default function Features() {
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-3">
               <div className="geometric-icon w-10 h-10">
-                <Scale className="h-5 w-5" />
+                <Scale className="h-5 w-5 gradient-icon" />
               </div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-[#FF5A5F] to-[#E0F7FF] bg-clip-text text-transparent">LegalEaseFile</h1>
             </Link>
@@ -163,7 +170,7 @@ export default function Features() {
               className="coral-button px-8 py-4 text-lg"
             >
               Start Free 7-Day Trial
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-5 w-5 gradient-icon" />
             </Button>
             <Button 
               size="lg" 
@@ -193,7 +200,7 @@ export default function Features() {
             <Card className="tier-card tier-starter border-2 border-transparent hover:border-[#B3E5FC]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "50% 10% 50% 10%"}}>
-                  <Globe className="h-8 w-8" />
+                  <Globe className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">Jurisdiction-Specific Document Engine</CardTitle>
                 <CardDescription>
@@ -226,7 +233,7 @@ export default function Features() {
             <Card className="tier-card tier-starter border-2 border-transparent hover:border-[#B3E5FC]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "10% 50% 10% 50%"}}>
-                  <Target className="h-8 w-8" />
+                  <Target className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">Intelligent Case Assessment & Triage</CardTitle>
                 <CardDescription>
@@ -259,7 +266,7 @@ export default function Features() {
             <Card className="tier-card tier-starter border-2 border-transparent hover:border-[#B3E5FC]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "70% 30% 30% 70%"}}>
-                  <FileText className="h-8 w-8" />
+                  <FileText className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">Smart Document Assembly</CardTitle>
                 <CardDescription>
@@ -292,7 +299,7 @@ export default function Features() {
             <Card className="tier-card tier-starter border-2 border-transparent hover:border-[#B3E5FC]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "30% 70% 30% 70%"}}>
-                  <Upload className="h-8 w-8" />
+                  <Upload className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">E-Filing Integration Hub</CardTitle>
                 <CardDescription>
@@ -347,7 +354,7 @@ export default function Features() {
             <Card className="tier-card tier-professional border-2 border-transparent hover:border-[#80CBC4]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "60% 40% 40% 60%"}}>
-                  <Brain className="h-8 w-8" />
+                  <Brain className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">AI Legal Strategy Advisor</CardTitle>
                 <CardDescription>
@@ -380,7 +387,7 @@ export default function Features() {
             <Card className="tier-card tier-professional border-2 border-transparent hover:border-[#80CBC4]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "40% 60% 60% 40%"}}>
-                  <Shield className="h-8 w-8" />
+                  <Shield className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">Automated Compliance Monitor</CardTitle>
                 <CardDescription>
@@ -413,7 +420,7 @@ export default function Features() {
             <Card className="tier-card tier-professional border-2 border-transparent hover:border-[#80CBC4]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "20% 80% 20% 80%"}}>
-                  <Database className="h-8 w-8" />
+                  <Database className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">Evidence Management Suite</CardTitle>
                 <CardDescription>
@@ -446,7 +453,7 @@ export default function Features() {
             <Card className="tier-card tier-professional border-2 border-transparent hover:border-[#80CBC4]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "80% 20% 80% 20%"}}>
-                  <Users className="h-8 w-8" />
+                  <Users className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">Pro Se Guidance System</CardTitle>
                 <CardDescription>
@@ -501,7 +508,7 @@ export default function Features() {
             <Card className="tier-card tier-enterprise border-2 border-transparent hover:border-[#7E57C2]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "50% 10% 50% 10%"}}>
-                  <Search className="h-8 w-8" />
+                  <Search className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">Advanced Legal Research Engine</CardTitle>
                 <CardDescription>
@@ -534,7 +541,7 @@ export default function Features() {
             <Card className="tier-card tier-enterprise border-2 border-transparent hover:border-[#7E57C2]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "10% 50% 10% 50%"}}>
-                  <Users className="h-8 w-8" />
+                  <Users className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">Multi-Party Case Coordination</CardTitle>
                 <CardDescription>
@@ -567,7 +574,7 @@ export default function Features() {
             <Card className="tier-card tier-enterprise border-2 border-transparent hover:border-[#7E57C2]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "70% 30% 30% 70%"}}>
-                  <TrendingUp className="h-8 w-8" />
+                  <TrendingUp className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">Financial Impact Calculator</CardTitle>
                 <CardDescription>
@@ -600,7 +607,7 @@ export default function Features() {
             <Card className="tier-card tier-enterprise border-2 border-transparent hover:border-[#7E57C2]">
               <CardHeader>
                 <div className="geometric-icon w-16 h-16 mb-4" style={{borderRadius: "30% 70% 30% 70%"}}>
-                  <TrendingUp className="h-8 w-8" />
+                  <TrendingUp className="h-8 w-8 gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">Advanced Analytics Dashboard</CardTitle>
                 <CardDescription>
@@ -654,7 +661,7 @@ export default function Features() {
             <Card className="tier-card bg-white hover:shadow-xl text-center">
               <CardContent className="p-6">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "60% 40% 40% 60%"}}>
-                  <AlertTriangle className="h-8 w-8" />
+                  <AlertTriangle className="h-8 w-8 gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Emergency Filing Engine</h3>
                 <p className="text-gray-600 text-sm mb-4">
@@ -667,7 +674,7 @@ export default function Features() {
             <Card className="tier-card bg-white hover:shadow-xl text-center">
               <CardContent className="p-6">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "40% 60% 60% 40%"}}>
-                  <Users className="h-8 w-8" />
+                  <Users className="h-8 w-8 gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Pro Bono Directory</h3>
                 <p className="text-gray-600 text-sm mb-4">
@@ -680,7 +687,7 @@ export default function Features() {
             <Card className="tier-card bg-white hover:shadow-xl text-center">
               <CardContent className="p-6">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "20% 80% 20% 80%"}}>
-                  <Lock className="h-8 w-8" />
+                  <Lock className="h-8 w-8 gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">MPC AI Assistant</h3>
                 <p className="text-gray-600 text-sm mb-4">
@@ -693,7 +700,7 @@ export default function Features() {
             <Card className="tier-card bg-white hover:shadow-xl text-center">
               <CardContent className="p-6">
                 <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "80% 20% 80% 20%"}}>
-                  <Gavel className="h-8 w-8" />
+                  <Gavel className="h-8 w-8 gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Smart Templates</h3>
                 <p className="text-gray-600 text-sm mb-4">
@@ -716,7 +723,7 @@ export default function Features() {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div>
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <Lightbulb className="h-8 w-8" />
+                <Lightbulb className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Streamline the Legal Document Lifecycle</h3>
               <p className="text-gray-600">
@@ -726,7 +733,7 @@ export default function Features() {
             
             <div>
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <Shield className="h-8 w-8" />
+                <Shield className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Reduce Errors, Save Time, Stay Compliant</h3>
               <p className="text-gray-600">
@@ -736,7 +743,7 @@ export default function Features() {
             
             <div>
               <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <Users className="h-8 w-8" />
+                <Users className="h-8 w-8 gradient-icon" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Built for Attorneys, Designed for Clients</h3>
               <p className="text-gray-600">
@@ -747,7 +754,7 @@ export default function Features() {
           
           <Button onClick={handleGetStarted} className="coral-button px-8 py-4 text-lg">
             Start Free 7-Day Trial
-            <ArrowRight className="ml-2 h-5 w-5" />
+            <ArrowRight className="ml-2 h-5 w-5 gradient-icon" />
           </Button>
         </div>
       </section>
@@ -759,7 +766,7 @@ export default function Features() {
             <div>
               <Link href="/" className="flex items-center space-x-3 mb-4">
                 <div className="geometric-icon w-8 h-8">
-                  <Scale className="h-4 w-4" />
+                  <Scale className="h-4 w-4 gradient-icon" />
                 </div>
                 <span className="text-lg font-semibold">LegalEaseFile</span>
               </Link>

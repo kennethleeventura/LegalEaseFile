@@ -5,7 +5,7 @@ import { Link } from "wouter";
 export default function EmergencyAlert() {
   return (
     <Alert className="mb-6 bg-warning-50 border-l-4 border-warning-500 shadow-sm" data-testid="emergency-alert">
-      <AlertTriangle className="text-warning-500 h-5 w-5" />
+      <AlertTriangle className="h-5 w-5 gradient-icon" />
       <AlertDescription className="text-warning-700">
         <strong>Emergency Filing Notice:</strong> For time-sensitive matters (TRO, preliminary injunctions),{" "}
         <Link href="/emergency-filing">

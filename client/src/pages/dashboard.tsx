@@ -12,7 +12,7 @@ import ProBonoDirectory from "@/components/legal/pro-bono-directory";
 
 export default function Dashboard() {
   const { user, isAuthenticated } = useAuth();
-  
+
   const { data: recentActivity = [] } = useQuery({
     queryKey: ["/api/filing-history/user"],
     enabled: isAuthenticated,
@@ -33,14 +33,36 @@ export default function Dashboard() {
   };
 
   return (
-    <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" data-testid="dashboard">
+    <>
+      {/* Gradient Icon Styling */}
+      <style>{`
+        .gradient-icon {
+          background: linear-gradient(135deg, #FF5A5F 0%, #E0F7FF 50%, #B3E5FC 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        .gradient-red {
+          background: linear-gradient(135deg, #FF5A5F 0%, #FF4449 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        .gradient-blue {
+          background: linear-gradient(135deg, #E0F7FF 0%, #B3E5FC 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+      `}</style>
+      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" data-testid="dashboard">
       <EmergencyAlert />
 
       {/* Main Header */}
       <div className="px-4 py-6 sm:px-0">
         <Card className="border-4 border-dashed border-gray-200 bg-white p-8" data-testid="main-header">
           <div className="text-center">
-            <Upload className="text-primary-500 text-6xl mb-4 mx-auto" />
+            <Upload className="text-6xl mb-4 mx-auto gradient-icon" />
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               Massachusetts Federal District Court Filing
             </h1>
@@ -162,7 +184,7 @@ export default function Dashboard() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
-              <Clock className="mr-2 h-5 w-5" />
+              <Clock className="mr-2 h-5 w-5 gradient-icon" />
               Recent Activity
             </CardTitle>
           </CardHeader>
@@ -189,7 +211,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="text-center py-6 text-gray-500">
-                  <Upload className="h-12 w-12 mx-auto mb-3 gradient-blue" />
+                  <Upload className="h-12 w-12 mx-auto mb-3 gradient-icon" />
                   <p>No recent activity</p>
                   <p className="text-sm">Start by uploading a document or creating a new filing</p>
                 </div>
@@ -211,14 +233,14 @@ export default function Dashboard() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
-              <Phone className="mr-2 h-5 w-5" />
+              <Phone className="mr-2 h-5 w-5 gradient-icon" />
               Help & Support
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="flex items-start">
-                <Phone className="text-primary-600 text-lg mt-1" />
+                <Phone className="text-lg mt-1 gradient-icon" />
                 <div className="ml-3">
                   <h4 className="font-medium text-gray-900">CM/ECF Help Desk</h4>
                   <p className="text-sm text-gray-600">
@@ -235,7 +257,7 @@ export default function Dashboard() {
               </div>
               
               <div className="flex items-start">
-                <Mail className="text-primary-600 text-lg mt-1" />
+                <Mail className="text-lg mt-1 gradient-icon" />
                 <div className="ml-3">
                   <h4 className="font-medium text-gray-900">Email Support</h4>
                   <p className="text-sm text-gray-600">
@@ -252,7 +274,7 @@ export default function Dashboard() {
               </div>
 
               <div className="flex items-start">
-                <Book className="text-primary-600 text-lg mt-1" />
+                <Book className="text-lg mt-1 gradient-icon" />
                 <div className="ml-3">
                   <h4 className="font-medium text-gray-900">Documentation</h4>
                   <p className="text-sm text-gray-600">
@@ -274,5 +296,6 @@ export default function Dashboard() {
         </Card>
       </div>
     </main>
+    </>
   );
 }

@@ -14,7 +14,7 @@ export default function ProBonoSearch() {
         <div className="flex items-center mb-4">
           <Link href="/">
             <Button variant="ghost" size="sm" data-testid="back-to-dashboard">
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              <ArrowLeft className="mr-2 h-4 w-4 gradient-icon" />
               Back to Dashboard
             </Button>
           </Link>

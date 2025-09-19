@@ -38,7 +38,7 @@ export default function CMECFStatusCard() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* System Status */}
           <Alert className="bg-success-50 border border-success-200" data-testid="system-status">
-            <CheckCircle className="text-success-600 h-5 w-5" />
+            <CheckCircle className="h-5 w-5 gradient-icon" />
             <AlertDescription>
               <h3 className="font-medium text-success-900">System Status: Online</h3>
               <p className="text-sm text-success-700 mt-1">Connected to ecf.mad.uscourts.gov</p>
@@ -50,7 +50,7 @@ export default function CMECFStatusCard() {
 
           {/* Account Status */}
           <Alert className="bg-warning-50 border border-warning-200" data-testid="account-status">
-            <UserCheck className="text-warning-600 h-5 w-5" />
+            <UserCheck className="h-5 w-5 gradient-icon" />
             <AlertDescription>
               <h3 className="font-medium text-warning-900">PACER Account Required</h3>
               <p className="text-sm text-warning-700 mt-1">Link your PACER account for filing</p>
@@ -69,7 +69,7 @@ export default function CMECFStatusCard() {
 
         {/* Filing Requirements */}
         <Alert className="mt-6 bg-primary-50 border border-primary-200" data-testid="filing-requirements">
-          <Info className="text-primary-600 h-5 w-5" />
+          <Info className="h-5 w-5 gradient-icon" />
           <AlertDescription>
             <h4 className="font-medium text-primary-900 mb-3">CM/ECF Filing Requirements</h4>
             <ul className="text-sm text-primary-800 space-y-1">
@@ -88,7 +88,7 @@ export default function CMECFStatusCard() {
                 data-testid="cmecf-guidelines-link"
               >
                 View complete CM/ECF guidelines
-                <ExternalLink className="ml-1 h-3 w-3" />
+                <ExternalLink className="ml-1 h-3 w-3 gradient-icon" />
               </a>
             </div>
           </AlertDescription>

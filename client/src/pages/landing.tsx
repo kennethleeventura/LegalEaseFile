@@ -101,39 +101,163 @@ export default function Landing() {
 
           .split-hero {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            min-height: 100vh;
+            grid-template-columns: 50% 50%;
+            height: 100vh;
             transition: all 0.5s ease;
           }
 
-          .split-hero:hover .hero-left {
-            grid-column: 1 / span 1;
-            width: 80%;
+          /* Desktop - Large screens (1200px+) */
+          @media (min-width: 1200px) {
+            .split-hero {
+              grid-template-columns: 50% 50%;
+              height: 100vh;
+            }
+            .hero-left {
+              position: relative;
+              overflow: hidden;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: transparent;
+            }
+            .hero-right {
+              position: relative;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 3rem;
+            }
           }
 
-          .split-hero:hover .hero-right {
-            grid-column: 2 / span 1;
-            width: 20%;
+          /* Desktop - Standard (1024px - 1199px) */
+          @media (min-width: 1024px) and (max-width: 1199px) {
+            .split-hero {
+              grid-template-columns: 50% 50%;
+              height: 100vh;
+            }
+            .hero-left {
+              position: relative;
+              overflow: hidden;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: transparent;
+            }
+            .hero-right {
+              position: relative;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 2.5rem;
+            }
           }
 
+          /* Tablet - Portrait (768px - 1023px) */
+          @media (min-width: 768px) and (max-width: 1023px) {
+            .split-hero {
+              grid-template-columns: 1fr;
+              height: auto;
+            }
+            .hero-left {
+              position: relative;
+              overflow: hidden;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: transparent;
+              min-height: 50vh;
+              order: 1;
+            }
+            .hero-right {
+              position: relative;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 2rem;
+              min-height: 50vh;
+              order: 2;
+            }
+          }
+
+          /* Mobile - Large (640px - 767px) */
+          @media (min-width: 640px) and (max-width: 767px) {
+            .split-hero {
+              grid-template-columns: 1fr;
+              height: auto;
+            }
+            .hero-left {
+              position: relative;
+              overflow: hidden;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: transparent;
+              min-height: 40vh;
+              order: 1;
+            }
+            .hero-right {
+              position: relative;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 1.5rem;
+              min-height: 60vh;
+              order: 2;
+            }
+          }
+
+          /* Mobile - Small (below 640px) */
+          @media (max-width: 639px) {
+            .split-hero {
+              grid-template-columns: 1fr;
+              height: auto;
+            }
+            .hero-left {
+              position: relative;
+              overflow: hidden;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: transparent;
+              min-height: 35vh;
+              order: 1;
+            }
+            .hero-right {
+              position: relative;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 1rem;
+              min-height: 65vh;
+              order: 2;
+            }
+          }
+
+          /* Default styles for all screen sizes */
           .hero-left {
-            transition: all 0.5s ease;
             position: relative;
             overflow: hidden;
+            background: transparent;
+          }
+
+          .hero-left img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
           }
 
           .hero-right {
-            transition: all 0.5s ease;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
           }
 
-          .hero-left:hover {
-            transform: scale(1.02);
-          }
-
-          .hero-right:hover {
-            transform: scale(1.05);
-          }
 
           .nav-mini {
             opacity: 0;
@@ -234,14 +358,60 @@ export default function Landing() {
             }
           }
 
-          @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+          @keyframes slideInFromLeft {
+            from {
+              opacity: 0;
+              transform: translateX(-100px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
           }
 
-          @keyframes scale {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+          @keyframes slideInFromRight {
+            from {
+              opacity: 0;
+              transform: translateX(100px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+
+          @keyframes slideInFromBottom {
+            from {
+              opacity: 0;
+              transform: translateY(50px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          .animate-slide-in-left {
+            animation: slideInFromLeft 0.8s ease-out forwards;
+          }
+
+          .animate-slide-in-right {
+            animation: slideInFromRight 0.8s ease-out forwards;
+          }
+
+          .animate-slide-in-bottom {
+            animation: slideInFromBottom 0.6s ease-out forwards;
+          }
+
+          .section-enter {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+          }
+
+          .section-enter.visible {
+            opacity: 1;
+            transform: translateY(0);
           }
         `
       }} />
@@ -273,125 +443,115 @@ export default function Landing() {
       </header>
 
       {/* Hero Section - Split Screen with Clear Division */}
-      <section ref={heroRef} className="relative pt-16 min-h-screen">
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-gray-50 to-blue-50"></div>
-        <div className="relative z-10 h-full">
-          <div className="split-hero">
-            {/* Left Side - Animated Image */}
-            <div className="hero-left bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#FF5A5F]/20 to-transparent"></div>
-              <div className="relative z-10 text-center">
-                <img
-                  src="/assets/images/compass-courthouse.gif"
-                  alt="LegalEaseFile AI-Powered Legal Filing Animation"
-                  className="w-full max-w-lg mx-auto h-auto object-contain drop-shadow-2xl"
-                  style={{
-                    filter: 'drop-shadow(0 25px 50px rgba(255, 90, 95, 0.3))',
-                    animation: 'scale 6s ease-in-out infinite'
-                  }}
-                />
+      <section ref={heroRef} className="relative pt-16">
+        <div className="split-hero">
+          {/* Left Side - Motion Graphic (50% width, full height) */}
+          <div className="hero-left animate-slide-in-left">
+            <img
+              src="/assets/images/compass-courthouse.gif"
+              alt="LegalEaseFile AI-Powered Legal Filing Animation"
+              className="hero-image"
+            />
 
-                {/* Navigation buttons that appear on hover */}
-                <div className="nav-mini absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-4">
-                  <Button
-                    size="sm"
-                    onClick={() => window.location.href = "/dashboard"}
-                    className="bg-white/90 text-[#FF5A5F] hover:bg-white backdrop-blur-sm"
-                  >
-                    Dashboard
-                  </Button>
-                  <Button
-                    size="sm"
-                    onClick={() => window.location.href = "/file-document"}
-                    className="bg-white/90 text-[#FF5A5F] hover:bg-white backdrop-blur-sm"
-                  >
-                    File Now
-                  </Button>
+            {/* Overlay navigation buttons */}
+            <div className="nav-mini absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-4 z-20">
+              <Button
+                size="sm"
+                onClick={() => window.location.href = "/dashboard"}
+                className="bg-white/90 text-[#FF5A5F] hover:bg-white backdrop-blur-sm"
+              >
+                Dashboard
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => window.location.href = "/file-document"}
+                className="bg-white/90 text-[#FF5A5F] hover:bg-white backdrop-blur-sm"
+              >
+                File Now
+              </Button>
+            </div>
+          </div>
+
+          {/* Right Side - Text Content (50% width, full height) */}
+          <div className="hero-right bg-white animate-slide-in-right">
+            <div className="w-full max-w-xl mx-auto space-y-6">
+              <div>
+                <Badge className="mb-4 bg-[#FF5A5F]/10 text-[#FF5A5F] hover:bg-[#FF5A5F]/20 border-[#FF5A5F]/20">
+                  AI-Powered Legal Filing Platform
+                </Badge>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 leading-tight">
+                  AI-Powered Legal Filing for <span className="text-[#FF5A5F]">Pro Se Litigants</span> & Small Law Firms
+                </h1>
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 mb-3 leading-relaxed">
+                  <span className="font-semibold">Compliant. Simple. Court-Ready.</span>
+                </p>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-6 leading-relaxed">
+                  Massachusetts court forms, federal court filings, and self-representation help powered by AI legal research and case automation tools.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                {/* For Individuals (Pro Se Litigants) */}
+                <Button
+                  size="lg"
+                  onClick={() => window.location.href = "/file-document"}
+                  className="coral-button w-full px-6 py-3 text-base font-semibold"
+                >
+                  <Users className="mr-3 h-5 w-5" />
+                  File My Case - For Individuals
+                  <ArrowRight className="ml-3 h-5 w-5" />
+                </Button>
+
+                {/* For Legal Professionals */}
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={() => window.location.href = "/pricing"}
+                  className="w-full border-2 border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white px-6 py-3 text-base font-semibold"
+                >
+                  <Scale className="mr-3 h-5 w-5" />
+                  Grow My Practice - For Attorneys
+                  <ArrowRight className="ml-3 h-5 w-5" />
+                </Button>
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="pt-4 space-y-2">
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <CheckCircle className="h-4 w-4 text-[#FF5A5F]" />
+                  <span className="font-semibold text-gray-900">4 States Supported</span>
+                  <span>• Federal Court Compatible</span>
+                </div>
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <Shield className="h-4 w-4 text-[#FF5A5F]" />
+                  <span className="font-semibold text-gray-900">AES-256 Encrypted</span>
+                  <span>• GDPR & HIPAA Compliant</span>
+                </div>
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <FileText className="h-4 w-4 text-[#FF5A5F]" />
+                  <span className="font-semibold text-gray-900">Essential Templates</span>
+                  <span>• AI-Powered Forms</span>
                 </div>
               </div>
-            </div>
 
-            {/* Right Side - Text Content */}
-            <div className="hero-right bg-white/95 backdrop-blur-sm px-8 lg:px-16 py-16 flex items-center">
-              <div className="w-full space-y-8">
-                <div>
-                  <Badge className="mb-6 bg-[#FF5A5F]/10 text-[#FF5A5F] hover:bg-[#FF5A5F]/20 border-[#FF5A5F]/20">
-                    AI-Powered Legal Filing Platform
-                  </Badge>
-                  <h1 className="text-3xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                    AI-Powered Legal Filing for <span className="text-[#FF5A5F]">Pro Se Litigants</span> & Small Law Firms
-                  </h1>
-                  <p className="text-xl text-gray-600 mb-4 leading-relaxed">
-                    <span className="font-semibold">Compliant. Simple. Court-Ready.</span>
-                  </p>
-                  <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                    Massachusetts court forms, federal court filings, and self-representation help powered by AI legal research and case automation tools.
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  {/* For Individuals (Pro Se Litigants) */}
-                  <Button
-                    size="lg"
-                    onClick={() => window.location.href = "/file-document"}
-                    className="coral-button w-full px-8 py-4 text-lg font-semibold"
-                  >
-                    <Users className="mr-3 h-5 w-5 gradient-icon" />
-                    File My Case - For Individuals
-                    <ArrowRight className="ml-3 h-5 w-5 gradient-icon" />
-                  </Button>
-
-                  {/* For Legal Professionals */}
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    onClick={() => window.location.href = "/pricing"}
-                    className="w-full border-2 border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white px-8 py-4 text-lg font-semibold"
-                  >
-                    <Scale className="mr-3 h-5 w-5 gradient-icon" />
-                    Grow My Practice - For Attorneys
-                    <ArrowRight className="ml-3 h-5 w-5 gradient-icon" />
-                  </Button>
-                </div>
-
-                {/* Trust Indicators */}
-                <div className="pt-8 space-y-3">
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 gradient-icon" />
-                    <span className="font-semibold text-gray-900">4 States Supported</span>
-                    <span>• Federal Court Compatible</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <Shield className="h-4 w-4 gradient-icon" />
-                    <span className="font-semibold text-gray-900">AES-256 Encrypted</span>
-                    <span>• GDPR & HIPAA Compliant</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <FileText className="h-4 w-4 gradient-icon" />
-                    <span className="font-semibold text-gray-900">Essential Templates</span>
-                    <span>• AI-Powered Forms</span>
-                  </div>
-                </div>
-
-                {/* Navigation buttons that appear on hover */}
-                <div className="nav-mini pt-4 flex space-x-3">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => window.location.href = "/emergency-filing"}
-                    className="border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white"
-                  >
-                    Emergency Filing
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => window.location.href = "/pro-bono-search"}
-                    className="border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white"
-                  >
-                    Find Legal Help
-                  </Button>
-                </div>
+              {/* Secondary navigation buttons */}
+              <div className="pt-3 flex flex-wrap gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => window.location.href = "/emergency-filing"}
+                  className="border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white"
+                >
+                  Emergency Filing
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => window.location.href = "/pro-bono-search"}
+                  className="border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white"
+                >
+                  Find Legal Help
+                </Button>
               </div>
             </div>
           </div>
@@ -404,7 +564,7 @@ export default function Landing() {
       </section>
 
       {/* Core Features Section - 3-Tier Layout */}
-      <section ref={featuresRef} className="py-20 px-4 sm:px-6 lg:px-8 bg-white scroll-section">
+      <section ref={featuresRef} className="py-20 px-4 sm:px-6 lg:px-8 bg-white section-enter scroll-section">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -544,7 +704,7 @@ export default function Landing() {
       </section>
 
       {/* Special Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 scroll-section">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 section-enter scroll-section">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -608,7 +768,7 @@ export default function Landing() {
       </section>
 
       {/* Competitive Positioning */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white scroll-section">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white section-enter scroll-section">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -672,7 +832,7 @@ export default function Landing() {
       </section>
 
       {/* Pricing Section */}
-      <section ref={pricingRef} className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 scroll-section">
+      <section ref={pricingRef} className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 section-enter scroll-section">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -754,7 +914,7 @@ export default function Landing() {
                 <CardDescription className="text-center">For Large Firms</CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" className="w-full mb-4 border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white">Contact Sales</Button>
+                <Button variant="outline" onClick={() => window.location.href = "/auth"} className="w-full mb-4 border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white">Contact Sales</Button>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />White-label options</li>
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Custom integrations</li>
@@ -767,7 +927,7 @@ export default function Landing() {
       </section>
 
       {/* Trust & Security */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white scroll-section">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white section-enter scroll-section">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -812,7 +972,7 @@ export default function Landing() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#FF5A5F] to-[#FF4449] text-white scroll-section">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#FF5A5F] to-[#FF4449] text-white section-enter scroll-section">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Take Control of Your Legal Documents
@@ -854,8 +1014,8 @@ export default function Landing() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="/features" className="hover:text-white transition-colors">Features</a></li>
                 <li><a href="/pricing" className="hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="/templates" className="hover:text-white transition-colors">Templates</a></li>
-                <li><a href="/integrations" className="hover:text-white transition-colors">Integrations</a></li>
+                <li><a href="/template-form" className="hover:text-white transition-colors">Templates</a></li>
+                <li><a href="/dashboard" className="hover:text-white transition-colors">Dashboard</a></li>
               </ul>
             </div>
             
@@ -863,9 +1023,9 @@ export default function Landing() {
               <h4 className="font-semibold mb-4">Resources</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="/blog" className="hover:text-white transition-colors">Blog</a></li>
-                <li><a href="/help" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="/glossary" className="hover:text-white transition-colors">Legal Glossary</a></li>
-                <li><a href="/guides" className="hover:text-white transition-colors">Filing Guides</a></li>
+                <li><a href="/emergency-filing" className="hover:text-white transition-colors">Emergency Filing</a></li>
+                <li><a href="/pro-bono-search" className="hover:text-white transition-colors">Pro Bono Search</a></li>
+                <li><a href="/case-management" className="hover:text-white transition-colors">Case Management</a></li>
               </ul>
             </div>
             
@@ -873,9 +1033,9 @@ export default function Landing() {
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="/about" className="hover:text-white transition-colors">About</a></li>
-                <li><a href="/contact" className="hover:text-white transition-colors">Contact</a></li>
-                <li><a href="/privacy" className="hover:text-white transition-colors">Privacy</a></li>
-                <li><a href="/terms" className="hover:text-white transition-colors">Terms</a></li>
+                <li><a href="/auth" className="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="/mpc-assistant" className="hover:text-white transition-colors">MPC Assistant</a></li>
+                <li><a href="/subscribe" className="hover:text-white transition-colors">Subscribe</a></li>
               </ul>
             </div>
           </div>
