@@ -424,11 +424,12 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              {/* Professional Legal Logo */}
-              <div className="w-10 h-10 bg-white border-2 border-gray-800 rounded flex items-center justify-center">
-                <Scale className="h-6 w-6 text-gray-800" />
-              </div>
-              <h1 className="text-xl font-bold text-gray-800">LegalEaseFile</h1>
+              {/* LegalEaseFile Black Logo */}
+              <img
+                src="/assets/images/logo-black.png"
+                alt="LegalEaseFile"
+                className="h-8 w-auto"
+              />
             </div>
             
             <nav className="hidden md:flex space-x-8">
@@ -1002,10 +1003,11 @@ export default function Landing() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-8 h-8 flex items-center justify-center">
-                  <Scale className="h-6 w-6 gradient-icon" />
-                </div>
-                <span className="text-lg font-semibold">LegalEaseFile</span>
+                <img
+                  src="/assets/images/logo-black.png"
+                  alt="LegalEaseFile"
+                  className="h-6 w-auto brightness-0 invert"
+                />
               </div>
               <p className="text-gray-400 text-sm">
                 AI-powered legal filing platform for modern attorneys and self-represented litigants.
