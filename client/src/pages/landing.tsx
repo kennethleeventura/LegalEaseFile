@@ -597,11 +597,9 @@ export default function Landing() {
             {/* Starter Tier */}
             <Card className="tier-card tier-starter border-2 border-transparent hover:border-[#B3E5FC]">
               <CardHeader className="text-center pb-4">
-                <img
-                  src="/assets/images/compass-courthouse.gif"
-                  alt="LegalEaseFile AI-Powered Legal Filing"
-                  className="w-16 h-16 mx-auto mb-4 object-contain"
-                />
+                <div className="icon-wrapper w-16 h-16 mb-4">
+                  <FileText className="icon-large gradient-icon" />
+                </div>
                 <CardTitle className="text-2xl">Get Filing Fast</CardTitle>
                 <CardDescription className="text-lg">
                   No Hassle, No Guesswork
@@ -643,11 +641,9 @@ export default function Landing() {
                 <Badge className="bg-[#FF5A5F] text-white">Most Popular</Badge>
               </div>
               <CardHeader className="text-center pb-4">
-                <img
-                  src="/assets/images/compass-courthouse.gif"
-                  alt="LegalEaseFile AI-Powered Legal Filing"
-                  className="w-16 h-16 mx-auto mb-4 object-contain"
-                />
+                <div className="icon-wrapper w-16 h-16 mb-4">
+                  <Scale className="icon-large gradient-icon" />
+                </div>
                 <CardTitle className="text-2xl">Level Up Your Practice</CardTitle>
                 <CardDescription className="text-lg">
                   Work Smarter, Not Harder
@@ -877,13 +873,13 @@ export default function Landing() {
                 </div>
                 <CardDescription className="text-center">Best for Pro Se & Solo Attorneys</CardDescription>
               </CardHeader>
-              <CardContent>
-                <Button className="coral-button w-full mb-4" onClick={handleLogin}>Start Free Trial</Button>
+              <CardContent className="card-content-flex">
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Core document assembly</li>
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Basic e-filing integration</li>
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Deadline tracking</li>
                 </ul>
+                <Button className="coral-button w-full" onClick={handleLogin}>Start Free Trial</Button>
               </CardContent>
             </Card>
             
@@ -899,13 +895,13 @@ export default function Landing() {
                 </div>
                 <CardDescription className="text-center">Perfect for Solo Practitioners</CardDescription>
               </CardHeader>
-              <CardContent>
-                <Button className="coral-button w-full mb-4" onClick={handleLogin}>Start Free Trial</Button>
+              <CardContent className="card-content-flex">
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Unlimited document assembly</li>
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />AI strategy recommendations</li>
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Client portal & case management</li>
                 </ul>
+                <Button className="coral-button w-full" onClick={handleLogin}>Start Free Trial</Button>
               </CardContent>
             </Card>
             
@@ -918,13 +914,13 @@ export default function Landing() {
                 </div>
                 <CardDescription className="text-center">For Small Firms</CardDescription>
               </CardHeader>
-              <CardContent>
-                <Button className="coral-button w-full mb-4" onClick={handleLogin}>Start Free Trial</Button>
+              <CardContent className="card-content-flex">
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Advanced AI research</li>
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Evidence management</li>
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Multi-user collaboration</li>
                 </ul>
+                <Button className="coral-button w-full" onClick={handleLogin}>Start Free Trial</Button>
               </CardContent>
             </Card>
             
@@ -937,13 +933,13 @@ export default function Landing() {
                 </div>
                 <CardDescription className="text-center">For Large Firms</CardDescription>
               </CardHeader>
-              <CardContent>
-                <Button variant="outline" onClick={() => window.location.href = "/auth"} className="w-full mb-4 border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white">Contact Sales</Button>
+              <CardContent className="card-content-flex">
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />White-label options</li>
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />Custom integrations</li>
                   <li className="flex items-center"><CheckCircle className="h-4 w-4 gradient-icon mr-2" />24/7 enterprise support</li>
                 </ul>
+                <Button variant="outline" onClick={() => window.location.href = "/auth"} className="w-full border-[#FF5A5F] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white">Contact Sales</Button>
               </CardContent>
             </Card>
           </div>
