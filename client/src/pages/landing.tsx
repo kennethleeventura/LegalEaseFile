@@ -306,20 +306,23 @@ export default function Landing() {
             background: linear-gradient(135deg, #EDE7F6 0%, #7E57C2 100%);
           }
           
-          .geometric-icon {
+          .icon-wrapper {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #FF5A5F 0%, #E0F7FF 50%, #B3E5FC 100%);
-            border-radius: 50% 10% 50% 10%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
             transition: all 0.3s ease;
+            margin: 0 auto;
           }
-          
-          .geometric-icon:hover {
-            transform: scale(1.1) rotate(5deg);
+
+          .icon-wrapper:hover {
+            transform: scale(1.1);
+          }
+
+          .icon-large {
+            width: 48px;
+            height: 48px;
           }
           
           .split-screen {
@@ -421,11 +424,11 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              {/* Placeholder for your new logo - replace with your uploaded logo */}
-              <div className="w-10 h-10 bg-[#FF5A5F] rounded flex items-center justify-center">
-                <span className="text-white font-bold text-sm">L</span>
+              {/* Professional Legal Logo */}
+              <div className="w-10 h-10 bg-white border-2 border-gray-800 rounded flex items-center justify-center">
+                <Scale className="h-6 w-6 text-gray-800" />
               </div>
-              <h1 className="text-xl font-bold gradient-text">LegalEaseFile</h1>
+              <h1 className="text-xl font-bold text-gray-800">LegalEaseFile</h1>
             </div>
             
             <nav className="hidden md:flex space-x-8">
@@ -664,8 +667,8 @@ export default function Landing() {
             {/* Enterprise Tier */}
             <Card className="tier-card tier-enterprise border-2 border-transparent hover:border-[#7E57C2]">
               <CardHeader className="text-center pb-4">
-                <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "70% 30% 30% 70%"}}>
-                  <Search className="h-8 w-8" />
+                <div className="icon-wrapper w-16 h-16 mb-4">
+                  <Search className="icon-large gradient-icon" />
                 </div>
                 <CardTitle className="text-2xl">Powerful Automation</CardTitle>
                 <CardDescription className="text-lg">
@@ -718,8 +721,8 @@ export default function Landing() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card className="tier-card bg-white hover:shadow-xl">
               <CardContent className="p-6 text-center">
-                <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "60% 40% 40% 60%"}}>
-                  <Zap className="h-8 w-8 gradient-icon" />
+                <div className="icon-wrapper w-16 h-16 mb-4">
+                  <Zap className="icon-large gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Emergency Filing Engine</h3>
                 <p className="text-gray-600">
@@ -730,8 +733,8 @@ export default function Landing() {
             
             <Card className="tier-card bg-white hover:shadow-xl">
               <CardContent className="p-6 text-center">
-                <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "40% 60% 60% 40%"}}>
-                  <Users className="h-8 w-8 gradient-icon" />
+                <div className="icon-wrapper w-16 h-16 mb-4">
+                  <Users className="icon-large gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Pro Bono Directory</h3>
                 <p className="text-gray-600">
@@ -742,8 +745,8 @@ export default function Landing() {
             
             <Card className="tier-card bg-white hover:shadow-xl">
               <CardContent className="p-6 text-center">
-                <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "20% 80% 20% 80%"}}>
-                  <FileText className="h-8 w-8 gradient-icon" />
+                <div className="icon-wrapper w-16 h-16 mb-4">
+                  <FileText className="icon-large gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Smart Templates</h3>
                 <p className="text-gray-600">
@@ -754,8 +757,8 @@ export default function Landing() {
             
             <Card className="tier-card bg-white hover:shadow-xl">
               <CardContent className="p-6 text-center">
-                <div className="geometric-icon w-16 h-16 mx-auto mb-4" style={{borderRadius: "80% 20% 80% 20%"}}>
-                  <Shield className="h-8 w-8 gradient-icon" />
+                <div className="icon-wrapper w-16 h-16 mb-4">
+                  <Shield className="icon-large gradient-icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">MPC AI Assistant</h3>
                 <p className="text-gray-600">
@@ -940,29 +943,29 @@ export default function Landing() {
           
           <div className="grid md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <Shield className="h-8 w-8 gradient-icon" />
+              <div className="icon-wrapper w-16 h-16 mb-4">
+                <Shield className="icon-large gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">AES-256 Encrypted</h3>
               <p className="text-sm text-gray-600">Bank-grade encryption for all data</p>
             </div>
             <div className="text-center">
-              <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <CheckCircle className="h-8 w-8 gradient-icon" />
+              <div className="icon-wrapper w-16 h-16 mb-4">
+                <CheckCircle className="icon-large gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">GDPR Compliant</h3>
               <p className="text-sm text-gray-600">Full privacy protection</p>
             </div>
             <div className="text-center">
-              <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <Users className="h-8 w-8 gradient-icon" />
+              <div className="icon-wrapper w-16 h-16 mb-4">
+                <Users className="icon-large gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">HIPAA Compliant</h3>
               <p className="text-sm text-gray-600">Healthcare data protection</p>
             </div>
             <div className="text-center">
-              <div className="geometric-icon w-16 h-16 mx-auto mb-4">
-                <FileText className="h-8 w-8 gradient-icon" />
+              <div className="icon-wrapper w-16 h-16 mb-4">
+                <FileText className="icon-large gradient-icon" />
               </div>
               <h3 className="font-semibold mb-2">Court Standards</h3>
               <p className="text-sm text-gray-600">Built for e-filing compliance</p>
@@ -999,8 +1002,8 @@ export default function Landing() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="geometric-icon w-8 h-8">
-                  <Scale className="h-4 w-4 gradient-icon" />
+                <div className="w-8 h-8 flex items-center justify-center">
+                  <Scale className="h-6 w-6 gradient-icon" />
                 </div>
                 <span className="text-lg font-semibold">LegalEaseFile</span>
               </div>
