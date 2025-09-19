@@ -287,11 +287,25 @@ export default function Landing() {
           .tier-card {
             transition: all 0.3s ease;
             border: 1px solid transparent;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
           }
-          
+
           .tier-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+          }
+
+          .card-content-flex {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .card-content-flex > *:last-child {
+            margin-top: auto;
+            padding-top: 1rem;
           }
           
           .tier-starter {
@@ -593,28 +607,30 @@ export default function Landing() {
                   No Hassle, No Guesswork
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <p className="text-gray-700 mb-6">
-                  Automate your filings with AI-powered templates for every court. Track deadlines, stay compliant, and file electronically in minutes.
-                </p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    AI document engine for CA, NY, TX, FL + federal courts
-                  </li>
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    Smart document assembly & auto-populated client info
-                  </li>
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    One-click e-filing with compliance checks
-                  </li>
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    Real-time rule updates & deadline tracking
-                  </li>
-                </ul>
+              <CardContent className="card-content-flex">
+                <div>
+                  <p className="text-gray-700 mb-6">
+                    Automate your filings with AI-powered templates for every court. Track deadlines, stay compliant, and file electronically in minutes.
+                  </p>
+                  <ul className="space-y-3">
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      AI document engine for CA, NY, TX, FL + federal courts
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      Smart document assembly & auto-populated client info
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      One-click e-filing with compliance checks
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      Real-time rule updates & deadline tracking
+                    </li>
+                  </ul>
+                </div>
                 <Button className="coral-button w-full" onClick={handleLogin}>
                   Start Free Trial
                 </Button>
@@ -637,28 +653,30 @@ export default function Landing() {
                   Work Smarter, Not Harder
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <p className="text-gray-700 mb-6">
-                  Take control of every case with predictive AI strategy, automated compliance monitoring, and organized evidence management.
-                </p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    AI Legal Strategy Advisor & compliance monitor
-                  </li>
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    Evidence management & digital authentication
-                  </li>
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    Pro Se guidance for clients you support
-                  </li>
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    Predictive outcome modeling
-                  </li>
-                </ul>
+              <CardContent className="card-content-flex">
+                <div>
+                  <p className="text-gray-700 mb-6">
+                    Take control of every case with predictive AI strategy, automated compliance monitoring, and organized evidence management.
+                  </p>
+                  <ul className="space-y-3">
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      AI Legal Strategy Advisor & compliance monitor
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      Evidence management & digital authentication
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      Pro Se guidance for clients you support
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      Predictive outcome modeling
+                    </li>
+                  </ul>
+                </div>
                 <Button className="coral-button w-full" onClick={handleLogin}>
                   Start Free Trial
                 </Button>
@@ -676,28 +694,30 @@ export default function Landing() {
                   For the Whole Firm
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <p className="text-gray-700 mb-6">
-                  From multi-party coordination to advanced analytics, get full visibility and control over your cases with AI-driven insights.
-                </p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    Advanced legal research & auto-briefs
-                  </li>
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    Multi-party collaboration & secure client portals
-                  </li>
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    Financial impact calculator & analytics dashboard
-                  </li>
-                  <li className="flex items-center text-sm">
-                    <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
-                    Settlement optimization & ROI tracking
-                  </li>
-                </ul>
+              <CardContent className="card-content-flex">
+                <div>
+                  <p className="text-gray-700 mb-6">
+                    From multi-party coordination to advanced analytics, get full visibility and control over your cases with AI-driven insights.
+                  </p>
+                  <ul className="space-y-3">
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      Advanced legal research & auto-briefs
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      Multi-party collaboration & secure client portals
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      Financial impact calculator & analytics dashboard
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <CheckCircle className="h-4 w-4 gradient-icon mr-3 flex-shrink-0" />
+                      Settlement optimization & ROI tracking
+                    </li>
+                  </ul>
+                </div>
                 <Button className="coral-button w-full" onClick={handleLogin}>
                   Start Free Trial
                 </Button>
