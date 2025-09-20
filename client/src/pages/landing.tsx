@@ -49,20 +49,15 @@ export default function Landing() {
         const heroHeight = heroSection.offsetHeight;
         const foldLine = heroHeight - 100; // Release when fold line reaches top
 
-        if (scrolled > 50 && scrolled < foldLine) {
-          // Sticky with transparency
+        if (scrolled > 50) {
+          // Always sticky with high transparency
           nav.classList.add('nav-sticky');
-          nav.style.backgroundColor = 'rgba(255, 255, 255, 0.65)';
-          nav.style.backdropFilter = 'blur(10px)';
-        } else if (scrolled >= foldLine) {
-          // Release sticky behavior
-          nav.classList.remove('nav-sticky');
-          nav.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-          nav.style.backdropFilter = 'blur(4px)';
+          nav.style.backgroundColor = 'rgba(31, 41, 55, 0.85)'; // gray-900 with 85% opacity
+          nav.style.backdropFilter = 'blur(12px)';
         } else {
           // Normal state
           nav.classList.remove('nav-sticky');
-          nav.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+          nav.style.backgroundColor = 'rgba(31, 41, 55, 0.8)'; // gray-900 with 80% opacity
           nav.style.backdropFilter = 'blur(4px)';
         }
       }
@@ -469,26 +464,25 @@ export default function Landing() {
       }} />
 
       {/* Navigation */}
-      <header id="main-nav" className="fixed top-0 w-full bg-white/65 backdrop-blur-sm border-b border-gray-200/50 z-50 transition-all duration-300">
+      <header id="main-nav" className="fixed top-0 w-full bg-gray-900/80 backdrop-blur-sm border-b border-gray-700/50 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-3">
-              {/* LegalEaseFile Black Logo - Larger */}
+              {/* LegalEaseFile Logo */}
               <img
                 src="/assets/images/logo-black.png"
                 alt="LegalEaseFile"
                 className="h-12 w-auto"
-                style={{filter: 'brightness(0) saturate(100%)'}}
               />
             </div>
-            
+
             <nav className="hidden md:flex space-x-8">
-              <button onClick={() => scrollToSection(featuresRef)} className="text-gray-700 hover:text-[#FF5A5F] transition-colors">Features</button>
-              <button onClick={() => scrollToSection(pricingRef)} className="text-gray-700 hover:text-[#FF5A5F] transition-colors">Pricing</button>
-              <a href="/blog" className="text-gray-700 hover:text-[#FF5A5F] transition-colors">Resources</a>
-              <a href="/about" className="text-gray-700 hover:text-[#FF5A5F] transition-colors">About</a>
+              <button onClick={() => scrollToSection(featuresRef)} className="text-white hover:text-[#FF5A5F] transition-colors">Features</button>
+              <button onClick={() => scrollToSection(pricingRef)} className="text-white hover:text-[#FF5A5F] transition-colors">Pricing</button>
+              <a href="/blog" className="text-white hover:text-[#FF5A5F] transition-colors">Resources</a>
+              <a href="/about" className="text-white hover:text-[#FF5A5F] transition-colors">About</a>
             </nav>
-            
+
             <Button onClick={handleLogin} className="coral-button">
               Sign In
             </Button>
