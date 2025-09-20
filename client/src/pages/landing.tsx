@@ -30,16 +30,42 @@ export default function Landing() {
       observer.observe(el);
     });
 
-    // Parallax effect on scroll
+    // Parallax effect and sticky nav on scroll
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
       const parallaxElements = document.querySelectorAll('.parallax');
-      
+      const nav = document.getElementById('main-nav');
+      const heroSection = heroRef.current;
+
+      // Parallax effects
       parallaxElements.forEach((element) => {
         const speed = (element as HTMLElement).dataset.speed || "0.5";
         const yPos = -(scrolled * parseFloat(speed));
         (element as HTMLElement).style.transform = `translateY(${yPos}px)`;
       });
+
+      // Sticky nav behavior
+      if (nav && heroSection) {
+        const heroHeight = heroSection.offsetHeight;
+        const foldLine = heroHeight - 100; // Release when fold line reaches top
+
+        if (scrolled > 50 && scrolled < foldLine) {
+          // Sticky with transparency
+          nav.classList.add('nav-sticky');
+          nav.style.backgroundColor = 'rgba(255, 255, 255, 0.65)';
+          nav.style.backdropFilter = 'blur(10px)';
+        } else if (scrolled >= foldLine) {
+          // Release sticky behavior
+          nav.classList.remove('nav-sticky');
+          nav.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+          nav.style.backdropFilter = 'blur(4px)';
+        } else {
+          // Normal state
+          nav.classList.remove('nav-sticky');
+          nav.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+          nav.style.backdropFilter = 'blur(4px)';
+        }
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -97,6 +123,15 @@ export default function Landing() {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+          }
+
+          .nav-sticky {
+            position: fixed !important;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
           }
 
           .split-hero {
@@ -434,15 +469,16 @@ export default function Landing() {
       }} />
 
       {/* Navigation */}
-      <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
+      <header id="main-nav" className="fixed top-0 w-full bg-white/65 backdrop-blur-sm border-b border-gray-200/50 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-3">
-              {/* LegalEaseFile Black Logo */}
+              {/* LegalEaseFile Black Logo - Larger */}
               <img
                 src="/assets/images/logo-black.png"
                 alt="LegalEaseFile"
-                className="h-8 w-auto"
+                className="h-12 w-auto"
+                style={{filter: 'brightness(0) saturate(100%)'}}
               />
             </div>
             
@@ -461,7 +497,7 @@ export default function Landing() {
       </header>
 
       {/* Hero Section - Split Screen with Clear Division */}
-      <section ref={heroRef} className="relative pt-16">
+      <section ref={heroRef} className="relative pt-20">
         <div className="split-hero">
           {/* Left Side - Motion Graphic (50% width, full height) */}
           <div className="hero-left animate-slide-in-left">
