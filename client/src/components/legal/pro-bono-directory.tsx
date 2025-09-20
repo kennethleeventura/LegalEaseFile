@@ -12,8 +12,9 @@ import type { LegalAidSearchFilters } from "@/lib/types";
 export default function ProBonoDirectory() {
   const [filters, setFilters] = useState<LegalAidSearchFilters>({});
 
-  // Temporary hardcoded data until server is restarted with fixes
+  // Comprehensive pro bono legal resources for Massachusetts
   const sampleOrganizations: LegalAidOrganization[] = [
+    // Massachusetts Legal Aid Organizations
     {
       id: '1',
       name: "Greater Boston Legal Services",
@@ -26,7 +27,7 @@ export default function ProBonoDirectory() {
       practiceAreas: JSON.stringify(["housing", "family", "immigration", "benefits", "consumer"]),
       availability: "immediate",
       isEmergency: false,
-      servicesOffered: JSON.stringify(["Legal representation", "Self-help resources", "Community education"]),
+      servicesOffered: JSON.stringify(["Full representation", "Document preparation", "Filing assistance", "Self-help resources"]),
       eligibilityRequirements: "Low-income individuals and families",
       createdAt: Date.now(),
     },
@@ -42,7 +43,7 @@ export default function ProBonoDirectory() {
       practiceAreas: JSON.stringify(["family", "housing", "immigration", "benefits", "employment"]),
       availability: "immediate",
       isEmergency: true,
-      servicesOffered: JSON.stringify(["Legal representation", "Emergency assistance", "Self-help clinics"]),
+      servicesOffered: JSON.stringify(["Full representation", "Emergency assistance", "Filing assistance", "Self-help clinics"]),
       eligibilityRequirements: "Low to moderate income",
       createdAt: Date.now(),
     },
@@ -54,11 +55,11 @@ export default function ProBonoDirectory() {
       phone: "(978) 458-1465",
       email: "intake@northeastlegalaid.org",
       address: "Lawrence, Lowell, Haverhill offices",
-      location: "statewide",
+      location: "lawrence",
       practiceAreas: JSON.stringify(["housing", "civil-rights", "benefits", "immigration"]),
       availability: "immediate",
       isEmergency: false,
-      servicesOffered: JSON.stringify(["Legal representation", "Benefits advocacy", "Housing assistance"]),
+      servicesOffered: JSON.stringify(["Full representation", "Benefits advocacy", "Housing assistance", "Document review"]),
       eligibilityRequirements: "125% of Federal Poverty Guidelines",
       createdAt: Date.now(),
     },
@@ -74,30 +75,227 @@ export default function ProBonoDirectory() {
       practiceAreas: JSON.stringify(["family", "civil-rights"]),
       availability: "emergency",
       isEmergency: true,
-      servicesOffered: JSON.stringify(["24/7 hotline", "Emergency legal assistance", "Safety planning"]),
+      servicesOffered: JSON.stringify(["24/7 hotline", "Emergency filing", "Safety planning", "Court accompaniment"]),
       eligibilityRequirements: "Domestic violence survivors",
       createdAt: Date.now(),
     },
+    // Additional Massachusetts Organizations
+    {
+      id: '5',
+      name: "MetroWest Legal Services",
+      description: "Legal aid for Framingham, Natick, and surrounding areas",
+      website: "https://metrowestlegal.org",
+      phone: "(508) 620-1830",
+      email: "help@metrowestlegal.org",
+      address: "73 Union Avenue, Framingham, MA 01702",
+      location: "framingham",
+      practiceAreas: JSON.stringify(["housing", "family", "benefits", "consumer", "elder-law"]),
+      availability: "immediate",
+      isEmergency: false,
+      servicesOffered: JSON.stringify(["Filing assistance", "Document preparation", "Legal clinics", "Self-help workshops"]),
+      eligibilityRequirements: "Low-income residents of MetroWest",
+      createdAt: Date.now(),
+    },
+    {
+      id: '6',
+      name: "South Coastal Counties Legal Services",
+      description: "Legal aid for Plymouth, Bristol, and Barnstable Counties",
+      website: "https://sccls.org",
+      phone: "(508) 775-7020",
+      email: "intake@sccls.org",
+      address: "460 West Main Street, Hyannis, MA 02601",
+      location: "cape-cod",
+      practiceAreas: JSON.stringify(["housing", "family", "benefits", "immigration", "elder-law"]),
+      availability: "immediate",
+      isEmergency: false,
+      servicesOffered: JSON.stringify(["Full representation", "Filing assistance", "Senior legal clinic", "Immigration clinic"]),
+      eligibilityRequirements: "Low-income individuals in service area",
+      createdAt: Date.now(),
+    },
+    {
+      id: '7',
+      name: "Massachusetts Law Reform Institute",
+      description: "Statewide policy advocacy and strategic litigation",
+      website: "https://mlri.org",
+      phone: "(617) 357-0700",
+      email: "mlri@mlri.org",
+      address: "99 Chauncy Street, Boston, MA 02111",
+      location: "statewide",
+      practiceAreas: JSON.stringify(["benefits", "housing", "healthcare", "civil-rights"]),
+      availability: "within-week",
+      isEmergency: false,
+      servicesOffered: JSON.stringify(["Policy advocacy", "Strategic litigation", "Legal research", "Training"]),
+      eligibilityRequirements: "Systemic issues affecting low-income people",
+      createdAt: Date.now(),
+    },
+    // Bar Association Pro Bono Programs
+    {
+      id: '8',
+      name: "Boston Bar Association Volunteer Lawyers Project",
+      description: "Pro bono legal services through volunteer attorneys",
+      website: "https://bostonbar.org/vlp",
+      phone: "(617) 742-0615",
+      email: "vlp@bostonbar.org",
+      address: "16 Beacon Street, Boston, MA 02108",
+      location: "boston",
+      practiceAreas: JSON.stringify(["family", "housing", "immigration", "disability", "elder-law"]),
+      availability: "within-week",
+      isEmergency: false,
+      servicesOffered: JSON.stringify(["Pro bono attorney matching", "Document preparation", "Filing assistance", "Legal clinics"]),
+      eligibilityRequirements: "Low to moderate income",
+      createdAt: Date.now(),
+    },
+    {
+      id: '9',
+      name: "Massachusetts Bar Association Pro Bono Program",
+      description: "Statewide pro bono attorney referral service",
+      website: "https://massbar.org/probono",
+      phone: "(617) 338-0500",
+      email: "probono@massbar.org",
+      address: "20 West Street, Boston, MA 02111",
+      location: "statewide",
+      practiceAreas: JSON.stringify(["family", "housing", "immigration", "civil-rights", "bankruptcy"]),
+      availability: "within-week",
+      isEmergency: false,
+      servicesOffered: JSON.stringify(["Attorney matching", "Filing assistance", "Document review", "Brief legal consultations"]),
+      eligibilityRequirements: "Financial hardship",
+      createdAt: Date.now(),
+    },
+    // Self-Help and Filing Assistance Centers
+    {
+      id: '10',
+      name: "Massachusetts Court Service Centers",
+      description: "Court-based self-help centers for pro se litigants",
+      website: "https://mass.gov/court-service-centers",
+      phone: "(617) 788-8810",
+      email: "courthelp@jud.state.ma.us",
+      address: "Multiple courthouse locations statewide",
+      location: "statewide",
+      practiceAreas: JSON.stringify(["family", "housing", "small-claims", "probate"]),
+      availability: "immediate",
+      isEmergency: false,
+      servicesOffered: JSON.stringify(["Filing assistance", "Form completion", "Procedure guidance", "Resource referrals"]),
+      eligibilityRequirements: "All pro se litigants",
+      createdAt: Date.now(),
+    },
+    {
+      id: '11',
+      name: "Harvard Legal Aid Bureau",
+      description: "Student-supervised legal clinic",
+      website: "https://hls.harvard.edu/clinic/legal-aid-bureau",
+      phone: "(617) 495-4408",
+      email: "lab@law.harvard.edu",
+      address: "122 Boylston Street, Jamaica Plain, MA 02130",
+      location: "boston",
+      practiceAreas: JSON.stringify(["family", "housing", "benefits", "immigration"]),
+      availability: "within-week",
+      isEmergency: false,
+      servicesOffered: JSON.stringify(["Full representation", "Filing assistance", "Document preparation", "Court accompaniment"]),
+      eligibilityRequirements: "Low-income individuals",
+      createdAt: Date.now(),
+    },
+    // Specialized Services
+    {
+      id: '12',
+      name: "Disability Law Center",
+      description: "Legal advocacy for people with disabilities",
+      website: "https://dlc-ma.org",
+      phone: "(617) 723-8455",
+      email: "mail@dlc-ma.org",
+      address: "11 Beacon Street, Boston, MA 02108",
+      location: "statewide",
+      practiceAreas: JSON.stringify(["disability", "civil-rights", "benefits", "education"]),
+      availability: "immediate",
+      isEmergency: true,
+      servicesOffered: JSON.stringify(["Full representation", "Filing assistance", "Benefits advocacy", "Education advocacy"]),
+      eligibilityRequirements: "People with disabilities",
+      createdAt: Date.now(),
+    },
+    // Out-of-State Federal Resources
+    {
+      id: '13',
+      name: "Legal Services Corporation (Federal)",
+      description: "National directory of legal aid organizations",
+      website: "https://lsc.gov/find-legal-aid",
+      phone: "(202) 295-1500",
+      email: "info@lsc.gov",
+      address: "National headquarters with local referrals",
+      location: "national",
+      practiceAreas: JSON.stringify(["all-areas"]),
+      availability: "immediate",
+      isEmergency: false,
+      servicesOffered: JSON.stringify(["Legal aid directory", "Resource referrals", "National coordination"]),
+      eligibilityRequirements: "Varies by local organization",
+      createdAt: Date.now(),
+    },
+    {
+      id: '14',
+      name: "American Bar Association Free Legal Answers",
+      description: "Online legal advice from volunteer attorneys",
+      website: "https://abafreelegalanswers.org",
+      phone: "Online service only",
+      email: "support@abafreelegalanswers.org",
+      address: "Virtual service",
+      location: "national",
+      practiceAreas: JSON.stringify(["family", "housing", "employment", "consumer", "immigration"]),
+      availability: "immediate",
+      isEmergency: false,
+      servicesOffered: JSON.stringify(["Online legal advice", "Document guidance", "Resource referrals"]),
+      eligibilityRequirements: "Low-income individuals nationally",
+      createdAt: Date.now(),
+    }
   ];
 
   // Filter the hardcoded organizations based on current filters
   const getFilteredOrganizations = () => {
     let results = sampleOrganizations;
 
+    // Location scope filtering (in-state vs national)
+    if (filters.locationScope) {
+      if (filters.locationScope === 'massachusetts') {
+        results = results.filter(org => org.location !== 'national');
+      } else if (filters.locationScope === 'national') {
+        results = results.filter(org => org.location === 'national');
+      }
+    }
+
+    // Specific location filtering
     if (filters.location) {
       results = results.filter(org =>
         org.location.toLowerCase().includes(filters.location!.toLowerCase())
       );
     }
 
+    // Service type filtering
+    if (filters.serviceType) {
+      results = results.filter(org => {
+        const servicesOffered = JSON.parse(org.servicesOffered || "[]");
+        const serviceMap: Record<string, string[]> = {
+          'filing-assistance': ['Filing assistance', 'Emergency filing', 'Form completion'],
+          'document-preparation': ['Document preparation', 'Document review'],
+          'full-representation': ['Full representation', 'Legal representation'],
+          'consultation': ['Brief legal consultations', 'Online legal advice'],
+          'self-help': ['Self-help resources', 'Self-help workshops', 'Self-help clinics']
+        };
+
+        const targetServices = serviceMap[filters.serviceType!] || [];
+        return servicesOffered.some((service: string) =>
+          targetServices.some(target => service.toLowerCase().includes(target.toLowerCase()))
+        );
+      });
+    }
+
+    // Availability filtering
     if (filters.availability) {
       results = results.filter(org => org.availability === filters.availability);
     }
 
+    // Emergency services filtering
     if (filters.isEmergency !== undefined) {
       results = results.filter(org => org.isEmergency === filters.isEmergency);
     }
 
+    // Practice area filtering
     if (filters.practiceArea) {
       results = results.filter(org => {
         const practiceAreas = JSON.parse(org.practiceAreas || "[]");
@@ -134,8 +332,34 @@ export default function ProBonoDirectory() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {/* Service Type Information */}
+        <Alert className="bg-blue-50 border border-blue-200 mb-6" data-testid="service-info">
+          <Users className="h-5 w-5 gradient-icon" />
+          <AlertDescription>
+            <h3 className="font-medium text-blue-900 mb-2">Understanding Legal Services</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-blue-800">
+              <div>
+                <p className="font-medium">Filing Assistance:</p>
+                <p>Help with court forms and filing procedures only</p>
+              </div>
+              <div>
+                <p className="font-medium">Document Preparation:</p>
+                <p>Legal document drafting and review services</p>
+              </div>
+              <div>
+                <p className="font-medium">Full Representation:</p>
+                <p>Attorney represents you throughout entire case</p>
+              </div>
+              <div>
+                <p className="font-medium">Pro Se Resources:</p>
+                <p>Self-help tools and guidance for representing yourself</p>
+              </div>
+            </div>
+          </AlertDescription>
+        </Alert>
+
         {/* Search Filters */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" data-testid="search-filters">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6" data-testid="search-filters">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Practice Area</label>
             <Select onValueChange={(value) => handleFilterChange('practiceArea', value)}>
@@ -150,11 +374,47 @@ export default function ProBonoDirectory() {
                 <SelectItem value="employment">Employment</SelectItem>
                 <SelectItem value="civil-rights">Civil Rights</SelectItem>
                 <SelectItem value="bankruptcy">Bankruptcy</SelectItem>
+                <SelectItem value="benefits">Benefits/Public Assistance</SelectItem>
+                <SelectItem value="disability">Disability Law</SelectItem>
+                <SelectItem value="elder-law">Elder Law</SelectItem>
+                <SelectItem value="consumer">Consumer Protection</SelectItem>
               </SelectContent>
             </Select>
           </div>
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Service Type</label>
+            <Select onValueChange={(value) => handleFilterChange('serviceType', value)}>
+              <SelectTrigger data-testid="filter-service-type">
+                <SelectValue placeholder="All Services" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Services</SelectItem>
+                <SelectItem value="filing-assistance">Filing Assistance Only</SelectItem>
+                <SelectItem value="document-preparation">Document Preparation</SelectItem>
+                <SelectItem value="full-representation">Full Case Representation</SelectItem>
+                <SelectItem value="consultation">Brief Consultation</SelectItem>
+                <SelectItem value="self-help">Self-Help Resources</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Location Scope</label>
+            <Select onValueChange={(value) => handleFilterChange('locationScope', value)}>
+              <SelectTrigger data-testid="filter-location-scope">
+                <SelectValue placeholder="All Areas" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Areas</SelectItem>
+                <SelectItem value="massachusetts">Massachusetts Only</SelectItem>
+                <SelectItem value="national">National/Out-of-State</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Specific Location</label>
             <Select onValueChange={(value) => handleFilterChange('location', value)}>
               <SelectTrigger data-testid="filter-location">
                 <SelectValue placeholder="All Locations" />
@@ -165,10 +425,14 @@ export default function ProBonoDirectory() {
                 <SelectItem value="worcester">Worcester</SelectItem>
                 <SelectItem value="springfield">Springfield</SelectItem>
                 <SelectItem value="framingham">Framingham</SelectItem>
-                <SelectItem value="statewide">Statewide</SelectItem>
+                <SelectItem value="lawrence">Lawrence/Lowell</SelectItem>
+                <SelectItem value="cape-cod">Cape Cod</SelectItem>
+                <SelectItem value="statewide">Massachusetts Statewide</SelectItem>
+                <SelectItem value="national">National</SelectItem>
               </SelectContent>
             </Select>
           </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Availability</label>
             <Select onValueChange={(value) => handleFilterChange('availability', value)}>
@@ -238,8 +502,11 @@ export default function ProBonoDirectory() {
                       <p className="text-sm text-gray-600 mt-1" data-testid="org-description">
                         {org.description}
                       </p>
+
+                      {/* Practice Areas */}
                       <div className="mt-2">
-                        <div className="flex flex-wrap gap-2">
+                        <p className="text-xs font-medium text-gray-700 mb-1">Practice Areas:</p>
+                        <div className="flex flex-wrap gap-1">
                           {(() => {
                             try {
                               const areas = typeof org.practiceAreas === 'string'
@@ -249,14 +516,40 @@ export default function ProBonoDirectory() {
                                 <Badge
                                   key={index}
                                   variant="secondary"
-                                  className="bg-primary-100 text-primary-800"
+                                  className="bg-blue-100 text-blue-800 text-xs"
                                   data-testid={`practice-area-${index}`}
                                 >
-                                  {area}
+                                  {area.replace('-', ' ')}
                                 </Badge>
                               ));
                             } catch (e) {
                               return <span className="text-gray-500">Practice areas not available</span>;
+                            }
+                          })()}
+                        </div>
+                      </div>
+
+                      {/* Services Offered */}
+                      <div className="mt-2">
+                        <p className="text-xs font-medium text-gray-700 mb-1">Services:</p>
+                        <div className="flex flex-wrap gap-1">
+                          {(() => {
+                            try {
+                              const services = typeof org.servicesOffered === 'string'
+                                ? JSON.parse(org.servicesOffered)
+                                : org.servicesOffered || [];
+                              return services.map((service: string, index: number) => (
+                                <Badge
+                                  key={index}
+                                  variant="outline"
+                                  className="bg-green-50 border-green-200 text-green-800 text-xs"
+                                  data-testid={`service-${index}`}
+                                >
+                                  {service}
+                                </Badge>
+                              ));
+                            } catch (e) {
+                              return <span className="text-gray-500">Services not available</span>;
                             }
                           })()}
                         </div>
