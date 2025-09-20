@@ -21,7 +21,10 @@ export default function Navigation() {
         <Link key={item.path} href={item.path}>
           <Button
             variant={location === item.path ? "default" : "ghost"}
-            className={location === item.path ? "border-b-2 border-primary-600" : ""}
+            className={location === item.path
+              ? "border-b-2 border-[#FF5A5F] bg-[#FF5A5F] text-white"
+              : "text-white hover:text-[#FF5A5F] hover:bg-gray-800"
+            }
             data-testid={item.testId}
           >
             {item.label}
@@ -32,15 +35,15 @@ export default function Navigation() {
   );
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200" data-testid="navigation">
+    <nav className="bg-gray-900 shadow-sm border-b border-gray-700" data-testid="navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-24">
           <div className="flex items-center">
             <Link href="/dashboard" className="flex items-center" data-testid="logo-link">
               <img
-                src="/assets/images/compass-courthouse.gif"
+                src="/assets/images/logo-black.png"
                 alt="LegalEaseFile Logo"
-                className="w-8 h-8 mr-3 object-contain"
+                className="h-16 w-auto mr-3 object-contain"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';
@@ -50,7 +53,6 @@ export default function Navigation() {
               <div className="w-8 h-8 bg-[#FF5A5F] rounded flex items-center justify-center mr-3 hidden">
                 <span className="text-white font-bold text-xs">L</span>
               </div>
-              <span className="text-xl font-bold text-gray-900">LegalEaseFile</span>
             </Link>
             <div className="ml-10">
               <NavLinks />
@@ -62,21 +64,21 @@ export default function Navigation() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="p-1 rounded-full text-gray-400 hover:text-gray-500"
+                className="p-1 rounded-full text-gray-300 hover:text-[#FF5A5F]"
                 data-testid="notifications-button"
               >
-                <Bell className="h-5 w-5 gradient-icon" />
+                <Bell className="h-5 w-5" />
               </Button>
               <div className="ml-3 relative">
                 <Button
                   variant="ghost"
-                  className="max-w-xs flex items-center text-sm rounded-full"
+                  className="max-w-xs flex items-center text-sm rounded-full text-white hover:bg-gray-800"
                   data-testid="user-menu-button"
                 >
-                  <div className="h-8 w-8 rounded-full border border-primary-300 flex items-center justify-center">
-                    <User className="h-4 w-4 gradient-icon" />
+                  <div className="h-8 w-8 rounded-full border border-gray-600 flex items-center justify-center">
+                    <User className="h-4 w-4 text-gray-300" />
                   </div>
-                  <span className="ml-2 text-gray-700 text-sm font-medium">John Smith</span>
+                  <span className="ml-2 text-white text-sm font-medium">John Smith</span>
                 </Button>
               </div>
             </div>
@@ -85,17 +87,17 @@ export default function Navigation() {
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" data-testid="mobile-menu-button">
-                  <Menu className="h-6 w-6 gradient-icon" />
+                <Button variant="ghost" size="sm" className="text-white hover:text-[#FF5A5F]" data-testid="mobile-menu-button">
+                  <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-64">
                 <div className="flex flex-col h-full">
                   <div className="flex items-center mb-8">
                     <img
-                      src="/assets/images/compass-courthouse.gif"
+                      src="/assets/images/logo-black.png"
                       alt="LegalEaseFile Logo"
-                      className="w-6 h-6 mr-2 object-contain"
+                      className="h-8 w-auto mr-2 object-contain"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
@@ -105,7 +107,6 @@ export default function Navigation() {
                     <div className="w-6 h-6 bg-[#FF5A5F] rounded flex items-center justify-center mr-2 hidden">
                       <span className="text-white font-bold text-xs">L</span>
                     </div>
-                    <span className="text-lg font-bold text-gray-900">LegalEaseFile</span>
                   </div>
                   <NavLinks mobile />
                 </div>

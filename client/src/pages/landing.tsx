@@ -50,14 +50,14 @@ export default function Landing() {
         const foldLine = heroHeight - 100; // Release when fold line reaches top
 
         if (scrolled > 50) {
-          // Always sticky with high transparency
+          // Always sticky with solid black background
           nav.classList.add('nav-sticky');
-          nav.style.backgroundColor = 'rgba(31, 41, 55, 0.85)'; // gray-900 with 85% opacity
+          nav.style.backgroundColor = 'rgb(17, 24, 39)'; // gray-900 solid
           nav.style.backdropFilter = 'blur(12px)';
         } else {
-          // Normal state
+          // Normal state - solid black
           nav.classList.remove('nav-sticky');
-          nav.style.backgroundColor = 'rgba(31, 41, 55, 0.8)'; // gray-900 with 80% opacity
+          nav.style.backgroundColor = 'rgb(17, 24, 39)'; // gray-900 solid
           nav.style.backdropFilter = 'blur(4px)';
         }
       }
@@ -464,15 +464,15 @@ export default function Landing() {
       }} />
 
       {/* Navigation */}
-      <header id="main-nav" className="fixed top-0 w-full bg-gray-900/80 backdrop-blur-sm border-b border-gray-700/50 z-50 transition-all duration-300">
+      <header id="main-nav" className="fixed top-0 w-full bg-gray-900 backdrop-blur-sm border-b border-gray-700/50 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-24">
             <div className="flex items-center space-x-3">
-              {/* LegalEaseFile Logo */}
+              {/* LegalEaseFile Logo - Larger */}
               <img
                 src="/assets/images/logo-black.png"
                 alt="LegalEaseFile"
-                className="h-12 w-auto"
+                className="h-16 w-auto"
               />
             </div>
 
@@ -491,7 +491,7 @@ export default function Landing() {
       </header>
 
       {/* Hero Section - Split Screen with Clear Division */}
-      <section ref={heroRef} className="relative pt-20">
+      <section ref={heroRef} className="relative pt-24">
         <div className="split-hero">
           {/* Left Side - Motion Graphic (50% width, full height) */}
           <div className="hero-left animate-slide-in-left">
