@@ -52,12 +52,12 @@ export default function Landing() {
         if (scrolled > 50) {
           // Always sticky with matching logo background
           nav.classList.add('nav-sticky');
-          nav.style.backgroundColor = '#3b4650'; // Match logo background
+          nav.style.backgroundColor = '#3a4956'; // Exact logo background match
           nav.style.backdropFilter = 'blur(12px)';
         } else {
           // Normal state - matching logo background
           nav.classList.remove('nav-sticky');
-          nav.style.backgroundColor = '#3b4650'; // Match logo background
+          nav.style.backgroundColor = '#3a4956'; // Exact logo background match
           nav.style.backdropFilter = 'blur(4px)';
         }
       }
@@ -468,7 +468,7 @@ export default function Landing() {
       }} />
 
       {/* Navigation */}
-      <header id="main-nav" className="fixed top-0 w-full backdrop-blur-sm border-b border-gray-700/50 z-50 transition-all duration-300" style={{backgroundColor: '#3b4650'}}>
+      <header id="main-nav" className="fixed top-0 w-full backdrop-blur-sm border-b border-gray-700/50 z-50 transition-all duration-300" style={{backgroundColor: '#3a4956'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
             <div className="flex items-center space-x-3">

@@ -8,42 +8,15 @@ export default function Navigation() {
   const [location] = useLocation();
 
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let ticking = false;
-
-    const updateNavbar = () => {
-      const nav = document.querySelector('[data-testid="navigation"]') as HTMLElement;
-      if (!nav) return;
-
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > 100) {
-        // Hide nav when scrolling down, show when scrolling up
-        if (currentScrollY > lastScrollY) {
-          // Scrolling down
-          nav.style.transform = 'translateY(-100%)';
-        } else {
-          // Scrolling up
-          nav.style.transform = 'translateY(0)';
-        }
-      } else {
-        // Always show when near top
-        nav.style.transform = 'translateY(0)';
-      }
-
-      lastScrollY = currentScrollY;
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(updateNavbar);
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    // Navigation is always sticky - no hiding/showing behavior
+    const nav = document.querySelector('[data-testid="navigation"]') as HTMLElement;
+    if (nav) {
+      nav.style.transform = 'translateY(0)'; // Always visible
+      nav.style.position = 'fixed';
+      nav.style.top = '0';
+      nav.style.width = '100%';
+      nav.style.zIndex = '1000';
+    }
   }, []);
 
   const navItems = [
@@ -75,7 +48,7 @@ export default function Navigation() {
   );
 
   return (
-    <nav className="fixed top-0 w-full shadow-sm border-b border-gray-700 z-50 transition-transform duration-300 ease-in-out" style={{backgroundColor: '#3b4650'}} data-testid="navigation">
+    <nav className="fixed top-0 w-full shadow-sm border-b border-gray-700 z-50 transition-transform duration-300 ease-in-out" style={{backgroundColor: '#3a4956'}} data-testid="navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-24">
           <div className="flex items-center">
