@@ -50,14 +50,14 @@ export default function Landing() {
         const foldLine = heroHeight - 100; // Release when fold line reaches top
 
         if (scrolled > 50) {
-          // Always sticky with solid black background
+          // Always sticky with matching logo background
           nav.classList.add('nav-sticky');
-          nav.style.backgroundColor = 'rgb(17, 24, 39)'; // gray-900 solid
+          nav.style.backgroundColor = '#3b4650'; // Match logo background
           nav.style.backdropFilter = 'blur(12px)';
         } else {
-          // Normal state - solid black
+          // Normal state - matching logo background
           nav.classList.remove('nav-sticky');
-          nav.style.backgroundColor = 'rgb(17, 24, 39)'; // gray-900 solid
+          nav.style.backgroundColor = '#3b4650'; // Match logo background
           nav.style.backdropFilter = 'blur(4px)';
         }
       }
@@ -114,10 +114,14 @@ export default function Landing() {
           }
 
           .gradient-icon {
-            background: linear-gradient(135deg, #FF5A5F 0%, #E0F7FF 50%, #B3E5FC 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #FF5A5F;
+            filter: drop-shadow(0 0 8px rgba(255, 90, 95, 0.3));
+            transition: all 0.3s ease;
+          }
+          .gradient-icon:hover {
+            color: #E0F7FF;
+            filter: drop-shadow(0 0 12px rgba(224, 247, 255, 0.5));
+            transform: scale(1.05);
           }
 
           .nav-sticky {
@@ -464,7 +468,7 @@ export default function Landing() {
       }} />
 
       {/* Navigation */}
-      <header id="main-nav" className="fixed top-0 w-full bg-gray-900 backdrop-blur-sm border-b border-gray-700/50 z-50 transition-all duration-300">
+      <header id="main-nav" className="fixed top-0 w-full backdrop-blur-sm border-b border-gray-700/50 z-50 transition-all duration-300" style={{backgroundColor: '#3b4650'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
             <div className="flex items-center space-x-3">

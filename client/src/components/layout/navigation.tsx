@@ -2,9 +2,49 @@ import { Link, useLocation } from "wouter";
 import { Scale, Bell, User, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useEffect } from "react";
 
 export default function Navigation() {
   const [location] = useLocation();
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    const updateNavbar = () => {
+      const nav = document.querySelector('[data-testid="navigation"]') as HTMLElement;
+      if (!nav) return;
+
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > 100) {
+        // Hide nav when scrolling down, show when scrolling up
+        if (currentScrollY > lastScrollY) {
+          // Scrolling down
+          nav.style.transform = 'translateY(-100%)';
+        } else {
+          // Scrolling up
+          nav.style.transform = 'translateY(0)';
+        }
+      } else {
+        // Always show when near top
+        nav.style.transform = 'translateY(0)';
+      }
+
+      lastScrollY = currentScrollY;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateNavbar);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const navItems = [
     { path: "/dashboard", label: "Dashboard", testId: "nav-dashboard" },
@@ -35,7 +75,7 @@ export default function Navigation() {
   );
 
   return (
-    <nav className="bg-gray-900 shadow-sm border-b border-gray-700" data-testid="navigation">
+    <nav className="fixed top-0 w-full shadow-sm border-b border-gray-700 z-50 transition-transform duration-300 ease-in-out" style={{backgroundColor: '#3b4650'}} data-testid="navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-24">
           <div className="flex items-center">
@@ -67,7 +107,7 @@ export default function Navigation() {
                 className="p-1 rounded-full text-gray-300 hover:text-[#FF5A5F]"
                 data-testid="notifications-button"
               >
-                <Bell className="h-5 w-5" />
+                <Bell className="h-5 w-5 gradient-icon" />
               </Button>
               <div className="ml-3 relative">
                 <Button
@@ -76,7 +116,7 @@ export default function Navigation() {
                   data-testid="user-menu-button"
                 >
                   <div className="h-8 w-8 rounded-full border border-gray-600 flex items-center justify-center">
-                    <User className="h-4 w-4 text-gray-300" />
+                    <User className="h-4 w-4 gradient-icon" />
                   </div>
                   <span className="ml-2 text-white text-sm font-medium">John Smith</span>
                 </Button>
@@ -88,7 +128,7 @@ export default function Navigation() {
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="sm" className="text-white hover:text-[#FF5A5F]" data-testid="mobile-menu-button">
-                  <Menu className="h-6 w-6" />
+                  <Menu className="h-6 w-6 gradient-icon" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-64">

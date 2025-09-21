@@ -2,6 +2,7 @@ import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import React, { Component, ReactNode, Suspense } from "react";
+import "./styles/icons.css";
 
 // Lazy load components with error handling
 const Navigation = React.lazy(() => import("@/components/layout/navigation").catch(() => ({ default: () => <div>Navigation unavailable</div> })));
@@ -161,18 +162,20 @@ function ProtectedRoute({ params }: { params?: any }) {
       <Suspense fallback={<div style={{ padding: "2rem" }}>Loading navigation...</div>}>
         <Navigation />
       </Suspense>
-      <Suspense fallback={<div style={{ padding: "2rem" }}>Loading application...</div>}>
-        <Switch>
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/file-document" component={FileDocument} />
-          <Route path="/template-form" component={TemplateForm} />
-          <Route path="/emergency-filing" component={EmergencyFiling} />
-          <Route path="/pro-bono-search" component={ProBonoSearch} />
-          <Route path="/case-management" component={CaseManagement} />
-          <Route path="/mpc-assistant" component={MPCAssistant} />
-          <Route path="/subscribe" component={Subscribe} />
-        </Switch>
-      </Suspense>
+      <div className="pt-24">
+        <Suspense fallback={<div style={{ padding: "2rem" }}>Loading application...</div>}>
+          <Switch>
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/file-document" component={FileDocument} />
+            <Route path="/template-form" component={TemplateForm} />
+            <Route path="/emergency-filing" component={EmergencyFiling} />
+            <Route path="/pro-bono-search" component={ProBonoSearch} />
+            <Route path="/case-management" component={CaseManagement} />
+            <Route path="/mpc-assistant" component={MPCAssistant} />
+            <Route path="/subscribe" component={Subscribe} />
+          </Switch>
+        </Suspense>
+      </div>
     </div>
   );
 }

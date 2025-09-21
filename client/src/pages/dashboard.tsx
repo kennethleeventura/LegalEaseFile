@@ -37,22 +37,34 @@ export default function Dashboard() {
       {/* Gradient Icon Styling */}
       <style>{`
         .gradient-icon {
-          background: linear-gradient(135deg, #FF5A5F 0%, #E0F7FF 50%, #B3E5FC 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: #FF5A5F;
+          filter: drop-shadow(0 0 8px rgba(255, 90, 95, 0.3));
+          transition: all 0.3s ease;
+        }
+        .gradient-icon:hover {
+          color: #E0F7FF;
+          filter: drop-shadow(0 0 12px rgba(224, 247, 255, 0.5));
+          transform: scale(1.05);
         }
         .gradient-red {
-          background: linear-gradient(135deg, #FF5A5F 0%, #FF4449 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: #FF5A5F;
+          filter: drop-shadow(0 0 8px rgba(255, 90, 95, 0.4));
+          transition: all 0.3s ease;
+        }
+        .gradient-red:hover {
+          color: #FF4449;
+          filter: drop-shadow(0 0 12px rgba(255, 68, 73, 0.6));
+          transform: scale(1.05);
         }
         .gradient-blue {
-          background: linear-gradient(135deg, #E0F7FF 0%, #B3E5FC 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: #B3E5FC;
+          filter: drop-shadow(0 0 8px rgba(179, 229, 252, 0.4));
+          transition: all 0.3s ease;
+        }
+        .gradient-blue:hover {
+          color: #E0F7FF;
+          filter: drop-shadow(0 0 12px rgba(224, 247, 255, 0.6));
+          transform: scale(1.05);
         }
       `}</style>
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" data-testid="dashboard">

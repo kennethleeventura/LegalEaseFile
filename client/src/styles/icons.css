@@ -1,0 +1,87 @@
+/* Global Icon Gradient Styling */
+.gradient-icon {
+  color: #FF5A5F;
+  filter: drop-shadow(0 0 8px rgba(255, 90, 95, 0.3));
+  transition: all 0.3s ease;
+}
+
+.gradient-icon:hover {
+  color: #E0F7FF;
+  filter: drop-shadow(0 0 12px rgba(224, 247, 255, 0.5));
+  transform: scale(1.05);
+}
+
+.gradient-red {
+  color: #FF5A5F;
+  filter: drop-shadow(0 0 8px rgba(255, 90, 95, 0.4));
+  transition: all 0.3s ease;
+}
+
+.gradient-red:hover {
+  color: #FF4449;
+  filter: drop-shadow(0 0 12px rgba(255, 68, 73, 0.6));
+  transform: scale(1.05);
+}
+
+.gradient-blue {
+  color: #B3E5FC;
+  filter: drop-shadow(0 0 8px rgba(179, 229, 252, 0.4));
+  transition: all 0.3s ease;
+}
+
+.gradient-blue:hover {
+  color: #E0F7FF;
+  filter: drop-shadow(0 0 12px rgba(224, 247, 255, 0.6));
+  transform: scale(1.05);
+}
+
+.gradient-green {
+  color: #4CAF50;
+  filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.4));
+  transition: all 0.3s ease;
+}
+
+.gradient-green:hover {
+  color: #81C784;
+  filter: drop-shadow(0 0 12px rgba(129, 199, 132, 0.6));
+  transform: scale(1.05);
+}
+
+.gradient-purple {
+  color: #9C27B0;
+  filter: drop-shadow(0 0 8px rgba(156, 39, 176, 0.4));
+  transition: all 0.3s ease;
+}
+
+.gradient-purple:hover {
+  color: #BA68C8;
+  filter: drop-shadow(0 0 12px rgba(186, 104, 200, 0.6));
+  transform: scale(1.05);
+}
+
+/* Icon wrapper styles */
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.icon-wrapper:hover {
+  transform: scale(1.1);
+}
+
+.icon-large {
+  width: 48px;
+  height: 48px;
+}
+
+.icon-medium {
+  width: 32px;
+  height: 32px;
+}
+
+.icon-small {
+  width: 24px;
+  height: 24px;
+}
