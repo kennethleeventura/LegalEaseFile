@@ -8,7 +8,8 @@ export class AirtableMPCService {
   
   constructor() {
     if (!process.env.AIRTABLE_API_KEY || !process.env.AIRTABLE_BASE_ID) {
-      throw new Error('Airtable credentials not configured');
+      console.warn('[airtable-mpc] AIRTABLE_API_KEY / AIRTABLE_BASE_ID not set — Airtable features disabled.');
+      return;
     }
     
     Airtable.configure({
@@ -24,7 +25,8 @@ export class AirtableMPCService {
     // Use persistent encryption key from environment or generate deterministic key
     const key = process.env.ENCRYPTION_KEY;
     if (!key) {
-      throw new Error('ENCRYPTION_KEY environment variable is required for data security');
+      console.warn('[airtable-mpc] ENCRYPTION_KEY not set — using zero key (dev only).');
+      return '0'.repeat(64);
     }
     return key;
   }

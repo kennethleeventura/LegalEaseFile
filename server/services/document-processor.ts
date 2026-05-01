@@ -1,6 +1,7 @@
 import multer from 'multer';
 import { Request } from 'express';
-import pdf from 'pdf-parse';
+// Use the internal lib path to avoid pdf-parse's top-level test-file read bug
+import pdf from 'pdf-parse/lib/pdf-parse.js';
 import mammoth from 'mammoth';
 
 // Configure multer for file uploads
