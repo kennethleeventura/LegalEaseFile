@@ -1,4 +1,4 @@
-import { Plus, AlertTriangle, HandHeart, Upload, Clock, Phone, Book, Mail } from "lucide-react";
+import { Plus, AlertTriangle, HandHeart, Upload, Clock, Phone, Book, Mail, Wand2, FolderOpen, Gavel, Calendar, Scale, BookOpen } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -161,6 +161,41 @@ export default function Dashboard() {
 
       {/* CM/ECF Integration Status */}
       <CMECFStatusCard />
+
+      {/* Quick Access — New Features */}
+      <Card className="mb-8" data-testid="quick-access-section">
+        <CardHeader>
+          <CardTitle>Quick Access — All Features</CardTitle>
+          <CardDescription>Jump to any tool in the LegalEase File platform</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {[
+              { path: "/document-generator", label: "Document Generator", icon: Wand2, color: "bg-purple-100 text-purple-700", desc: "AI-powered legal docs" },
+              { path: "/evidence-manager", label: "Evidence Manager", icon: FolderOpen, color: "bg-orange-100 text-orange-700", desc: "Organize exhibits" },
+              { path: "/timeline-builder", label: "Timeline Builder", icon: Clock, color: "bg-teal-100 text-teal-700", desc: "Case chronology" },
+              { path: "/court-rules", label: "Court Rules", icon: Gavel, color: "bg-blue-100 text-blue-700", desc: "Filing requirements" },
+              { path: "/deadline-manager", label: "Deadline Manager", icon: Calendar, color: "bg-red-100 text-red-700", desc: "Track deadlines" },
+              { path: "/probate-module", label: "Probate Module", icon: Scale, color: "bg-indigo-100 text-indigo-700", desc: "Estate management" },
+              { path: "/research-library", label: "Research Library", icon: BookOpen, color: "bg-emerald-100 text-emerald-700", desc: "Statutes & cases" },
+              { path: "/pro-bono-search", label: "Pro Bono Search", icon: HandHeart, color: "bg-pink-100 text-pink-700", desc: "Find free legal help" },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link key={item.path} href={item.path}>
+                  <div className="flex flex-col items-center p-3 rounded-lg border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all cursor-pointer bg-white text-center">
+                    <div className={`h-10 w-10 rounded-lg flex items-center justify-center mb-2 ${item.color}`}>
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <p className="text-sm font-medium text-gray-900 leading-tight">{item.label}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Recent Activity and Help */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" data-testid="bottom-section">
