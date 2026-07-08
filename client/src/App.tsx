@@ -15,6 +15,13 @@ import Subscribe from "@/pages/subscribe";
 import Account from "@/pages/account";
 import NotFound from "@/pages/not-found";
 import Landing from "./pages/landing";
+import DocumentGenerator from "@/pages/document-generator";
+import EvidenceManager from "@/pages/evidence-manager";
+import TimelineBuilder from "@/pages/timeline-builder";
+import CourtRules from "@/pages/court-rules";
+import DeadlineManager from "@/pages/deadline-manager";
+import ProbateModule from "@/pages/probate-module";
+import ResearchLibrary from "@/pages/research-library";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -41,6 +48,13 @@ function Router() {
           <Route path="/mpc-assistant" component={MPCAssistant} />
           <Route path="/subscribe" component={Subscribe} />
           <Route path="/account" component={Account} />
+          <Route path="/document-generator" component={DocumentGenerator} />
+          <Route path="/evidence-manager" component={EvidenceManager} />
+          <Route path="/timeline-builder" component={TimelineBuilder} />
+          <Route path="/court-rules" component={CourtRules} />
+          <Route path="/deadline-manager" component={DeadlineManager} />
+          <Route path="/probate-module" component={ProbateModule} />
+          <Route path="/research-library" component={ResearchLibrary} />
         </>
       )}
       <Route component={NotFound} />
@@ -50,7 +64,7 @@ function Router() {
 
 function App() {
   const { isAuthenticated } = useAuth();
-  
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

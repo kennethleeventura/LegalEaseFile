@@ -16,9 +16,11 @@ import {
 } from "@shared/schema";
 
 if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+  console.warn("[routes] STRIPE_SECRET_KEY is not set — payment routes will be unavailable.");
 }
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = process.env.STRIPE_SECRET_KEY
+  ? new Stripe(process.env.STRIPE_SECRET_KEY)
+  : (null as unknown as Stripe);
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication

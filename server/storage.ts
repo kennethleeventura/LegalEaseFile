@@ -62,6 +62,10 @@ export class DatabaseStorage implements IStorage {
   }
 
   private async initializeData() {
+    if (!db) {
+      console.warn("[storage] Skipping data initialization — no database connection.");
+      return;
+    }
     try {
       // Check if we need to seed data
       const existingTemplates = await db.select().from(documentTemplates).limit(1);
